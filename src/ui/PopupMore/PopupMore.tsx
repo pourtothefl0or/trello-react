@@ -80,6 +80,7 @@ const SettingsText = styled.button.attrs({
   width: 100%;
   font-size: 14px;
   text-align: left;
+  color: ${COLORS.black};
   background-size: 15px 15px;
   background-position: left center;
   background-repeat: no-repeat;

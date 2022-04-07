@@ -139,7 +139,13 @@ const Board = () => {
     },
   ];
 
+  const [currentIdTitle, handlerCurrentIdTitle] = useState(0);
+  const getIdTitle = (item: any) => handlerCurrentIdTitle(item);
+
   const [cards, changeCardsState] = useState(cardsArr);
+
+  const [currentIdCard, handlerCurrentIdCard] = useState(0);
+  const getIdCard = (item: any) => handlerCurrentIdCard(item);
 
   const [inputValue, getInputValue] = useState('');
   const inputValueCallback = (item: string) => getInputValue(item);
@@ -156,7 +162,7 @@ const Board = () => {
       ...cards,
       {
         id: ++cards.length,
-        idTitle: 1,
+        idTitle: currentIdTitle,
         title: inputValue,
         description: textareaValue
       }
@@ -167,9 +173,6 @@ const Board = () => {
 
   const [editCardModalVisibility, handlerEditCardModalVisibility] = useState(false);
   const editCardModalHandler = () => handlerEditCardModalVisibility(!editCardModalVisibility);
-
-  const [currentIdCard, handlerCurrentIdCard] = useState('');
-  const getCardId = (item: any) => handlerCurrentIdCard(item);
 
   const editCardForm = (item: any) => {
     item.preventDefault();
@@ -211,7 +214,7 @@ const Board = () => {
                             editPopupClick={
                               () => {
                                 editCardModalHandler();
-                                getCardId(card.id);
+                                getIdCard(card.id);
                               }
                             }
                             deletePopupClick={
@@ -224,7 +227,14 @@ const Board = () => {
                     )
                   }
                   <ColumnListItem>
-                    <CardAdd addCardClick={addCardModalHandler}/>
+                    <CardAdd
+                      addCardClick={
+                        () => {
+                          addCardModalHandler();
+                          getIdTitle(column.id);
+                        }
+                      }
+                    />
                   </ColumnListItem>
                 </ColumnList>
               </Column>
