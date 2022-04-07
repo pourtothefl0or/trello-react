@@ -17,11 +17,13 @@ const PopupMore = ({...props}: any) => {
         <Settings className={popup ? "is-open" : ""}>
           <SettingsItem>
             <SettingsText
+              className="button-reset settings--edit"
               onClick={props.editPopupClick}
             >Edit</SettingsText>
           </SettingsItem>
           <SettingsItem>
             <SettingsText
+            className="button-reset settings--delete"
               onClick={props.deletePopupClick}
             >Delete</SettingsText>
           </SettingsItem>
@@ -71,9 +73,7 @@ const Settings = styled.ul`
 
 const SettingsItem = styled.li``;
 
-const SettingsText = styled.button.attrs({
-  className: 'button-reset'
-})`
+const SettingsText = styled.button`
   position: relative;
   margin: 0;
   padding: 5px 0 5px 20px;
@@ -84,6 +84,16 @@ const SettingsText = styled.button.attrs({
   background-size: 15px 15px;
   background-position: left center;
   background-repeat: no-repeat;
+
+  &.settings {
+    &--edit {
+      background-image: url(${iconEdit});
+    }
+
+    &--delete {
+      background-image: url(${iconDelete});
+    }
+  }
 `;
 
 export default PopupMore;

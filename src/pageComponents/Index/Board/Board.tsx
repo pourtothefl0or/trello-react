@@ -139,13 +139,13 @@ const Board = () => {
     },
   ];
 
-  const [currentIdTitle, handlerCurrentIdTitle] = useState(0);
-  const getIdTitle = (item: any) => handlerCurrentIdTitle(item);
-
   const [cards, changeCardsState] = useState(cardsArr);
 
+  const [currentIdTitle, handlerCurrentIdTitle] = useState(0);
+  const getIdTitle = (item: number) => handlerCurrentIdTitle(item);
+
   const [currentIdCard, handlerCurrentIdCard] = useState(0);
-  const getIdCard = (item: any) => handlerCurrentIdCard(item);
+  const getIdCard = (item: number) => handlerCurrentIdCard(item);
 
   const [inputValue, getInputValue] = useState('');
   const inputValueCallback = (item: string) => getInputValue(item);
