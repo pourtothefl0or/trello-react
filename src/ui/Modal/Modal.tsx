@@ -50,7 +50,7 @@ const StyledModal = styled.div`
   @media (min-width: 600px) {
     border-top-left-radius: ${PRIMARY.border};
     border-bottom-left-radius: ${PRIMARY.border};
-    min-width: 600px;
+    width: 600px;
   }
 
   @media (max-width: 599px) {

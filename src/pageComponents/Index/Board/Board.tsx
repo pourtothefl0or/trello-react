@@ -4,40 +4,62 @@ import { Container, ColumnHeader, Card } from '../../../components';
 import { COLORS, PRIMARY } from '../../../constants';
 import { Button, CardAdd, Modal, Input, Textarea } from '../../../ui';
 
+interface usersInterface {
+  id: number,
+  name: string
+};
+
 interface titlesInterface {
   id: number,
+  idUser: number,
   title: string
 };
 
 interface cardsInterface {
   id: number,
-  idTitle: number
-  title: string
+  idTitle: number,
+  title: string,
   description: string
 };
 
 interface commentsInterface {
   id: number,
   idCard: number,
+  idUser: number,
   comment: string
 };
 
 const Board = () => {
+  const usersArr: usersInterface[] = [
+    {
+      id: 1,
+      name: 'Biba',
+    },
+    {
+      id: 2,
+      name: 'Abib',
+    },
+  ];
+
   const titlesArr: titlesInterface[] = [
     {
       id: 1,
+      idUser: 1,
       title: 'To Do'
     },
     {
       id: 2,
+      idUser: 1,
       title: 'In progress'
     },
     {
       id: 3,
+      idUser: 1,
       title: 'Testing'
     },
     {
       id: 4,
+      idUser: 1,
       title: 'Done'
     },
   ];
@@ -115,27 +137,38 @@ const Board = () => {
     {
       id: 1,
       idCard: 1,
-      comment: 'Hello',
+      idUser: 1,
+      comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
     },
     {
       id: 2,
       idCard: 1,
-      comment: 'Hello',
+      idUser: 1,
+      comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente odio ratione aliquam nesciunt sint ex voluptas dolorum.',
     },
     {
       id: 3,
-      idCard: 2,
-      comment: 'Hello',
+      idCard: 1,
+      idUser: 1,
+      comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente odio ratione aliquam nesciunt sint ex voluptas dolorum. Est facere nam repudiandae culpa consectetur alias iste ut consequatur unde tenetur?',
     },
     {
       id: 4,
       idCard: 2,
-      comment: 'Hello',
+      idUser: 1,
+      comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
     },
     {
       id: 5,
       idCard: 2,
-      comment: 'Hello',
+      idUser: 2,
+      comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente odio ratione aliquam nesciunt sint ex voluptas dolorum.',
+    },
+    {
+      id: 6,
+      idCard: 2,
+      idUser: 2,
+      comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente odio ratione aliquam nesciunt sint ex voluptas dolorum. Est facere nam repudiandae culpa consectetur alias iste ut consequatur unde tenetur?',
     },
   ];
 
@@ -182,6 +215,9 @@ const Board = () => {
     item.target.reset();
   };
 
+  const [commentsModalVisibility, handlerCommentsModalVisibility] = useState(false);
+  const commentsModalVisibilityHandler = () => handlerCommentsModalVisibility(!commentsModalVisibility);
+
   return (
     <>
       <StyledBoard>
@@ -221,6 +257,12 @@ const Board = () => {
                               () => changeCardsState(
                                 cards.filter((item: any) => item.id !== card.id)
                               )
+                            }
+                            commentsButtonClick={
+                              () => {
+                                commentsModalVisibilityHandler();
+                                getIdCard(card.id);
+                              }
                             }
                           />
                         </ColumnListItem>
@@ -306,9 +348,76 @@ const Board = () => {
           <FormButton>Edit</FormButton>
         </ModalForm>
       </Modal>
+
+      <Modal
+        title="Comments"
+        modalState={commentsModalVisibility}
+        modalCloseClick={commentsModalVisibilityHandler}
+      >
+        <CommentsList>
+          {
+            commentsArr
+              .filter((item: any) => item.idCard === currentIdCard)
+              .map((comment: any) =>
+                <CommentsListItem key={comment.id}>
+                  <Comment>
+                    {
+                      usersArr
+                        .filter((item: any) => item.id === comment.idUser)
+                        .map((name: any) =>
+                          <CommentHeader key={name.id}>
+                            <CommentUserLogo>{name.name.split('')[0]}</CommentUserLogo>
+                            <CommentUserName>{name.name}</CommentUserName>
+                          </CommentHeader>
+                      )
+                    }
+                    <CommentsText>{comment.comment}</CommentsText>
+                  </Comment>
+                </CommentsListItem>
+              )
+          }
+        </CommentsList>
+      </Modal>
     </>
   );
 };
+
+const Comment = styled.div`
+  border-radius: ${PRIMARY.border};
+  padding: 15px;
+  background-color: ${COLORS.alabaster};
+`;
+
+const CommentHeader = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const CommentUserLogo = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: ${COLORS.white};
+  background-color: ${COLORS.amethyst};
+`;
+
+const CommentUserName = styled.p`
+  margin: 0 0 0 10px;
+  font-size: 16px;
+  color: ${COLORS.black};
+`;
+
+const CommentsText = styled.p`
+  margin: 0;
+  font-size: 16px;
+  color: ${COLORS.black};
+`;
 
 const StyledBoard = styled.section`
   overflow-x: auto;
@@ -354,6 +463,14 @@ const FormFields = styled.div`
 const FormButton = styled(Button)`
   display: block;
   margin: 0 auto;
+`;
+
+const CommentsList = styled.ul``;
+
+const CommentsListItem = styled.li`
+  &:not(:last-child) {
+    margin-bottom: 15px;
+  }
 `;
 
 export default Board;

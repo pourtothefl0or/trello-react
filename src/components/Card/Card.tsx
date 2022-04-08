@@ -15,7 +15,7 @@ const Card = ({...props}: any) => {
         <CardTitle>{props.title}</CardTitle>
         <CardDescr>{props.description}</CardDescr>
       </CardText>
-      <CardComments>{props.commentsSum} comments</CardComments>
+      <CardComments onClick={props.commentsButtonClick}>{props.commentsSum} comments</CardComments>
     </StyledCard>
   );
 };
@@ -51,7 +51,9 @@ const CardDescr = styled.p`
   color: ${COLORS.topaz};
 `;
 
-const CardComments = styled.p`
+const CardComments = styled.button.attrs({
+  className: 'button-reset'
+})`
   align-self: end;
   margin: 0;
   padding-left: 20px;

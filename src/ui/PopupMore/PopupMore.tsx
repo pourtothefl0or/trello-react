@@ -18,13 +18,21 @@ const PopupMore = ({...props}: any) => {
           <SettingsItem>
             <SettingsText
               className="button-reset settings--edit"
-              onClick={props.editPopupClick}
+              onClick={() => {
+                props.editPopupClick();
+                handlerPopup(!popup);
+                }
+              }
             >Edit</SettingsText>
           </SettingsItem>
           <SettingsItem>
             <SettingsText
             className="button-reset settings--delete"
-              onClick={props.deletePopupClick}
+              onClick={() => {
+                props.deletePopupClick();
+                handlerPopup(!popup);
+                }
+              }
             >Delete</SettingsText>
           </SettingsItem>
         </Settings>
