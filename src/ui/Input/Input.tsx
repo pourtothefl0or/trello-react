@@ -5,11 +5,15 @@ import { COLORS, PRIMARY } from '../../constants';
 const Input = ({...props}: any) => {
   return (
     <StyledInput>
-      <InputTitle>{props.title}</InputTitle>
+      {
+        props.title &&
+          <InputTitle>{props.title}</InputTitle>
+      }
       <InputField
         type={props.type}
         name={props.name}
         defaultValue={props.defaultValue}
+        placeholder={props.placeholder}
         onChange={e => props.currentValue(e.target.value)}
       />
     </StyledInput>
@@ -20,6 +24,7 @@ const StyledInput = styled.label`
   display: flex;
   flex-direction: column;
   row-gap: 15px;
+  width: 100%;
 `;
 
 const InputTitle = styled.span`
@@ -34,8 +39,9 @@ const InputField = styled.input.attrs({
 })`
   border-radius: ${PRIMARY.border};
   border: 1px solid ${COLORS.topaz};
-  padding: 20px;
+  padding: 10px 20px;
   width: 100%;
+  min-height: 50px;
 `;
 
 export default Input;

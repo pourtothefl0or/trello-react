@@ -15,26 +15,31 @@ const PopupMore = ({...props}: any) => {
           <img src={iconMore} alt="Button more" />
         </CardMore>
         <Settings className={popup ? "is-open" : ""}>
-          <SettingsItem>
-            <SettingsText
-              className="button-reset settings--edit"
-              onClick={() => {
-                props.editPopupClick();
-                handlerPopup(!popup);
-                }
-              }
-            >Edit</SettingsText>
-          </SettingsItem>
-          <SettingsItem>
-            <SettingsText
-            className="button-reset settings--delete"
-              onClick={() => {
-                props.deletePopupClick();
-                handlerPopup(!popup);
-                }
-              }
-            >Delete</SettingsText>
-          </SettingsItem>
+
+            {
+              props.editPopupClick &&
+                <SettingsItem>
+                  <SettingsText
+                    className="button-reset settings--edit"
+                    onClick={() => {
+                      props.editPopupClick();
+                      handlerPopup(!popup);
+                    }}
+                  >Edit</SettingsText>
+                </SettingsItem>
+            }
+            {
+              props.deletePopupClick &&
+                <SettingsItem>
+                  <SettingsText
+                  className="button-reset settings--delete"
+                    onClick={() => {
+                      props.deletePopupClick();
+                      handlerPopup(!popup);
+                    }}
+                  >Delete</SettingsText>
+                </SettingsItem>
+            }
         </Settings>
       </PopupMoreInner>
     </StyledPopumMore>

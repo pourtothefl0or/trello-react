@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Container, ColumnHeader, Card } from '../../../components';
 import { COLORS, PRIMARY } from '../../../constants';
-import { Button, CardAdd, Modal, Input, Textarea } from '../../../ui';
+import { Button, CardAdd, Modal, Input, Textarea, PopupMore } from '../../../ui';
 
 interface usersInterface {
   id: number,
@@ -30,6 +30,8 @@ interface commentsInterface {
 };
 
 const Board = () => {
+  const currentUser = 1;
+
   const usersArr: usersInterface[] = [
     {
       id: 1,
@@ -149,43 +151,38 @@ const Board = () => {
     {
       id: 3,
       idCard: 1,
-      idUser: 1,
+      idUser: 2,
       comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente odio ratione aliquam nesciunt sint ex voluptas dolorum. Est facere nam repudiandae culpa consectetur alias iste ut consequatur unde tenetur?',
     },
     {
       id: 4,
       idCard: 2,
-      idUser: 1,
+      idUser: 2,
       comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
-    },
-    {
-      id: 5,
-      idCard: 2,
-      idUser: 2,
-      comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente odio ratione aliquam nesciunt sint ex voluptas dolorum.',
-    },
-    {
-      id: 6,
-      idCard: 2,
-      idUser: 2,
-      comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente odio ratione aliquam nesciunt sint ex voluptas dolorum. Est facere nam repudiandae culpa consectetur alias iste ut consequatur unde tenetur?',
     },
   ];
 
   const [cards, changeCardsState] = useState(cardsArr);
+  const [comments, changeCommentsState] = useState(commentsArr);
 
+  // get current item id
   const [currentIdTitle, handlerCurrentIdTitle] = useState(0);
   const getIdTitle = (item: number) => handlerCurrentIdTitle(item);
 
   const [currentIdCard, handlerCurrentIdCard] = useState(0);
   const getIdCard = (item: number) => handlerCurrentIdCard(item);
 
+  const [currentIdComment, handlerCurrentIdComment] = useState(0);
+  const getIdComment = (item: number) => handlerCurrentIdComment(item);
+
+  // fields values
   const [inputValue, getInputValue] = useState('');
   const inputValueCallback = (item: string) => getInputValue(item);
 
   const [textareaValue, getTextareaValue] = useState('');
   const textareaValueCallback = (item: string) => getTextareaValue(item);
 
+  // add card functional
   const [addCardModalVisibility, handlerAddCardModalVisibility] = useState(false);
   const addCardModalHandler = () => handlerAddCardModalVisibility(!addCardModalVisibility);
 
@@ -204,6 +201,7 @@ const Board = () => {
     item.target.reset();
   };
 
+  // edit card functional
   const [editCardModalVisibility, handlerEditCardModalVisibility] = useState(false);
   const editCardModalHandler = () => handlerEditCardModalVisibility(!editCardModalVisibility);
 
@@ -215,8 +213,27 @@ const Board = () => {
     item.target.reset();
   };
 
-  const [commentsModalVisibility, handlerCommentsModalVisibility] = useState(false);
-  const commentsModalVisibilityHandler = () => handlerCommentsModalVisibility(!commentsModalVisibility);
+  // add comments functional
+  const [addCommentsModalVisibility, handlerAddCommentsModalVisibility] = useState(false);
+  const addCommentsModalVisibilityHandler = () => handlerAddCommentsModalVisibility(!addCommentsModalVisibility);
+
+  const addCommentForm = (item: any) => {
+    item.preventDefault();
+    changeCommentsState([
+      ...comments,
+      {
+        id: ++comments.length,
+        idCard: currentIdCard,
+        idUser: currentUser,
+        comment: textareaValue
+      }
+    ]);
+    item.target.reset();
+  };
+
+  // edit comments functional
+  const [editCommentsModalVisibility, handlerEditCommentsModalVisibility] = useState(false);
+  const editCommentsModalVisibilityHandler = () => handlerEditCommentsModalVisibility(!editCommentsModalVisibility);
 
   return (
     <>
@@ -243,7 +260,7 @@ const Board = () => {
                             title={card.title}
                             description={card.description}
                             commentsSum={
-                              commentsArr
+                              comments
                                 .filter((item: any) => item.idCard === card.id)
                                 .length
                             }
@@ -260,7 +277,7 @@ const Board = () => {
                             }
                             commentsButtonClick={
                               () => {
-                                commentsModalVisibilityHandler();
+                                addCommentsModalVisibilityHandler();
                                 getIdCard(card.id);
                               }
                             }
@@ -290,7 +307,10 @@ const Board = () => {
         modalState={addCardModalVisibility}
         modalCloseClick={addCardModalHandler}
       >
-        <ModalForm action="" onSubmit={e => addCardForm(e)}>
+        <ModalForm
+          action=""
+          onSubmit={e => addCardForm(e)}
+        >
           <FormFields>
             <Input
               type="text"
@@ -298,12 +318,14 @@ const Board = () => {
               title="Title"
               defaultValue=""
               currentValue={inputValueCallback}
+              placeholder=""
             />
             <Textarea
               name="cardDescription"
               title="Description"
               defaultValue=""
               currentValue={textareaValueCallback}
+              placeholder=""
             />
           </FormFields>
           <FormButton>Add</FormButton>
@@ -315,7 +337,10 @@ const Board = () => {
         modalState={editCardModalVisibility}
         modalCloseClick={editCardModalHandler}
       >
-        <ModalForm action="" onSubmit={e => editCardForm(e)}>
+        <ModalForm
+          action=""
+          onSubmit={e => editCardForm(e)}
+        >
             {
               cards
                 .filter((item: any) => item.id === currentIdCard)
@@ -331,6 +356,7 @@ const Board = () => {
                         ? getInputValue(card.title)
                         : inputValueCallback
                       }
+                      placeholder=""
                     />
                     <Textarea
                       name="cardDescription"
@@ -341,6 +367,7 @@ const Board = () => {
                         ? getTextareaValue(card.description)
                         : textareaValueCallback
                       }
+                      placeholder=""
                     />
                   </FormFields>
               )
@@ -351,12 +378,12 @@ const Board = () => {
 
       <Modal
         title="Comments"
-        modalState={commentsModalVisibility}
-        modalCloseClick={commentsModalVisibilityHandler}
+        modalState={addCommentsModalVisibility}
+        modalCloseClick={addCommentsModalVisibilityHandler}
       >
         <CommentsList>
           {
-            commentsArr
+            comments
               .filter((item: any) => item.idCard === currentIdCard)
               .map((comment: any) =>
                 <CommentsListItem key={comment.id}>
@@ -368,56 +395,66 @@ const Board = () => {
                           <CommentHeader key={name.id}>
                             <CommentUserLogo>{name.name.split('')[0]}</CommentUserLogo>
                             <CommentUserName>{name.name}</CommentUserName>
+                            {
+                              name.id === currentUser &&
+                                <CommentPopupMore
+                                  editPopupClick={
+                                    () => {
+                                      editCommentsModalVisibilityHandler();
+                                    }
+                                  }
+                                  deletePopupClick={
+                                    () => changeCommentsState(
+                                      comments.filter((item: any) => item.id !== comment.id)
+                                    )
+                                  }
+                                />
+                            }
                           </CommentHeader>
                       )
                     }
                     <CommentsText>{comment.comment}</CommentsText>
+                    {/* {
+                      !editCommentsModalVisibility
+                        ?
+                          <CommentsText>{comment.comment}</CommentsText>
+                        :
+                          <CommentsModalForm
+                            action=""
+                            onSubmit={() => {}}
+                          >
+                            <Textarea
+                              name="commentEdit"
+                              title=""
+                              defaultValue={comment.comment}
+                              currentValue={inputValueCallback}
+                              placeholder="Edit a comment..."
+                            />
+                            <Button>Edit</Button>
+                          </CommentsModalForm>
+                    } */}
                   </Comment>
                 </CommentsListItem>
               )
           }
         </CommentsList>
+        <CommentsModalForm
+          action=""
+          onSubmit={(e) => addCommentForm(e)}
+        >
+          <Textarea
+            name="commentText"
+            title=""
+            defaultValue=""
+            currentValue={textareaValueCallback}
+            placeholder="Add a comment..."
+          />
+          <Button>Add</Button>
+        </CommentsModalForm>
       </Modal>
     </>
   );
 };
-
-const Comment = styled.div`
-  border-radius: ${PRIMARY.border};
-  padding: 15px;
-  background-color: ${COLORS.alabaster};
-`;
-
-const CommentHeader = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-`;
-
-const CommentUserLogo = styled.div`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 100%;
-  width: 30px;
-  height: 30px;
-  font-size: 16px;
-  text-transform: uppercase;
-  color: ${COLORS.white};
-  background-color: ${COLORS.amethyst};
-`;
-
-const CommentUserName = styled.p`
-  margin: 0 0 0 10px;
-  font-size: 16px;
-  color: ${COLORS.black};
-`;
-
-const CommentsText = styled.p`
-  margin: 0;
-  font-size: 16px;
-  color: ${COLORS.black};
-`;
 
 const StyledBoard = styled.section`
   overflow-x: auto;
@@ -465,11 +502,65 @@ const FormButton = styled(Button)`
   margin: 0 auto;
 `;
 
-const CommentsList = styled.ul``;
+const CommentsList = styled.ul`
+  margin-bottom: 30px;
+`;
 
 const CommentsListItem = styled.li`
   &:not(:last-child) {
     margin-bottom: 15px;
+  }
+`;
+
+const Comment = styled.div`
+  border-radius: ${PRIMARY.border};
+  padding: 15px;
+  background-color: ${COLORS.alabaster};
+`;
+
+const CommentHeader = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const CommentUserLogo = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: ${COLORS.white};
+  background-color: ${COLORS.amethyst};
+`;
+
+const CommentUserName = styled.p`
+  margin: 0 10px;
+  font-size: 16px;
+  color: ${COLORS.black};
+`;
+
+const CommentsText = styled.p`
+  margin: 0;
+  font-size: 16px;
+  color: ${COLORS.black};
+`;
+
+const CommentPopupMore = styled(PopupMore)`
+  margin-left: auto;
+`;
+
+const CommentsModalForm = styled(ModalForm)`
+  display: flex;
+  align-items: start;
+  gap: 20px;
+
+  @media (max-width: 599px) {
+    flex-direction: column;
+    align-items: center;
   }
 `;
 

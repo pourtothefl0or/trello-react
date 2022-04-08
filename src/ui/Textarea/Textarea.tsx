@@ -5,10 +5,14 @@ import { COLORS, PRIMARY } from '../../constants';
 const Textarea = ({...props}: any) => {
   return (
     <StyledTextarea>
-      <InputTitle>{props.title}</InputTitle>
+      {
+        props.title &&
+          <InputTitle>{props.title}</InputTitle>
+      }
       <InputField
         name={props.name}
         defaultValue={props.defaultValue}
+        placeholder={props.placeholder}
         onChange={e => props.currentValue(e.target.value)}
       />
     </StyledTextarea>
@@ -19,6 +23,7 @@ const StyledTextarea = styled.label`
   display: flex;
   flex-direction: column;
   row-gap: 15px;
+  width: 100%;
 `;
 
 const InputTitle = styled.span`
@@ -35,7 +40,7 @@ const InputField = styled.textarea.attrs({
   border: 1px solid ${COLORS.topaz};
   padding: 20px;
   width: 100%;
-  min-height: 120px;
+  min-height: 100px;
   resize: none;
 `;
 

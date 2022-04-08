@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { COLORS } from '../../constants';
+import { COLORS, PRIMARY } from '../../constants';
 
 const Button = ({...props}: any) => {
   return (
@@ -9,9 +9,10 @@ const Button = ({...props}: any) => {
 };
 
 const StyledButton = styled.button`
-  border-radius: 4px;
-  padding: 15px 25px;
-  min-width: 180px;
+  border-radius: ${PRIMARY.border};
+  padding: 10px 20px;
+  min-width: 125px;
+  min-height: 50px;
   font-size: 16px;
   color: ${COLORS.white};
   background-color: ${COLORS.cornflowerBlue};
