@@ -13,7 +13,6 @@ const Textarea = ({ name, ...props }: any) => {
         name={name}
         defaultValue={props.defaultValue}
         placeholder={props.placeholder}
-        onChange={() => {}}
       />
     </StyledTextarea>
   );

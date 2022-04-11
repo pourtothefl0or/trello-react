@@ -14,7 +14,6 @@ const Input = ({ type, name, ...props }: any) => {
         name={name}
         defaultValue={props.defaultValue}
         placeholder={props.placeholder}
-        onChange={() => {}}
       />
     </StyledInput>
   );

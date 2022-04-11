@@ -136,6 +136,35 @@ const Board = () => {
   const [modalAddCard, toggleModalAddCard] = useState(false);
   const [modalEditCard, toggleModalEditCard] = useState(false);
 
+  // IDs
+  const [idTitle, getIdTitle] = useState(titles[0].id);
+
+  // card functions
+  const addCard = (item: any) => {
+    item.preventDefault();
+
+    const { cardTitle, cardDescription } = item.target.elements;
+    changeCardsState([
+      ...cards,
+      {
+        id: ++cards.length,
+        idTitle: idTitle,
+        title: cardTitle.value,
+        description: cardDescription.value,
+      }
+    ]);
+
+    toggleModalAddCard(!modalAddCard);
+    item.target.reset();
+  };
+
+  const editCard = (item: any) => {
+    item.preventDefault();
+
+    toggleModalEditCard(!modalEditCard);
+    item.target.reset();
+  };
+
   return (
     <>
       <StyledBoard>
@@ -148,7 +177,10 @@ const Board = () => {
                 cards={cards.filter((item: cardsInterface) => item.idTitle === column.id)}
                 comments={comments}
                 cardClick={() => toggleModalCard(!modalCard)}
-                addCardClick={() => toggleModalAddCard(!modalAddCard)}
+                addCardClick={() => {
+                  getIdTitle(column.id);
+                  toggleModalAddCard(!modalAddCard);
+                }}
                 editCardClick={() => toggleModalEditCard(!modalEditCard)}
                 deleteCardClick={() => {}}
               />
@@ -174,22 +206,20 @@ const Board = () => {
       {
         modalAddCard &&
           <Modal
-            title="Edit card"
+            title="Add card"
             modalVisibility={modalAddCard}
             closeClick={() => toggleModalAddCard(!modalAddCard)}
           >
-            <form onSubmit={() => {}}>
+            <form onSubmit={e => addCard(e)}>
               <FormFields>
                 <Input
                   type="text"
-                  name=""
+                  name="cardTitle"
                   title="Title"
-                  currentValue={() => {}}
                 />
                 <Textarea
-                  name=""
+                  name="cardDescription"
                   title="Description"
-                  currentValue={() => {}}
                 />
               </FormFields>
               <FormButton>Add</FormButton>
@@ -204,18 +234,18 @@ const Board = () => {
             modalVisibility={modalEditCard}
             closeClick={() => toggleModalEditCard(!modalEditCard)}
           >
-            <form onSubmit={() => {}}>
+            <form onSubmit={e => editCard(e)}>
               <FormFields>
                 <Input
                   type="text"
                   name=""
                   title="Title"
-                  currentValue={() => {}}
+                  defaultValue=""
                 />
                 <Textarea
                   name=""
                   title="Description"
-                  currentValue={() => {}}
+                  defaultValue=""
                 />
               </FormFields>
               <FormButton>Add</FormButton>
