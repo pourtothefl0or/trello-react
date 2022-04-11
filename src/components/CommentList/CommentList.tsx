@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
-import { usersInterface, commentsInterface } from '../../types/interfaces';
+import { commentsInterface, usersInterface } from '../../types/interfaces';
 import { Comment } from '../';
 
-const CommentList = ({ comments, users }: any) => {
+interface commentListInterface {
+  comments: commentsInterface[];
+  users: usersInterface[];
+};
+
+const CommentList: FC<commentListInterface> = ({
+  comments,
+  users
+}) => {
   return (
     <StyledCommentList>
       {
-        comments.map((comment: commentsInterface) =>
+        comments.map(comment =>
           <CommentItem key={comment.id}>
             <Comment
               username={
-                users
-                  .find((user: usersInterface) => user.id === comment.idUser)
-                  .name
+                users.find(user => user.id === comment.idUser)?.name
               }
               comments={comment.comment}
             />

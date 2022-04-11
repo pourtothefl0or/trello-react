@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import styled from 'styled-components';
 import { usersInterface, titlesInterface, cardsInterface, commentsInterface } from '../../../types/interfaces';
 import { PRIMARY } from '../../../constants';
 import { Container, Column, CommentList } from '../../../components';
 import { Modal, Input, Textarea, Button } from '../../../ui';
 
-const Board = () => {
+const Board: FC = () => {
   // arrays
   const [users, changeUsersArr] = useState([
     {

@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 import { ColumnHeader, ColumnList } from '../';
+import { titlesInterface, cardsInterface, commentsInterface } from '../../types/interfaces';
 
-const Column = ({ title, cards, comments, cardClick, ...props }: any) => {
+interface columnInterface {
+  title: string;
+  cards: cardsInterface[];
+  comments: commentsInterface[];
+  cardClick: () => void;
+  addCardClick: () => void;
+  editCardClick: () => void;
+  deleteCardClick: () => void;
+};
+
+const Column: FC<columnInterface> = ({
+  title,
+  cards,
+  comments,
+  cardClick,
+  addCardClick,
+  editCardClick,
+  deleteCardClick
+}) => {
   return (
     <StyledColumn>
       <ColumnHeader
@@ -14,9 +33,9 @@ const Column = ({ title, cards, comments, cardClick, ...props }: any) => {
         cards={cards}
         comments={comments}
         cardClick={cardClick}
-        addCardClick={props.addCardClick}
-        editCardClick={props.editCardClick}
-        deleteCardClick={props.deleteCardClick}
+        addCardClick={addCardClick}
+        editCardClick={editCardClick}
+        deleteCardClick={deleteCardClick}
         />
     </StyledColumn>
   );

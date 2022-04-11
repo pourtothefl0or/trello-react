@@ -1,18 +1,31 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 
-const Textarea = ({ name, ...props }: any) => {
+interface textareaInterface {
+  title?: string;
+  name: string;
+  defaultValue?: string;
+  placeholder?: string;
+};
+
+const Textarea: FC<textareaInterface> = ({
+  title,
+  name,
+  defaultValue,
+  placeholder
+
+}) => {
   return (
     <StyledTextarea>
       {
-        props.title &&
-          <InputTitle>{props.title}</InputTitle>
+        title &&
+          <InputTitle>{title}</InputTitle>
       }
       <InputField
         name={name}
-        defaultValue={props.defaultValue}
-        placeholder={props.placeholder}
+        defaultValue={defaultValue}
+        placeholder={placeholder}
       />
     </StyledTextarea>
   );

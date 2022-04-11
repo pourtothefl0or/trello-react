@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { PRIMARY } from '../../constants';
 
-const Container = ({...props}: any) => {
+interface ContainerProps {
+  className?: string;
+  children: React.ReactChild | React.ReactNode;
+};
+
+const Container: FC<ContainerProps> = ({ className, children }) => {
   return (
-    <StyledContainer className={props.className}>{props.children}</StyledContainer>
+    <StyledContainer className={className}>{children}</StyledContainer>
   );
 };
 

@@ -1,11 +1,27 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { cardsInterface, commentsInterface } from '../../types/interfaces';
 import { PRIMARY } from '../../constants';
 import { Card } from '../';
 import { CardAdd } from '../../ui';
 
-const ColumnList = ({ cards, comments, cardClick, ...props }: any) => {
+interface columnListInterface {
+  cards: cardsInterface[];
+  comments: commentsInterface[];
+  cardClick: () => void;
+  addCardClick: () => void;
+  editCardClick: () => void;
+  deleteCardClick: () => void;
+};
+
+const ColumnList: FC<columnListInterface> = ({
+  cards,
+  comments,
+  cardClick,
+  addCardClick,
+  editCardClick,
+  deleteCardClick
+}) => {
   return (
     <StyledColumnList>
       {
@@ -20,14 +36,14 @@ const ColumnList = ({ cards, comments, cardClick, ...props }: any) => {
                   .length
               }
               cardClick={cardClick}
-              editCardClick={props.editCardClick}
-              deleteCardClick={props.deleteCardClick}
+              editCardClick={editCardClick}
+              deleteCardClick={deleteCardClick}
             />
           </ColumnItem>
         )
       }
       <ColumnItem>
-        <CardAdd addCardClick={props.addCardClick} />
+        <CardAdd addCardClick={addCardClick} />
       </ColumnItem>
     </StyledColumnList>
   );

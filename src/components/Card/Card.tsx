@@ -1,15 +1,31 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { PopupMore } from '../../ui';
 import { COLORS, PRIMARY } from '../../constants';
 import iconComments from '../../assets/images/icons/comments.svg';
 
-const Card = ({ title, description, commentsSum, cardClick, ...props }: any) => {
+interface cardInterface {
+  title: string;
+  description: string;
+  commentsSum: number;
+  cardClick: () => void;
+  editCardClick: () => void;
+  deleteCardClick: () => void;
+};
+
+const Card: FC<cardInterface> = ({
+  title,
+  description,
+  commentsSum,
+  cardClick,
+  editCardClick,
+  deleteCardClick
+}) => {
   return (
     <StyledCard onClick={cardClick}>
       <CardPopupMore
-        editClick={props.editCardClick}
-        deleteClick={props.deleteCardClick}
+        editClick={editCardClick}
+        deleteClick={deleteCardClick}
       />
       <CardText>
         <CardTitle>{title}</CardTitle>

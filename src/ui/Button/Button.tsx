@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 
-const Button = ({ children, ...props }: any) => {
+interface buttonInterface {
+  className?: string;
+  children: React.ReactChild | React.ReactNode;
+};
+
+const Button: FC<buttonInterface> = ({
+  className,
+  children
+}) => {
   return (
-    <StyledButton className={`${props.className} button-reset`}>{children}</StyledButton>
+    <StyledButton className={`${className} button-reset`}>{children}</StyledButton>
   );
 };
 

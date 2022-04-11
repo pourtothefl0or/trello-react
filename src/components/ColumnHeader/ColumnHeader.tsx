@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 
-const ColumnHeader = ({ title, cardsSum }: any) => {
+interface columnHeader {
+  title: string;
+  cardsSum: number;
+};
+
+const ColumnHeader: FC<columnHeader> = ({
+  title,
+  cardsSum
+}) => {
   return (
     <StyledColumnHeader>
       <ColumnHeaderTitle>{title}</ColumnHeaderTitle>

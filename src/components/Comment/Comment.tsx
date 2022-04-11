@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 import { PopupMore } from '../../ui';
 
-const Comment = ({ username, comments }: any) => {
+interface commentInterface {
+  username: string | undefined;
+  comments: string;
+};
+
+const Comment: FC<commentInterface> = ({
+  username,
+  comments
+}) => {
   return (
     <StyledComment>
       <CommentHeader>
-        <CommentUserLogo>{username.split('')[0]}</CommentUserLogo>
+        <CommentUserLogo>{username?.split('')[0]}</CommentUserLogo>
         <CommentUserName>{username}</CommentUserName>
         <CommentPopupMore
           editClick={() => {}}

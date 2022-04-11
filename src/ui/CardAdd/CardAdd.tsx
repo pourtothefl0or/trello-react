@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 
-const CardAdd = ({ addCardClick }: any) => {
+interface cardAddInterface {
+  addCardClick: () => void;
+};
+
+const CardAdd: FC<cardAddInterface> = ({ addCardClick }) => {
   return (
     <StyledCardAdd onClick={addCardClick}>+ Add new card</StyledCardAdd>
   );

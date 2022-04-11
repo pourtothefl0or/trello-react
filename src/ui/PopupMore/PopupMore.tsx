@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 import iconMore from '../../assets/images/icons/more.svg';
 import iconEdit from '../../assets/images/icons/edit.svg';
 import iconDelete from '../../assets/images/icons/delete.svg';
 
-const PopupMore = ({ ...props }: any) => {
+interface popupMoreInterface {
+  className?: string;
+  editClick: () => void;
+  deleteClick: () => void;
+};
+
+const PopupMore: FC<popupMoreInterface> = ({
+  className,
+  editClick,
+  deleteClick
+}) => {
   const [popup, togglePopup] = useState(false);
 
   return (
     <StyledPopumMore
-      className={props.className}
+      className={className}
       onClick={e => e.stopPropagation()}
     >
       <PopupMoreInner>
@@ -24,24 +34,24 @@ const PopupMore = ({ ...props }: any) => {
         </CardMore>
         <Settings className={popup ? "is-open" : ""}>
             {
-              props.editClick &&
+              editClick &&
                 <SettingsItem>
                   <SettingsText
                     className="button-reset settings--edit"
                     onClick={() => {
-                      props.editClick();
+                      editClick();
                       togglePopup(!popup);
                     }}
                   >Edit</SettingsText>
                 </SettingsItem>
             }
             {
-              props.deleteClick &&
+              deleteClick &&
                 <SettingsItem>
                   <SettingsText
                     className="button-reset settings--delete"
                     onClick={() => {
-                      props.deleteClick();
+                      deleteClick();
                       togglePopup(!popup);
                     }}
                   >Delete</SettingsText>

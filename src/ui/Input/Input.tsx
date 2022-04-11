@@ -1,19 +1,33 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 
-const Input = ({ type, name, ...props }: any) => {
+interface inputInterface {
+  title?: string;
+  type: string;
+  name: string;
+  defaultValue?: string;
+  placeholder?: string;
+};
+
+const Input: FC<inputInterface> = ({
+  title,
+  type,
+  name,
+  defaultValue,
+  placeholder
+}) => {
   return (
     <StyledInput>
       {
-        props.title &&
-          <InputTitle>{props.title}</InputTitle>
+        title &&
+          <InputTitle>{title}</InputTitle>
       }
       <InputField
         type={type}
         name={name}
-        defaultValue={props.defaultValue}
-        placeholder={props.placeholder}
+        defaultValue={defaultValue}
+        placeholder={placeholder}
       />
     </StyledInput>
   );

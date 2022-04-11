@@ -1,21 +1,27 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import iconClose from '../../assets/images/icons/close.svg';
 
-const ButtonClose = ({ ...props }: any) => {
+interface buttonCloseInterface {
+  className?: string;
+  onClick: () => void;
+};
+
+const ButtonClose: FC<buttonCloseInterface> = ({
+  className,
+  onClick
+}) => {
   return (
     <StyledButton
-      className={props.className}
-      {...props}
+      className={`${className} button-reset`}
+      onClick={onClick}
     >
       <img src={iconClose} alt="Button close" />
     </StyledButton>
   );
 };
 
-const StyledButton = styled.button.attrs({
-  className: 'button-reset'
-})`
+const StyledButton = styled.button`
   width: 32px;
   height: 32px;
 

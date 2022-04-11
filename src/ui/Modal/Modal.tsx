@@ -1,19 +1,33 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 import { Container } from '../../components';
 import { ButtonClose } from '../ButtonClose';
 
-const Modal = ({ title, children, modalVisibility, closeClick, ...props }: any) => {
+interface modalInterface {
+  className?: string;
+  title: string;
+  modalVisibility: boolean;
+  closeClick: () => void;
+  children: React.ReactChild | React.ReactNode;
+};
+
+const Modal: FC<modalInterface> = ({
+  className,
+  title,
+  modalVisibility,
+  closeClick,
+  children,
+}) => {
   return (
     <ModalInner
       className={modalVisibility ? 'is-open' : ''}
       onClick={closeClick}
     >
       <StyledModal onClick={e => e.stopPropagation()}>
-        <ModalContainer className={props.className}>
+        <ModalContainer className={className}>
           <ModalButtons>
-            <ModalClose onClick={closeClick}/>
+            <ButtonClose onClick={closeClick}/>
           </ModalButtons>
           <ModalTitle>{title}</ModalTitle>
           {children}
@@ -71,8 +85,6 @@ const ModalButtons = styled.div`
   justify-content: end;
   margin-bottom: 15px;
 `;
-
-const ModalClose = styled(ButtonClose)``;
 
 const ModalTitle = styled.h2`
   margin: 0 0 40px;
