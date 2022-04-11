@@ -1,12 +1,4 @@
-interface MyParameters {
-  maxWidth: string,
-  containerIndent: string,
-  indent: string,
-  border: string,
-  column: string,
-};
-
-export const PRIMARY: MyParameters = {
+export const PRIMARY = {
   maxWidth: `1880px`,
   containerIndent: `20px`,
   indent: `20px`,

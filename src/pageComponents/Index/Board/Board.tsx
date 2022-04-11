@@ -1,33 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Container, ColumnHeader, Card } from '../../../components';
+import { Container, ColumnHeader, Card, Comment } from '../../../components';
 import { COLORS, PRIMARY } from '../../../constants';
-import { Button, CardAdd, Modal, Input, Textarea, PopupMore } from '../../../ui';
+import { Button, CardAdd, Modal, Input, Textarea } from '../../../ui';
 
-interface usersInterface {
-  id: number,
-  name: string
-};
-
-interface titlesInterface {
-  id: number,
-  idUser: number,
-  title: string
-};
-
-interface cardsInterface {
-  id: number,
-  idTitle: number,
-  title: string,
-  description: string
-};
-
-interface commentsInterface {
-  id: number,
-  idCard: number,
-  idUser: number,
-  comment: string
-};
+import { usersInterface, titlesInterface, cardsInterface, commentsInterface  } from '../../../types/interfaces';
 
 const Board = () => {
   const currentUser = 1;
@@ -39,7 +16,7 @@ const Board = () => {
     },
     {
       id: 2,
-      name: 'Abib',
+      name: 'Ne Biba',
     },
   ];
 
@@ -154,25 +131,19 @@ const Board = () => {
       idUser: 2,
       comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente odio ratione aliquam nesciunt sint ex voluptas dolorum. Est facere nam repudiandae culpa consectetur alias iste ut consequatur unde tenetur?',
     },
-    {
-      id: 4,
-      idCard: 2,
-      idUser: 2,
-      comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
-    },
   ];
 
   const [cards, changeCardsState] = useState(cardsArr);
   const [comments, changeCommentsState] = useState(commentsArr);
 
   // get current item id
-  const [currentIdTitle, handlerCurrentIdTitle] = useState(0);
+  const [currentIdTitle, handlerCurrentIdTitle] = useState(1);
   const getIdTitle = (item: number) => handlerCurrentIdTitle(item);
 
-  const [currentIdCard, handlerCurrentIdCard] = useState(0);
+  const [currentIdCard, handlerCurrentIdCard] = useState(1);
   const getIdCard = (item: number) => handlerCurrentIdCard(item);
 
-  const [currentIdComment, handlerCurrentIdComment] = useState(0);
+  const [currentIdComment, handlerCurrentIdComment] = useState(1);
   const getIdComment = (item: number) => handlerCurrentIdComment(item);
 
   // fields values
@@ -207,7 +178,7 @@ const Board = () => {
 
   const editCardForm = (item: any) => {
     item.preventDefault();
-    const currentCard = cards.filter((item: any) => item.id === currentIdCard)[0];
+    const currentCard = cards.filter((item: cardsInterface) => item.id === currentIdCard)[0];
     [currentCard.title, currentCard.description] = [inputValue, textareaValue];
     editCardModalHandler();
     item.target.reset();
@@ -231,16 +202,12 @@ const Board = () => {
     item.target.reset();
   };
 
-  // edit comments functional
-  const [editCommentsModalVisibility, handlerEditCommentsModalVisibility] = useState(false);
-  const editCommentsModalVisibilityHandler = () => handlerEditCommentsModalVisibility(!editCommentsModalVisibility);
-
   return (
     <>
       <StyledBoard>
         <BoardContainer>
           {
-            titlesArr.map(column =>
+            titlesArr.map((column: titlesInterface) =>
               <Column key={column.id}>
                 <ColumnHeader
                   title={column.title}
@@ -253,15 +220,15 @@ const Board = () => {
                 <ColumnList>
                   {
                     cards
-                      .filter((item: any) => item.idTitle === column.id)
-                      .map((card: any) =>
+                      .filter((item: cardsInterface) => item.idTitle === column.id)
+                      .map((card: cardsInterface) =>
                         <ColumnListItem key={card.id}>
                           <Card
                             title={card.title}
                             description={card.description}
                             commentsSum={
                               comments
-                                .filter((item: any) => item.idCard === card.id)
+                                .filter((item: commentsInterface) => item.idCard === card.id)
                                 .length
                             }
                             editPopupClick={
@@ -272,7 +239,7 @@ const Board = () => {
                             }
                             deletePopupClick={
                               () => changeCardsState(
-                                cards.filter((item: any) => item.id !== card.id)
+                                cards.filter((item: cardsInterface) => item.id !== card.id)
                               )
                             }
                             commentsButtonClick={
@@ -302,156 +269,113 @@ const Board = () => {
         </BoardContainer>
       </StyledBoard>
 
-      <Modal
-        title="Add Card"
-        modalState={addCardModalVisibility}
-        modalCloseClick={addCardModalHandler}
-      >
-        <ModalForm
-          action=""
-          onSubmit={e => addCardForm(e)}
-        >
-          <FormFields>
-            <Input
-              type="text"
-              name="cardTitle"
-              title="Title"
-              defaultValue=""
-              currentValue={inputValueCallback}
-              placeholder=""
-            />
-            <Textarea
-              name="cardDescription"
-              title="Description"
-              defaultValue=""
-              currentValue={textareaValueCallback}
-              placeholder=""
-            />
-          </FormFields>
-          <FormButton>Add</FormButton>
-        </ModalForm>
-      </Modal>
-
-      <Modal
-        title="Edit Card"
-        modalState={editCardModalVisibility}
-        modalCloseClick={editCardModalHandler}
-      >
-        <ModalForm
-          action=""
-          onSubmit={e => editCardForm(e)}
-        >
-            {
-              cards
-                .filter((item: any) => item.id === currentIdCard)
-                .map(card =>
-                  <FormFields key={card.id}>
-                    <Input
-                      type="text"
-                      name="cardTitle"
-                      title="Title"
-                      defaultValue={card.title}
-                      currentValue={
-                        inputValue === ''
-                        ? getInputValue(card.title)
-                        : inputValueCallback
-                      }
-                      placeholder=""
-                    />
-                    <Textarea
-                      name="cardDescription"
-                      title="Description"
-                      defaultValue={card.description}
-                      currentValue={
-                        inputValue === ''
-                        ? getTextareaValue(card.description)
-                        : textareaValueCallback
-                      }
-                      placeholder=""
-                    />
-                  </FormFields>
-              )
-            }
-          <FormButton>Edit</FormButton>
-        </ModalForm>
-      </Modal>
-
-      <Modal
-        title="Comments"
-        modalState={addCommentsModalVisibility}
-        modalCloseClick={addCommentsModalVisibilityHandler}
-      >
-        <CommentsList>
-          {
-            comments
-              .filter((item: any) => item.idCard === currentIdCard)
-              .map((comment: any) =>
-                <CommentsListItem key={comment.id}>
-                  <Comment>
-                    {
-                      usersArr
-                        .filter((item: any) => item.id === comment.idUser)
-                        .map((name: any) =>
-                          <CommentHeader key={name.id}>
-                            <CommentUserLogo>{name.name.split('')[0]}</CommentUserLogo>
-                            <CommentUserName>{name.name}</CommentUserName>
-                            {
-                              name.id === currentUser &&
-                                <CommentPopupMore
-                                  editPopupClick={
-                                    () => {
-                                      editCommentsModalVisibilityHandler();
-                                    }
-                                  }
-                                  deletePopupClick={
-                                    () => changeCommentsState(
-                                      comments.filter((item: any) => item.id !== comment.id)
-                                    )
-                                  }
-                                />
-                            }
-                          </CommentHeader>
-                      )
-                    }
-                    <CommentsText>{comment.comment}</CommentsText>
-                    {/* {
-                      !editCommentsModalVisibility
-                        ?
-                          <CommentsText>{comment.comment}</CommentsText>
-                        :
-                          <CommentsModalForm
-                            action=""
-                            onSubmit={() => {}}
-                          >
-                            <Textarea
-                              name="commentEdit"
-                              title=""
-                              defaultValue={comment.comment}
-                              currentValue={inputValueCallback}
-                              placeholder="Edit a comment..."
-                            />
-                            <Button>Edit</Button>
-                          </CommentsModalForm>
-                    } */}
-                  </Comment>
-                </CommentsListItem>
-              )
-          }
-        </CommentsList>
-        <CommentsModalForm
-          action=""
-          onSubmit={(e) => addCommentForm(e)}
-        >
-          <Textarea
-            name="commentText"
-            title=""
-            defaultValue=""
-            currentValue={textareaValueCallback}
-            placeholder="Add a comment..."
-          />
-          <Button>Add</Button>
-        </CommentsModalForm>
-      </Modal>
+      {
+        addCardModalVisibility === true &&
+          <Modal
+            title="Add Card"
+            modalState={addCardModalVisibility}
+            modalCloseClick={addCardModalHandler}
+          >
+            <ModalForm onSubmit={e => addCardForm(e)}>
+              <FormFields>
+                <Input
+                  type="text"
+                  name=""
+                  title="Title"
+                  currentValue={inputValueCallback}
+                />
+                <Textarea
+                  name=""
+                  title="Description"
+                  currentValue={textareaValueCallback}
+                />
+              </FormFields>
+              <FormButton>Add</FormButton>
+            </ModalForm>
+          </Modal>
+      }
+      {
+        editCardModalVisibility === true &&
+          <Modal
+            title="Edit Card"
+            modalState={editCardModalVisibility}
+            modalCloseClick={editCardModalHandler}
+          >
+            <ModalForm onSubmit={e => editCardForm(e)}>
+                {
+                  cards
+                    .filter((item: any) => item.id === currentIdCard)
+                    .map(card =>
+                      <FormFields key={card.id}>
+                        <Input
+                          type="text"
+                          name=""
+                          title="Title"
+                          defaultValue={card.title}
+                          currentValue={
+                            inputValue === ''
+                            ? getInputValue(card.title)
+                            : inputValueCallback
+                          }
+                        />
+                        <Textarea
+                          name=""
+                          title="Description"
+                          defaultValue={card.description}
+                          currentValue={
+                            inputValue === ''
+                            ? getTextareaValue(card.description)
+                            : textareaValueCallback
+                          }
+                        />
+                      </FormFields>
+                  )
+                }
+              <FormButton>Edit</FormButton>
+            </ModalForm>
+          </Modal>
+      }
+      {
+        addCommentsModalVisibility === true &&
+          <Modal
+            title="Comments"
+            modalState={addCommentsModalVisibility}
+            modalCloseClick={addCommentsModalVisibilityHandler}
+          >
+            <Comments>
+              <CommentsList>
+                {
+                  comments
+                    .filter((item: commentsInterface) => item.idCard === currentIdCard)
+                    .map((comment: commentsInterface) =>
+                      <CommentsListItem key={comment.id}>
+                        <Comment
+                          currentIdUser={currentUser}
+                          users={usersArr}
+                          commentIdUser={comment.idUser}
+                          comment={comment.comment}
+                          editPopupClick={() => {}}
+                          deletePopupClick={
+                            () => changeCommentsState(
+                              comments.filter((item: commentsInterface) => item.id !== comment.id)
+                            )
+                          }
+                        />
+                      </CommentsListItem>
+                    )
+                }
+              </CommentsList>
+              <CommentsModalForm onSubmit={(e) => addCommentForm(e)}>
+                <Textarea
+                  name=""
+                  currentValue={textareaValueCallback}
+                  placeholder="Add a comment..."
+                />
+                <Button>Add</Button>
+              </CommentsModalForm>
+            </Comments>
+          </Modal>
+      }
     </>
   );
 };
@@ -502,6 +426,8 @@ const FormButton = styled(Button)`
   margin: 0 auto;
 `;
 
+const Comments = styled.div``;
+
 const CommentsList = styled.ul`
   margin-bottom: 30px;
 `;
@@ -512,48 +438,7 @@ const CommentsListItem = styled.li`
   }
 `;
 
-const Comment = styled.div`
-  border-radius: ${PRIMARY.border};
-  padding: 15px;
-  background-color: ${COLORS.alabaster};
-`;
-
-const CommentHeader = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-`;
-
-const CommentUserLogo = styled.div`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 100%;
-  width: 30px;
-  height: 30px;
-  font-size: 16px;
-  text-transform: uppercase;
-  color: ${COLORS.white};
-  background-color: ${COLORS.amethyst};
-`;
-
-const CommentUserName = styled.p`
-  margin: 0 10px;
-  font-size: 16px;
-  color: ${COLORS.black};
-`;
-
-const CommentsText = styled.p`
-  margin: 0;
-  font-size: 16px;
-  color: ${COLORS.black};
-`;
-
-const CommentPopupMore = styled(PopupMore)`
-  margin-left: auto;
-`;
-
-const CommentsModalForm = styled(ModalForm)`
+const CommentsModalForm = styled.form`
   display: flex;
   align-items: start;
   gap: 20px;

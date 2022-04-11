@@ -9,9 +9,19 @@ const PopupMore = ({...props}: any) => {
   const [popup, handlerPopup] = useState(false);
 
   return (
-    <StyledPopumMore className={props.className}>
+    <StyledPopumMore
+      className={props.className}
+      onClick={e => e.stopPropagation()}
+    >
       <PopupMoreInner>
-        <CardMore onClick={() => handlerPopup(!popup)}>
+        <CardMore
+          onClick={
+            e => {
+              e.stopPropagation();
+              handlerPopup(!popup);
+            }
+          }
+        >
           <img src={iconMore} alt="Button more" />
         </CardMore>
         <Settings className={popup ? "is-open" : ""}>

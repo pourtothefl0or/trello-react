@@ -6,7 +6,7 @@ import iconComments from '../../assets/images/icons/comments.svg';
 
 const Card = ({...props}: any) => {
   return (
-    <StyledCard>
+    <StyledCard onClick={props.commentsButtonClick}>
       <CardMore
         editPopupClick={props.editPopupClick}
         deletePopupClick={props.deletePopupClick}
@@ -15,7 +15,7 @@ const Card = ({...props}: any) => {
         <CardTitle>{props.title}</CardTitle>
         <CardDescr>{props.description}</CardDescr>
       </CardText>
-      <CardComments onClick={props.commentsButtonClick}>{props.commentsSum} comments</CardComments>
+      <CardComments>{props.commentsSum} comments</CardComments>
     </StyledCard>
   );
 };
@@ -27,6 +27,7 @@ const StyledCard = styled.div`
   border-radius: ${PRIMARY.border};
   padding: 35px 15px 25px;
   background-color: ${COLORS.alabaster};
+  cursor: pointer;
 `;
 
 const CardMore = styled(PopupMore)`
@@ -51,9 +52,7 @@ const CardDescr = styled.p`
   color: ${COLORS.topaz};
 `;
 
-const CardComments = styled.button.attrs({
-  className: 'button-reset'
-})`
+const CardComments = styled.div`
   align-self: end;
   margin: 0;
   padding-left: 20px;

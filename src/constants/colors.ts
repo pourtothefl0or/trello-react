@@ -1,15 +1,4 @@
-interface MyParameters {
-  black: string,
-  white: string,
-  alabaster: string,
-  topaz: string,
-  amethyst: string,
-  midGray: string,
-  alto: string,
-  cornflowerBlue: string,
-};
-
-export const COLORS: MyParameters = {
+export const COLORS = {
   black: `#000`,
   white:  `#fff`,
   alabaster: `#f9f9f9`,
