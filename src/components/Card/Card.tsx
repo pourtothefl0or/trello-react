@@ -8,8 +8,8 @@ const Card = ({ title, description, commentsSum, cardClick, ...props }: any) => 
   return (
     <StyledCard onClick={cardClick}>
       <CardPopupMore
-        editCardClick={props.editCardClick}
-        deleteCardClick={props.deleteCardClick}
+        editClick={props.editCardClick}
+        deleteClick={props.deleteCardClick}
       />
       <CardText>
         <CardTitle>{title}</CardTitle>

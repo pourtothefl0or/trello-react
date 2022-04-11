@@ -9,7 +9,10 @@ const Comment = ({ username, comments }: any) => {
       <CommentHeader>
         <CommentUserLogo>{username.split('')[0]}</CommentUserLogo>
         <CommentUserName>{username}</CommentUserName>
-        <CommentPopupMore />
+        <CommentPopupMore
+          editClick={() => {}}
+          deleteClick={() => {}}
+        />
       </CommentHeader>
       <CommentsText>{comments}</CommentsText>
     </StyledComment>

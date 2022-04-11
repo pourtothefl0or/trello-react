@@ -7,7 +7,7 @@ import { Modal, Input, Textarea, Button } from '../../../ui';
 
 const Board = () => {
   // arrays
-  const [users, changeUsersState] = useState([
+  const [users, changeUsersArr] = useState([
     {
       id: 1,
       name: 'Biba',
@@ -18,7 +18,7 @@ const Board = () => {
     },
   ]);
 
-  const [titles, changeTitlesState] = useState([
+  const [titles, changeTitlesArr] = useState([
     {
       id: 1,
       idUser: 1,
@@ -41,7 +41,7 @@ const Board = () => {
     },
   ]);
 
-  const [cards, changeCardsState] = useState([
+  const [cards, changeCardsArr] = useState([
     {
       id: 1,
       idTitle: 1,
@@ -110,7 +110,7 @@ const Board = () => {
     },
   ]);
 
-  const [comments, changeCommentsState] = useState([
+  const [comments, changeCommentsArr] = useState([
     {
       id: 1,
       idCard: 1,
@@ -138,13 +138,14 @@ const Board = () => {
 
   // IDs
   const [idTitle, getIdTitle] = useState(titles[0].id);
+  const [idCard, getIdCard] = useState(cards[0].id);
 
   // card functions
   const addCard = (item: any) => {
     item.preventDefault();
 
     const { cardTitle, cardDescription } = item.target.elements;
-    changeCardsState([
+    changeCardsArr([
       ...cards,
       {
         id: ++cards.length,
@@ -162,6 +163,24 @@ const Board = () => {
     item.preventDefault();
 
     toggleModalEditCard(!modalEditCard);
+    item.target.reset();
+  };
+
+  // comment functions
+  const addComment = (item: any) => {
+    item.preventDefault();
+
+    const { commentText } = item.target.elements;
+    changeCommentsArr([
+      ...comments,
+      {
+        id: ++comments.length,
+        idCard: idCard,
+        idUser: 1,
+        comment: commentText.value,
+      }
+    ]);
+
     item.target.reset();
   };
 
@@ -197,9 +216,16 @@ const Board = () => {
             closeClick={() => toggleModalCard(!modalCard)}
           >
             <CommentList
-              comments={comments.filter((comment: commentsInterface) => comment.idCard === 1)}
+              comments={comments.filter((comment: commentsInterface) => comment.idCard === idCard)}
               users={users}
             />
+            <CommentForm onSubmit={e => addComment(e)}>
+              <Textarea
+                name="commentText"
+                placeholder="Add a comment..."
+              />
+              <Button>Add</Button>
+            </CommentForm>
           </Modal>
       }
 
@@ -259,7 +285,7 @@ const Board = () => {
 const StyledBoard = styled.section`
   overflow-x: auto;
   width: 100%;
-  height: 100vh;
+  height: 100%;
 `;
 
 const BoardContainer = styled(Container)`
@@ -267,7 +293,6 @@ const BoardContainer = styled(Container)`
   column-gap: ${PRIMARY.indent};
   padding-top: ${PRIMARY.containerIndent};
   padding-bottom: ${PRIMARY.containerIndent};
-  height: 100%;
 `;
 
 const FormFields = styled.div`
@@ -280,6 +305,17 @@ const FormFields = styled.div`
 const FormButton = styled(Button)`
   display: block;
   margin: 0 auto;
+`;
+
+const CommentForm = styled.form`
+  display: flex;
+  align-items: start;
+  gap: ${PRIMARY.indent};
+
+  @media (max-width: 599px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 export default Board;

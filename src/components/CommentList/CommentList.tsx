@@ -24,7 +24,9 @@ const CommentList = ({ comments, users }: any) => {
   );
 };
 
-const StyledCommentList = styled.ul``;
+const StyledCommentList = styled.ul`
+  margin-bottom: 40px;
+`;
 
 const CommentItem = styled.li`
   &:not(:last-child) {

@@ -24,24 +24,24 @@ const PopupMore = ({ ...props }: any) => {
         </CardMore>
         <Settings className={popup ? "is-open" : ""}>
             {
-              props.editCardClick &&
+              props.editClick &&
                 <SettingsItem>
                   <SettingsText
                     className="button-reset settings--edit"
                     onClick={() => {
-                      props.editCardClick();
+                      props.editClick();
                       togglePopup(!popup);
                     }}
                   >Edit</SettingsText>
                 </SettingsItem>
             }
             {
-              props.deleteCardClick &&
+              props.deleteClick &&
                 <SettingsItem>
                   <SettingsText
                     className="button-reset settings--delete"
                     onClick={() => {
-                      props.deleteCardClick();
+                      props.deleteClick();
                       togglePopup(!popup);
                     }}
                   >Delete</SettingsText>

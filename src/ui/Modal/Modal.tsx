@@ -75,7 +75,7 @@ const ModalButtons = styled.div`
 const ModalClose = styled(ButtonClose)``;
 
 const ModalTitle = styled.h2`
-  margin: 0 0 30px;
+  margin: 0 0 40px;
   font-size: 36px;
 `;
 
