@@ -166,6 +166,7 @@ const Board = () => {
           >
             <CommentList
               comments={comments.filter((comment: commentsInterface) => comment.idCard === 1)}
+              users={users}
             />
           </Modal>
       }
