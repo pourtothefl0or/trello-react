@@ -1,53 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
-import { PopupMore, Textarea, Button } from '../../ui';
+import { PopupMore } from '../../ui';
 
-import { usersInterface } from '../../types/interfaces';
-
-const Comment = ({...props}: any) => {
-  const [editCommentsModalVisibility, handlerEditCommentsModalVisibility] = useState(false);
-  const editCommentsModalVisibilityHandler = () => handlerEditCommentsModalVisibility(!editCommentsModalVisibility);
-
+const Comment = ({ username, comments }: any) => {
   return (
     <StyledComment>
-      {
-        props.users
-          .filter((item: usersInterface) => item.id === props.commentIdUser)
-          .map((name: usersInterface) =>
-            <CommentHeader key={name.id}>
-                <CommentUserLogo>{name.name.split('')[0]}</CommentUserLogo>
-                <CommentUserName>{name.name}</CommentUserName>
-                {
-                  name.id === props.currentIdUser &&
-                    <CommentPopupMore
-                      editPopupClick={
-                        () => {
-                          editCommentsModalVisibilityHandler();
-                          props.editPopupClick();
-                        }
-                      }
-                      deletePopupClick={props.deletePopupClick}
-                    />
-                }
-              </CommentHeader>
-          )
-          }
-          {
-          !editCommentsModalVisibility
-            ? <CommentsText>{props.comment}</CommentsText>
-            : <CommentsModalForm
-                onSubmit={() => {}}
-              >
-                <Textarea
-                  name=""
-                  defaultValue={props.comment}
-                  currentValue={props.comment}
-                  placeholder="Edit a comment..."
-                />
-                <Button>Edit</Button>
-            </CommentsModalForm>
-          }
+      <CommentHeader>
+        <CommentUserLogo>{username.split('')[0]}</CommentUserLogo>
+        <CommentUserName>{username}</CommentUserName>
+        <CommentPopupMore />
+      </CommentHeader>
+      <CommentsText>{comments}</CommentsText>
     </StyledComment>
   );
 };
@@ -91,17 +55,6 @@ const CommentsText = styled.p`
 
 const CommentPopupMore = styled(PopupMore)`
   margin-left: auto;
-`;
-
-const CommentsModalForm = styled.form`
-  display: flex;
-  align-items: start;
-  gap: 20px;
-
-  @media (max-width: 599px) {
-    flex-direction: column;
-    align-items: center;
-  }
 `;
 
 export default Comment;

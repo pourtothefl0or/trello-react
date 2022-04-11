@@ -5,8 +5,8 @@ import iconMore from '../../assets/images/icons/more.svg';
 import iconEdit from '../../assets/images/icons/edit.svg';
 import iconDelete from '../../assets/images/icons/delete.svg';
 
-const PopupMore = ({...props}: any) => {
-  const [popup, handlerPopup] = useState(false);
+const PopupMore = ({ ...props }: any) => {
+  const [popup, togglePopup] = useState(false);
 
   return (
     <StyledPopumMore
@@ -15,37 +15,34 @@ const PopupMore = ({...props}: any) => {
     >
       <PopupMoreInner>
         <CardMore
-          onClick={
-            e => {
-              e.stopPropagation();
-              handlerPopup(!popup);
-            }
-          }
+          onClick={e => {
+            e.stopPropagation();
+            togglePopup(!popup);
+          }}
         >
           <img src={iconMore} alt="Button more" />
         </CardMore>
         <Settings className={popup ? "is-open" : ""}>
-
             {
-              props.editPopupClick &&
+              props.editCardClick &&
                 <SettingsItem>
                   <SettingsText
                     className="button-reset settings--edit"
                     onClick={() => {
-                      props.editPopupClick();
-                      handlerPopup(!popup);
+                      props.editCardClick();
+                      togglePopup(!popup);
                     }}
                   >Edit</SettingsText>
                 </SettingsItem>
             }
             {
-              props.deletePopupClick &&
+              props.deleteCardClick &&
                 <SettingsItem>
                   <SettingsText
-                  className="button-reset settings--delete"
+                    className="button-reset settings--delete"
                     onClick={() => {
-                      props.deletePopupClick();
-                      handlerPopup(!popup);
+                      props.deleteCardClick();
+                      togglePopup(!popup);
                     }}
                   >Delete</SettingsText>
                 </SettingsItem>
@@ -65,8 +62,8 @@ const PopupMoreInner = styled.div`
 const CardMore = styled.button.attrs({
   className: 'button-reset'
 })`
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
 
   img {
     width: 100%;
@@ -81,7 +78,7 @@ const Settings = styled.ul`
   left: 50%;
   z-index: 5;
   border-radius: ${PRIMARY.border};
-  padding: 10px;
+  padding: 10px 15px;
   background-color: ${COLORS.alabaster};
   box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.25);
   transform: translateX(-50%);
@@ -104,7 +101,7 @@ const SettingsText = styled.button`
   font-size: 14px;
   text-align: left;
   color: ${COLORS.black};
-  background-size: 15px 15px;
+  background-size: 16px;
   background-position: left center;
   background-repeat: no-repeat;
 

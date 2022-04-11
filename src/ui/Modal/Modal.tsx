@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 import { Container } from '../../components';
 import { ButtonClose } from '../ButtonClose';
 
-const Modal = ({...props}: any) => {
+const Modal = ({ title, children, modalVisibility, closeClick, ...props }: any) => {
   return (
     <ModalInner
-      className={props.modalState ? 'is-open' : ''}
-      onClick={props.modalCloseClick}
+      className={modalVisibility ? 'is-open' : ''}
+      onClick={closeClick}
     >
       <StyledModal onClick={e => e.stopPropagation()}>
         <ModalContainer className={props.className}>
           <ModalButtons>
-            <ModalClose onClick={props.modalCloseClick}/>
+            <ModalClose onClick={closeClick}/>
           </ModalButtons>
-          <ModalTitle>{props.title}</ModalTitle>
-          {props.children}
+          <ModalTitle>{title}</ModalTitle>
+          {children}
         </ModalContainer>
       </StyledModal>
     </ModalInner>

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 
-const Textarea = ({...props}: any) => {
+const Textarea = ({ name, ...props }: any) => {
   return (
     <StyledTextarea>
       {
@@ -10,10 +10,10 @@ const Textarea = ({...props}: any) => {
           <InputTitle>{props.title}</InputTitle>
       }
       <InputField
-        name={props.name}
+        name={name}
         defaultValue={props.defaultValue}
         placeholder={props.placeholder}
-        onChange={e => props.currentValue(e.target.value)}
+        onChange={() => {}}
       />
     </StyledTextarea>
   );

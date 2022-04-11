@@ -4,18 +4,18 @@ import { PopupMore } from '../../ui';
 import { COLORS, PRIMARY } from '../../constants';
 import iconComments from '../../assets/images/icons/comments.svg';
 
-const Card = ({...props}: any) => {
+const Card = ({ title, description, commentsSum, cardClick, ...props }: any) => {
   return (
-    <StyledCard onClick={props.commentsButtonClick}>
-      <CardMore
-        editPopupClick={props.editPopupClick}
-        deletePopupClick={props.deletePopupClick}
+    <StyledCard onClick={cardClick}>
+      <CardPopupMore
+        editCardClick={props.editCardClick}
+        deleteCardClick={props.deleteCardClick}
       />
       <CardText>
-        <CardTitle>{props.title}</CardTitle>
-        <CardDescr>{props.description}</CardDescr>
+        <CardTitle>{title}</CardTitle>
+        <CardDescr>{description}</CardDescr>
       </CardText>
-      <CardComments>{props.commentsSum} comments</CardComments>
+      <CardComments>{commentsSum} comments</CardComments>
     </StyledCard>
   );
 };
@@ -30,7 +30,7 @@ const StyledCard = styled.div`
   cursor: pointer;
 `;
 
-const CardMore = styled(PopupMore)`
+const CardPopupMore = styled(PopupMore)`
   position: absolute;
   top: 15px;
   right: 15px;

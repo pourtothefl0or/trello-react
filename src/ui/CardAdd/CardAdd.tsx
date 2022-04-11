@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 
-const CardAdd = ({...props}: any) => {
+const CardAdd = ({ addCardClick }: any) => {
   return (
-    <StyledCardAdd onClick={props.addCardClick}>+ Add new card</StyledCardAdd>
+    <StyledCardAdd onClick={addCardClick}>+ Add new card</StyledCardAdd>
   );
 };
 

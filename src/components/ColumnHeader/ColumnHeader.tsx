@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 
-const ColumnHeader = ({...props}: any) => {
+const ColumnHeader = ({ title, cardsSum }: any) => {
   return (
     <StyledColumnHeader>
-      <ColumnHeaderTitle>{props.title}</ColumnHeaderTitle>
-      <ColumnHeaderSum>{props.cardsSum}</ColumnHeaderSum>
+      <ColumnHeaderTitle>{title}</ColumnHeaderTitle>
+      <ColumnHeaderSum>{cardsSum}</ColumnHeaderSum>
     </StyledColumnHeader>
   );
 };

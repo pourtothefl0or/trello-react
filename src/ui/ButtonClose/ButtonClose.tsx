@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import iconClose from '../../assets/images/icons/close.svg';
 
-const ButtonClose = ({...props}: any) => {
+const ButtonClose = ({ ...props }: any) => {
   return (
     <StyledButton
       className={props.className}

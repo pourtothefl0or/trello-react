@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 
-const Button = ({...props}: any) => {
+const Button = ({ children, ...props }: any) => {
   return (
-    <StyledButton className={`${props.className} button-reset`}>{props.children}</StyledButton>
+    <StyledButton className={`${props.className} button-reset`}>{children}</StyledButton>
   );
 };
 

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 
-const Input = ({...props}: any) => {
+const Input = ({ type, name, ...props }: any) => {
   return (
     <StyledInput>
       {
@@ -10,11 +10,11 @@ const Input = ({...props}: any) => {
           <InputTitle>{props.title}</InputTitle>
       }
       <InputField
-        type={props.type}
-        name={props.name}
+        type={type}
+        name={name}
         defaultValue={props.defaultValue}
         placeholder={props.placeholder}
-        onChange={e => props.currentValue(e.target.value)}
+        onChange={() => {}}
       />
     </StyledInput>
   );
