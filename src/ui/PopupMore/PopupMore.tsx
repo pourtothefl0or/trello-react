@@ -11,11 +11,7 @@ interface popupMoreInterface {
   deleteClick: () => void;
 };
 
-const PopupMore: FC<popupMoreInterface> = ({
-  className,
-  editClick,
-  deleteClick
-}) => {
+const PopupMore: FC<popupMoreInterface> = ({ className, editClick, deleteClick }) => {
   const [popup, togglePopup] = useState(false);
 
   return (

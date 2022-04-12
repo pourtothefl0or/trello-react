@@ -4,19 +4,16 @@ import { COLORS, PRIMARY } from '../../constants';
 import { PopupMore } from '../../ui';
 
 interface commentInterface {
-  username: string | undefined;
+  name: string | undefined;
   comments: string;
 };
 
-const Comment: FC<commentInterface> = ({
-  username,
-  comments
-}) => {
+const Comment: FC<commentInterface> = ({ name, comments }) => {
   return (
     <StyledComment>
       <CommentHeader>
-        <CommentUserLogo>{username?.split('')[0]}</CommentUserLogo>
-        <CommentUserName>{username}</CommentUserName>
+        <CommentUserLogo>{name?.split('')[0]}</CommentUserLogo>
+        <CommentUserName>{name}</CommentUserName>
         <CommentPopupMore
           editClick={() => {}}
           deleteClick={() => {}}

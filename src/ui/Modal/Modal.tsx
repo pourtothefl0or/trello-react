@@ -12,13 +12,7 @@ interface modalInterface {
   children: React.ReactChild | React.ReactNode;
 };
 
-const Modal: FC<modalInterface> = ({
-  className,
-  title,
-  modalVisibility,
-  closeClick,
-  children,
-}) => {
+const Modal: FC<modalInterface> = ({ className, title, modalVisibility, closeClick, children, }) => {
   return (
     <ModalInner
       className={modalVisibility ? 'is-open' : ''}

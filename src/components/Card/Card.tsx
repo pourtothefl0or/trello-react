@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { PopupMore } from '../../ui';
 import { COLORS, PRIMARY } from '../../constants';
+import { PopupMore } from '../../ui';
 import iconComments from '../../assets/images/icons/comments.svg';
 
 interface cardInterface {
@@ -9,23 +9,14 @@ interface cardInterface {
   description: string;
   commentsSum: number;
   cardClick: () => void;
-  editCardClick: () => void;
-  deleteCardClick: () => void;
 };
 
-const Card: FC<cardInterface> = ({
-  title,
-  description,
-  commentsSum,
-  cardClick,
-  editCardClick,
-  deleteCardClick
-}) => {
+const Card: FC<cardInterface> = ({ title, description, commentsSum, cardClick }) => {
   return (
     <StyledCard onClick={cardClick}>
       <CardPopupMore
-        editClick={editCardClick}
-        deleteClick={deleteCardClick}
+        editClick={() => {}}
+        deleteClick={() => {}}
       />
       <CardText>
         <CardTitle>{title}</CardTitle>
@@ -37,9 +28,9 @@ const Card: FC<cardInterface> = ({
 };
 
 const StyledCard = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
   border-radius: ${PRIMARY.border};
   padding: 35px 15px 25px;
   background-color: ${COLORS.alabaster};

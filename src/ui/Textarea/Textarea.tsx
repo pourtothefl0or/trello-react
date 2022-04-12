@@ -9,13 +9,7 @@ interface textareaInterface {
   placeholder?: string;
 };
 
-const Textarea: FC<textareaInterface> = ({
-  title,
-  name,
-  defaultValue,
-  placeholder
-
-}) => {
+const Textarea: FC<textareaInterface> = ({ title, name, defaultValue, placeholder }) => {
   return (
     <StyledTextarea>
       {

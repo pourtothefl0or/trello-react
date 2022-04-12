@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 
 interface cardAddInterface {
-  addCardClick: () => void;
+  onClick: () => void;
 };
 
-const CardAdd: FC<cardAddInterface> = ({ addCardClick }) => {
+const CardAdd: FC<cardAddInterface> = ({ onClick }) => {
   return (
-    <StyledCardAdd onClick={addCardClick}>+ Add new card</StyledCardAdd>
+    <StyledCardAdd onClick={onClick}>+ Add new card</StyledCardAdd>
   );
 };
 

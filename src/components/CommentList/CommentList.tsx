@@ -8,19 +8,14 @@ interface commentListInterface {
   users: usersInterface[];
 };
 
-const CommentList: FC<commentListInterface> = ({
-  comments,
-  users
-}) => {
+const CommentList: FC<commentListInterface> = ({ comments, users }) => {
   return (
     <StyledCommentList>
       {
         comments.map(comment =>
           <CommentItem key={comment.id}>
             <Comment
-              username={
-                users.find(user => user.id === comment.idUser)?.name
-              }
+              name={users.find(user => user.id === comment.idUser)?.name}
               comments={comment.comment}
             />
         </CommentItem>

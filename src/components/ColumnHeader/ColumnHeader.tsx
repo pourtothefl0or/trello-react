@@ -7,10 +7,7 @@ interface columnHeader {
   cardsSum: number;
 };
 
-const ColumnHeader: FC<columnHeader> = ({
-  title,
-  cardsSum
-}) => {
+const ColumnHeader: FC<columnHeader> = ({ title, cardsSum }) => {
   return (
     <StyledColumnHeader>
       <ColumnHeaderTitle>{title}</ColumnHeaderTitle>

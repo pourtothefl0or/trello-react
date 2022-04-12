@@ -10,13 +10,7 @@ interface inputInterface {
   placeholder?: string;
 };
 
-const Input: FC<inputInterface> = ({
-  title,
-  type,
-  name,
-  defaultValue,
-  placeholder
-}) => {
+const Input: FC<inputInterface> = ({ title, type, name, defaultValue, placeholder }) => {
   return (
     <StyledInput>
       {

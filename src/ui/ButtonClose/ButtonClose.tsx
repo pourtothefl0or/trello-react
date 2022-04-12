@@ -7,10 +7,7 @@ interface buttonCloseInterface {
   onClick: () => void;
 };
 
-const ButtonClose: FC<buttonCloseInterface> = ({
-  className,
-  onClick
-}) => {
+const ButtonClose: FC<buttonCloseInterface> = ({ className, onClick }) => {
   return (
     <StyledButton
       className={`${className} button-reset`}
