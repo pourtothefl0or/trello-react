@@ -9,14 +9,23 @@ interface cardInterface {
   description: string;
   commentsSum: number;
   cardClick: () => void;
+  editClick: () => void;
+  deleteClick: () => void;
 };
 
-const Card: FC<cardInterface> = ({ title, description, commentsSum, cardClick }) => {
+const Card: FC<cardInterface> = ({
+  title,
+  description,
+  commentsSum,
+  cardClick,
+  editClick,
+  deleteClick
+}) => {
   return (
     <StyledCard onClick={cardClick}>
       <CardPopupMore
-        editClick={() => {}}
-        deleteClick={() => {}}
+        editClick={editClick}
+        deleteClick={deleteClick}
       />
       <CardText>
         <CardTitle>{title}</CardTitle>

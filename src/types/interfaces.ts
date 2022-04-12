@@ -5,7 +5,6 @@ export interface usersInterface {
 
 export interface titlesInterface {
   id: number;
-  idUser: number;
   title: string;
 };
 

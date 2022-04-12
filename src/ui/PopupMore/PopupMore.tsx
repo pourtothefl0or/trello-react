@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 import iconMore from '../../assets/images/icons/more.svg';
 import iconEdit from '../../assets/images/icons/edit.svg';
