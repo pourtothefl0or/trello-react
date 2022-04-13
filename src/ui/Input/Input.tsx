@@ -8,9 +8,17 @@ interface inputInterface {
   name: string;
   defaultValue?: string;
   placeholder?: string;
+  onChange: (item: string) => void;
 };
 
-const Input: FC<inputInterface> = ({ title, type, name, defaultValue, placeholder }) => {
+const Input: FC<inputInterface> = ({
+  title,
+  type,
+  name,
+  defaultValue,
+  placeholder,
+  onChange
+}) => {
   return (
     <StyledInput>
       {
@@ -22,6 +30,7 @@ const Input: FC<inputInterface> = ({ title, type, name, defaultValue, placeholde
         name={name}
         defaultValue={defaultValue}
         placeholder={placeholder}
+        onChange={e => onChange(e.target.value)}
       />
     </StyledInput>
   );

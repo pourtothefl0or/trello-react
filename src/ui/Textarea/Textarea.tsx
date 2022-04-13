@@ -7,9 +7,16 @@ interface textareaInterface {
   name: string;
   defaultValue?: string;
   placeholder?: string;
+  onChange: (item: string) => void;
 };
 
-const Textarea: FC<textareaInterface> = ({ title, name, defaultValue, placeholder }) => {
+const Textarea: FC<textareaInterface> = ({
+  title,
+  name,
+  defaultValue,
+  placeholder,
+  onChange
+}) => {
   return (
     <StyledTextarea>
       {
@@ -20,6 +27,7 @@ const Textarea: FC<textareaInterface> = ({ title, name, defaultValue, placeholde
         name={name}
         defaultValue={defaultValue}
         placeholder={placeholder}
+        onChange={e => onChange(e.target.value)}
       />
     </StyledTextarea>
   );

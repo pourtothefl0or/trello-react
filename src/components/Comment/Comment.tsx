@@ -5,10 +5,10 @@ import { PopupMore } from '../../ui';
 
 interface commentInterface {
   name: string | undefined;
-  comments: string;
+  comment: string;
 };
 
-const Comment: FC<commentInterface> = ({ name, comments }) => {
+const Comment: FC<commentInterface> = ({ name, comment }) => {
   return (
     <StyledComment>
       <CommentHeader>
@@ -19,7 +19,7 @@ const Comment: FC<commentInterface> = ({ name, comments }) => {
           deleteClick={() => {}}
         />
       </CommentHeader>
-      <CommentsText>{comments}</CommentsText>
+      <CommentsText>{comment}</CommentsText>
     </StyledComment>
   );
 };

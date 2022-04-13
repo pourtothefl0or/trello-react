@@ -3,14 +3,14 @@ export interface usersInterface {
   name: string;
 };
 
-export interface titlesInterface {
+export interface columnsInterface {
   id: number;
   title: string;
 };
 
 export interface cardsInterface {
   id: number;
-  idTitle: number;
+  idColumn: number;
   title: string;
   description: string;
 };

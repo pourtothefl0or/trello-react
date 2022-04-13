@@ -1,56 +1,61 @@
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
-import { cardsInterface, commentsInterface } from '../../types/interfaces';
-import { ARRAYS, PRIMARY } from '../../constants';
-import { Card, CommentList } from '../';
+import { cardsInterface } from '../../types/interfaces';
+import { PRIMARY } from '../../constants';
+import { Card } from '../';
 import { CardAdd, Modal, Input, Textarea, Button } from '../../ui';
 
 interface columnListInterface {
-  idTitle: number;
+  idColumn: any;
+  cards: cardsInterface[];
+  onAddCard: (values: cardsInterface) => void;
+  onEditCard: (values: cardsInterface) => void;
+  onDeleteCard: (id: number) => void;
 };
 
-const ColumnList: FC<columnListInterface> = ({ idTitle }) => {
-  const [cards, changeCardsArr] = useState(ARRAYS.cards);
-  const [comments, changeCommentsArr] = useState(ARRAYS.comments);
+const ColumnList: FC<columnListInterface> = ({
+  idColumn,
+  cards,
+  onAddCard,
+  onEditCard,
+  onDeleteCard
+}) => {
+  const [input, setInput] = useState('');
+  const [textarea, setTextarea] = useState('');
+  const [currentCardValues, setCurrentCardValues] = useState({
+    id: 0,
+    idColumn: 0,
+    title: '',
+    description: ''
+  });
 
-  const [currentIdCard, getCurrentIdCard] = useState(0);
-
-  // cards
   const [modalAddCard, toggleModalAddCard] = useState(false);
   const addCard = (item: any) => {
     item.preventDefault();
 
-    const { cardTitle, cardDescription } = item.target.elements;
-    changeCardsArr([
-      ...cards,
-      {
-        id: ++cards.length,
-        idTitle: 1,
-        title: cardTitle.value,
-        description: cardDescription.value
-      }
-    ]);
+    onAddCard({
+      id: Date.now(),
+      idColumn: idColumn,
+      title: input,
+      description: textarea
+    });
 
     toggleModalAddCard(!modalAddCard);
     item.target.reset();
   };
 
-  // comments
-  const [modalComments, toggleModalComments] = useState(false);
-  const addComment = (item: any) => {
+  const [modalEditCard, toggleModalEditCard] = useState(false);
+  const editCard = (item: any) => {
     item.preventDefault();
 
-    const { commentDescription } = item.target.elements;
-    changeCommentsArr([
-      ...comments,
-      {
-        id: ++comments.length,
-        idCard: currentIdCard,
-        idUser: 1,
-        comment: commentDescription.value
-      }
-    ]);
+    onEditCard({
+      id: currentCardValues.id,
+      idColumn: currentCardValues.idColumn,
+      title: input,
+      description: textarea
+    });
 
+    toggleModalEditCard(!modalEditCard);
     item.target.reset();
   };
 
@@ -58,26 +63,25 @@ const ColumnList: FC<columnListInterface> = ({ idTitle }) => {
     <>
       <StyledColumnList>
         {
-          cards
-            .filter((card: cardsInterface) => card.idTitle === idTitle)
-            .map((card: cardsInterface) =>
-              <ColumnItem key={card.id}>
-                <Card
-                  title={card.title}
-                  description={card.description}
-                  commentsSum={
-                    ARRAYS.comments
-                      .filter((comment: commentsInterface) => comment.idCard === card.id)
-                      .length
-                  }
-                  cardClick={() => {
-                    getCurrentIdCard(card.id);
-                    toggleModalComments(!modalComments);
-                  }}
-                  editClick={() => {}}
-                  deleteClick={() => changeCardsArr(cards.filter((item: cardsInterface) => item.id !== card.id))}
-                />
-              </ColumnItem>
+          cards.map((card: cardsInterface) =>
+            <ColumnItem key={card.id}>
+              <Card
+                title={card.title}
+                description={card.description}
+                commentsSum={0}
+                cardClick={() => {}}
+                editClick={() => {
+                  setCurrentCardValues({
+                    id: card.id,
+                    idColumn: card.idColumn,
+                    title: card.title,
+                    description: card.description
+                  });
+                  toggleModalEditCard(!modalEditCard);
+                }}
+                deleteClick={() => onDeleteCard(card.id)}
+              />
+            </ColumnItem>
           )
         }
         <ColumnItem>
@@ -92,15 +96,17 @@ const ColumnList: FC<columnListInterface> = ({ idTitle }) => {
             modalVisibility={modalAddCard}
             closeClick={() => toggleModalAddCard(!modalAddCard)}
           >
-            <CardForm onSubmit={e => addCard(e)}>
+            <CardForm onSubmit={addCard}>
               <Input
                 title="Title"
                 type="text"
                 name="cardTitle"
+                onChange={item => setInput(item)}
               />
               <Textarea
                 title="Description"
                 name="cardDescription"
+                onChange={item => setTextarea(item)}
               />
               <CardFormButton>Add</CardFormButton>
             </CardForm>
@@ -108,22 +114,28 @@ const ColumnList: FC<columnListInterface> = ({ idTitle }) => {
       }
 
       {
-        modalComments &&
+        modalEditCard &&
           <Modal
-            title="Comments"
-            modalVisibility={modalComments}
-            closeClick={() => toggleModalComments(!modalComments)}
+            title="Edit card"
+            modalVisibility={modalEditCard}
+            closeClick={() => toggleModalEditCard(!modalEditCard)}
           >
-            <CommentList
-              comments={comments.filter((filter: commentsInterface) => filter.idCard === currentIdCard)}
-            />
-            <CommentForm onSubmit={e => addComment(e)}>
-              <Textarea
-                name="commentDescription"
-                placeholder="Add a comment..."
+            <CardForm onSubmit={editCard}>
+              <Input
+                title="Title"
+                type="text"
+                name="cardTitle"
+                defaultValue={currentCardValues.title}
+                onChange={item => setInput(item)}
               />
-              <Button>Add</Button>
-            </CommentForm>
+              <Textarea
+                title="Description"
+                name="cardDescription"
+                defaultValue={currentCardValues.description}
+                onChange={item => setTextarea(item)}
+              />
+              <CardFormButton>Edit</CardFormButton>
+            </CardForm>
           </Modal>
       }
     </>
@@ -146,17 +158,6 @@ const CardForm = styled.form`
 
 const CardFormButton = styled(Button)`
   align-self: center;
-`;
-
-const CommentForm = styled.form`
-  display: flex;
-  align-items: start;
-  gap: ${PRIMARY.indent};
-
-  @media (max-width: 599px) {
-    flex-direction: column;
-    align-items: center;
-  }
 `;
 
 export default ColumnList;
