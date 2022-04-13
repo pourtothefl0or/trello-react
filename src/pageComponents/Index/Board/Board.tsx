@@ -72,15 +72,18 @@ const Board: FC = () => {
   );
 };
 
-const StyledBoard = styled.section``;
+const StyledBoard = styled.section`
+  overflow-x: auto;
+  width: 100%;
+  height: 100vh;
+`;
 
 const BoardContainer = styled(Container)`
-  overflow-x: auto;
   display: flex;
   column-gap: ${PRIMARY.indent};
   padding-top: ${PRIMARY.containerIndent};
   padding-bottom: ${PRIMARY.containerIndent};
-  height: 100vh;
-  `;
+  height: 100%;
+`;
 
 export default Board;
