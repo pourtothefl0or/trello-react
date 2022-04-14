@@ -1,17 +1,15 @@
 import React, { FC, useState } from 'react';
-import styled from 'styled-components';
-import { COLORS } from '../../constants';
 import { columnsInterface } from '../../types/interfaces';
 import { ButtonClose, PopupMore } from '../../ui';
+import { StyledColumnHeader, TitleInner, Title, CardsSum, ColumnForm, InputTitleLabel, InputTitle } from './styles';
 
 interface columnHeader {
-  idColumn: number;
-  title: string;
+  column: columnsInterface;
   cardsSum: number;
   onEditColumn: (values: columnsInterface) => void;
 };
 
-const ColumnHeader: FC<columnHeader> = ({ idColumn, title, cardsSum, onEditColumn }) => {
+const ColumnHeader: FC<columnHeader> = ({ ...props }) => {
   const [editMode, toggleEditMode] = useState(false);
 
   const [input, setInput] = useState('');
@@ -19,9 +17,9 @@ const ColumnHeader: FC<columnHeader> = ({ idColumn, title, cardsSum, onEditColum
   const editColumn = (event: any) => {
     event.preventDefault();
 
-    onEditColumn({
-      id: idColumn,
-      title: input
+    props.onEditColumn({
+      id: props.column.id,
+      column: input
     });
 
     toggleEditMode(!editMode);
@@ -34,121 +32,29 @@ const ColumnHeader: FC<columnHeader> = ({ idColumn, title, cardsSum, onEditColum
         !editMode
           ?
           <>
-            <ColumnHeaderTitleInner>
-              <ColumnHeaderTitle>{title}</ColumnHeaderTitle>
-            </ColumnHeaderTitleInner>
-            <ColumnHeaderSum>{cardsSum}</ColumnHeaderSum>
+            <TitleInner>
+              <Title>{props.column.column}</Title>
+            </TitleInner>
+            <CardsSum>{props.cardsSum}</CardsSum>
             <PopupMore onEditClick={() => toggleEditMode(!editMode)} />
           </>
           :
           <>
-            <ColumnHeaderForm onSubmit={editColumn}>
-              <ColumnHeaderLabel>
-                <ColumnHeaderInput
+            <ColumnForm onSubmit={editColumn}>
+              <InputTitleLabel>
+                <InputTitle
                   type="text"
                   name="columnTitle"
-                  defaultValue={title}
+                  defaultValue={props.column.column}
                   onChange={item => setInput(item.target.value)}
                 />
-              </ColumnHeaderLabel>
+              </InputTitleLabel>
               <ButtonClose type="submit" />
-            </ColumnHeaderForm>
+            </ColumnForm>
           </>
       }
     </StyledColumnHeader>
   );
 };
-
-
-const StyledColumnHeader = styled.div`
-  display: flex;
-  align-items: center;
-  column-gap: 10px;
-  margin-bottom: 20px;
-  padding: 20px 0;
-  border-bottom: 2px solid ${COLORS.amethyst};
-`;
-
-const ColumnHeaderTitleInner = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  min-height: 32px;
-`;
-
-const ColumnHeaderTitle = styled.h2`
-  overflow: hidden;
-  position: relative;
-  display: -webkit-box;
-  margin: 0;
-  padding-left: 18px;
-  width: 100%;
-  font-size: 18px;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 100%;
-    background-color: ${COLORS.amethyst};
-    transform: translateY(-50%);
-  }
-`;
-
-const ColumnHeaderSum = styled.p`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  border-radius: 100%;
-  min-width: 20px;
-  max-width: 20px;
-  height: 20px;
-  font-size: 12px;
-  color: ${COLORS.midGray};
-  background-color: ${COLORS.alto};
-`;
-
-const ColumnHeaderForm = styled.form`
-  display: flex;
-  align-items: center;
-  column-gap: 10px;
-  width: 100%;
-`;
-
-const ColumnHeaderLabel = styled.label`
-  position: relative;
-  display: block;
-  padding-left: 18px;
-  width: 100%;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 100%;
-    background-color: ${COLORS.amethyst};
-    transform: translateY(-50%);
-  }
-`;
-
-const ColumnHeaderInput = styled.input`
-  margin: 0;
-  border: 0;
-  padding: 0;
-  width: 100%;
-  font-weight: 700;
-  font-size: 18px;
-`;
 
 export default ColumnHeader;

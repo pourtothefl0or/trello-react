@@ -95,6 +95,8 @@ const Settings = styled.ul`
   transform: translateX(-50%);
   opacity: 0;
   visibility: hidden;
+  transition: all ${PRIMARY.animation};
+  transition-property: opacity, visibility;
 
   &.is-open {
     opacity: 1;

@@ -1,20 +1,19 @@
 import React, { FC, useState } from 'react';
-import styled from 'styled-components';
 import { cardsInterface, columnsInterface, commentsInterface, usersInterface } from '../../../types/interfaces';
-import { PRIMARY } from '../../../constants';
-import { Container, Column } from '../../../components';
+import { Column } from '../../../components';
+import { StyledBoard, BoardContainer } from './styles';
 
 interface boardInterface {
   users: usersInterface[];
 };
 
-const Board: FC<boardInterface> = ({ users }) => {
+const Board: FC<boardInterface> = ({ ...props }) => {
   // arrays
   const defaultColumnsArr = [
-    { id: 1, title: 'To Do' },
-    { id: 2, title: 'In progress' },
-    { id: 3, title: 'Testing' },
-    { id: 4, title: 'Done' },
+    { id: 1, column: 'To Do' },
+    { id: 2, column: 'In progress' },
+    { id: 3, column: 'Testing' },
+    { id: 4, column: 'Done' },
   ];
 
   const [columns, setColumns] = useState(JSON.parse(localStorage.getItem('columns')!) || defaultColumnsArr);
@@ -27,7 +26,7 @@ const Board: FC<boardInterface> = ({ users }) => {
   const onEditColumn = (values: columnsInterface) => {
     const columsnDuplicate = [...columns];
     const findColumn = columsnDuplicate.find((column: columnsInterface) => column.id === values.id);
-    findColumn.title = values.title;
+    findColumn.column = values.column;
 
     setColumns(columsnDuplicate);
     localStorage.setItem('columns', JSON.stringify(columsnDuplicate));
@@ -90,14 +89,16 @@ const Board: FC<boardInterface> = ({ users }) => {
             columns.map((column: columnsInterface) =>
               <Column
                 key={column.id}
-                idColumn={column.id}
-                title={column.title}
+                column={{
+                  id: column.id,
+                  column: column.column
+                }}
                 onEditColumn={onEditColumn}
                 cards={cards.filter((card: cardsInterface) => card.idColumn === column.id)}
                 onAddCard={onAddCard}
                 onEditCard={onEditCard}
                 onDeleteCard={onDeleteCard}
-                users={users}
+                users={props.users}
                 comments={comments}
                 onAddComment={onAddComment}
                 onEditComment={onEditComment}
@@ -110,19 +111,5 @@ const Board: FC<boardInterface> = ({ users }) => {
     </>
   );
 };
-
-const StyledBoard = styled.section`
-  overflow-x: auto;
-  width: 100%;
-  height: 100vh;
-`;
-
-const BoardContainer = styled(Container)`
-  display: flex;
-  column-gap: 20px;
-  padding-top: ${PRIMARY.containerIndent};
-  padding-bottom: ${PRIMARY.containerIndent};
-  height: 100%;
-`;
 
 export default Board;

@@ -12,19 +12,19 @@ interface modalInterface {
   children: React.ReactChild | React.ReactNode;
 };
 
-const Modal: FC<modalInterface> = ({ className, title, modalVisibility, onCloseClick, children, }) => {
+const Modal: FC<modalInterface> = ({ ...props }) => {
   return (
     <ModalInner
-      className={modalVisibility ? 'is-open' : ''}
-      onClick={onCloseClick}
+      className={props.modalVisibility ? 'is-open' : ''}
+      onClick={props.onCloseClick}
     >
       <StyledModal onClick={e => e.stopPropagation()}>
-        <ModalContainer className={className}>
+        <ModalContainer className={props.className}>
           <ModalButtons>
-            <ButtonClose onClick={onCloseClick} />
+            <ButtonClose onClick={props.onCloseClick} />
           </ModalButtons>
-          <ModalTitle>{title}</ModalTitle>
-          {children}
+          <ModalTitle>{props.title}</ModalTitle>
+          {props.children}
         </ModalContainer>
       </StyledModal>
     </ModalInner>
@@ -44,14 +44,28 @@ const ModalInner = styled.div`
   background-color: rgba(0,0,0, 0.8);
   opacity: 0;
   visibility: hidden;
+  transition: all ${PRIMARY.animation};
+  transition-property: opacity, visibility;
+
+  .modal {
+    transform: translateX(100%);
+    transition: all ${PRIMARY.animation};
+    transition-property: transform;
+  }
 
   &.is-open {
     opacity: 1;
     visibility: visible;
+
+    .modal {
+      transform: translateX(0);
+    }
   }
 `;
 
-const StyledModal = styled.div`
+const StyledModal = styled.div.attrs({
+  className: 'modal'
+})`
   height: 100%;
   background-color: ${COLORS.white};
 

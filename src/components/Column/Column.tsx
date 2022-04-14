@@ -1,12 +1,10 @@
 import React, { FC } from 'react';
-import styled from 'styled-components';
-import { COLORS, PRIMARY } from '../../constants';
-import { ColumnHeader, ColumnsList } from '../';
 import { cardsInterface, columnsInterface, commentsInterface, usersInterface } from '../../types/interfaces';
+import { ColumnHeader, CardsList } from '../';
+import { StyledColumn } from './styles';
 
 interface columnInterface {
-  idColumn: any;
-  title: string;
+  column: columnsInterface;
   onEditColumn: (values: columnsInterface) => void;
   cards: cardsInterface[];
   onAddCard: (values: cardsInterface) => void;
@@ -19,56 +17,30 @@ interface columnInterface {
   onDeleteComment: (id: number) => void;
 };
 
-const Column: FC<columnInterface> = ({
-  idColumn,
-  title,
-  onEditColumn,
-  cards,
-  onAddCard,
-  onEditCard,
-  onDeleteCard,
-  users,
-  comments,
-  onAddComment,
-  onEditComment,
-  onDeleteComment
-}) => {
+const Column: FC<columnInterface> = ({ ...props }) => {
   return (
     <>
       <StyledColumn>
         <ColumnHeader
-          idColumn={idColumn}
-          title={title}
-          cardsSum={cards.length || 0}
-          onEditColumn={onEditColumn}
+          column={props.column}
+          onEditColumn={props.onEditColumn}
+          cardsSum={props.cards.length || 0}
         />
-        <ColumnsList
-          idColumn={idColumn}
-          cards={cards}
-          onAddCard={onAddCard}
-          onEditCard={onEditCard}
-          onDeleteCard={onDeleteCard}
-          users={users}
-          comments={comments}
-          onAddComment={onAddComment}
-          onEditComment={onEditComment}
-          onDeleteComment={onDeleteComment}
+        <CardsList
+          idColumn={props.column.id}
+          cards={props.cards}
+          onAddCard={props.onAddCard}
+          onEditCard={props.onEditCard}
+          onDeleteCard={props.onDeleteCard}
+          users={props.users}
+          comments={props.comments}
+          onAddComment={props.onAddComment}
+          onEditComment={props.onEditComment}
+          onDeleteComment={props.onDeleteComment}
         />
       </StyledColumn>
     </>
   );
 };
-
-const StyledColumn = styled.div`
-  flex: 0 0 ${PRIMARY.column};
-  padding: 0 20px 20px;
-  border-radius: ${PRIMARY.border};
-  height: 100%;
-  background-color: ${COLORS.white};
-
-  @media (max-width: 599px) {
-    flex-basis: 100%;
-  }
-`;
 
 export default Column;

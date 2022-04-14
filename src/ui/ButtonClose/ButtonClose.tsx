@@ -8,12 +8,12 @@ interface buttonCloseInterface {
   onClick?: () => void;
 };
 
-const ButtonClose: FC<buttonCloseInterface> = ({ type, className, onClick }) => {
+const ButtonClose: FC<buttonCloseInterface> = ({ ...props }) => {
   return (
     <StyledButton
-      type={type}
-      className={`${className} button-reset`}
-      onClick={onClick}
+      type={props.type}
+      className={`${props.className} button-reset`}
+      onClick={props.onClick}
     >
       <img src={iconClose} alt="Button close" />
     </StyledButton>

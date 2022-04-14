@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
-import styled from 'styled-components';
 import { commentsInterface, usersInterface } from '../../types/interfaces';
 import { Comment } from '../';
-import { Textarea, Button, Input } from '../../ui';
+import { Textarea, Button } from '../../ui';
+import { StyledCommentsList, CommentItem, CommentForm } from './styles';
 
 interface commentsListInterface {
   users: usersInterface[];
@@ -13,23 +13,16 @@ interface commentsListInterface {
   onDeleteComment: (id: number) => void;
 };
 
-const CommentsList: FC<commentsListInterface> = ({
-  users,
-  comments,
-  currentIdCard,
-  onAddComment,
-  onEditComment,
-  onDeleteComment,
-}) => {
+const CommentsList: FC<commentsListInterface> = ({ ...props }) => {
   const [textarea, setTextarea] = useState('');
 
   const addComment = (event: any) => {
     event.preventDefault();
 
-    onAddComment({
+    props.onAddComment({
       id: Date.now(),
-      idCard: currentIdCard,
-      idUser: users[0].id,
+      idCard: props.currentIdCard,
+      idUser: props.users[0].id,
       comment: textarea
     });
 
@@ -39,24 +32,24 @@ const CommentsList: FC<commentsListInterface> = ({
   return (
     <StyledCommentsList>
       {
-        comments.map((comment: commentsInterface) =>
+        props.comments.map((comment: commentsInterface) =>
           <CommentItem key={comment.id}>
             <Comment
               name={
-                users
+                props.users
                   .find((user: usersInterface) => user.id === comment.idUser)
                   ?.name
               }
               comment={comment.comment}
               onSubmitClick={(value: string) =>
-                onEditComment({
+                props.onEditComment({
                   id: comment.id,
                   idCard: comment.idCard,
                   idUser: comment.idUser,
                   comment: value
                 })
               }
-              onDeleteClick={() => onDeleteComment(comment.id)}
+              onDeleteClick={() => props.onDeleteComment(comment.id)}
             />
         </CommentItem>
         )
@@ -66,7 +59,7 @@ const CommentsList: FC<commentsListInterface> = ({
           <Textarea
             name="cardDescription"
             placeholder="Add a comment..."
-            onChange={item => setTextarea(item)}
+            onChange={value => setTextarea(value)}
           />
           <Button>Add</Button>
         </CommentForm>
@@ -74,26 +67,5 @@ const CommentsList: FC<commentsListInterface> = ({
     </StyledCommentsList>
   );
 };
-
-const StyledCommentsList = styled.ul`
-  margin-bottom: 40px;
-`;
-
-const CommentItem = styled.li`
-  &:not(:last-child) {
-    margin-bottom: 20px;
-  }
-`;
-
-const CommentForm = styled.form`
-  display: flex;
-  align-items: start;
-  gap: 20px;
-
-  @media (max-width: 599px) {
-    flex-direction: column;
-    align-items: center;
-  }
-`;
 
 export default CommentsList;

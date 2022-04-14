@@ -5,7 +5,7 @@ export interface usersInterface {
 
 export interface columnsInterface {
   id: number;
-  title: string;
+  column: string;
 };
 
 export interface cardsInterface {
