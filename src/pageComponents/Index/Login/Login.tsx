@@ -12,8 +12,8 @@ interface loginInterface {
 const Login: FC<loginInterface> = ({ onAddUser }) => {
   const [input, setInput] = useState('');
 
-  const addUser = (item: any) => {
-    item.preventDefault();
+  const addUser = (event: any) => {
+    event.preventDefault();
 
     onAddUser({
       id: Date.now(),
@@ -32,7 +32,7 @@ const Login: FC<loginInterface> = ({ onAddUser }) => {
             placeholder="Write your name..."
             onChange={item => setInput(item)}
           />
-          <Button>Enter</Button>
+          <Button type="submit">Enter</Button>
         </LoginForm>
       </LoginContainer>
     </StyledLogin>

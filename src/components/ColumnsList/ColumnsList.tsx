@@ -41,8 +41,8 @@ const ColumnsList: FC<ColumnsListInterface> = ({
 
   // cards
   const [modalAddCard, toggleModalAddCard] = useState(false);
-  const addCard = (item: any) => {
-    item.preventDefault();
+  const addCard = (event: any) => {
+    event.preventDefault();
 
     onAddCard({
       id: Date.now(),
@@ -52,12 +52,12 @@ const ColumnsList: FC<ColumnsListInterface> = ({
     });
 
     toggleModalAddCard(!modalAddCard);
-    item.target.reset();
+    event.target.reset();
   };
 
   const [modalEditCard, toggleModalEditCard] = useState(false);
-  const editCard = (item: any) => {
-    item.preventDefault();
+  const editCard = (event: any) => {
+    event.preventDefault();
 
     onEditCard({
       id: currentCardValues.id,
@@ -67,7 +67,7 @@ const ColumnsList: FC<ColumnsListInterface> = ({
     });
 
     toggleModalEditCard(!modalEditCard);
-    item.target.reset();
+    event.target.reset();
   };
 
   const [modalInfoCard, toggleModalInfoCard] = useState(false);
@@ -132,7 +132,7 @@ const ColumnsList: FC<ColumnsListInterface> = ({
                 name="cardDescription"
                 onChange={item => setTextarea(item)}
               />
-              <CardFormButton>Add</CardFormButton>
+              <CardFormButton type="submit">Add</CardFormButton>
             </CardForm>
           </Modal>
       }
@@ -158,7 +158,7 @@ const ColumnsList: FC<ColumnsListInterface> = ({
                 defaultValue={currentCardValues.description}
                 onChange={item => setTextarea(item)}
               />
-              <CardFormButton>Edit</CardFormButton>
+              <CardFormButton type="submit">Edit</CardFormButton>
             </CardForm>
           </Modal>
       }

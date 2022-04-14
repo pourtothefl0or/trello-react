@@ -23,8 +23,8 @@ const CommentsList: FC<commentsListInterface> = ({
 }) => {
   const [textarea, setTextarea] = useState('');
 
-  const addComment = (item: any) => {
-    item.preventDefault();
+  const addComment = (event: any) => {
+    event.preventDefault();
 
     onAddComment({
       id: Date.now(),
@@ -33,7 +33,7 @@ const CommentsList: FC<commentsListInterface> = ({
       comment: textarea
     });
 
-    item.target.reset();
+    event.target.reset();
   };
 
   return (

@@ -7,8 +7,8 @@ import iconDelete from '../../assets/images/icons/delete.svg';
 
 interface popupMoreInterface {
   className?: string;
-  onEditClick: () => void;
-  onDeleteClick: () => void;
+  onEditClick?: () => void;
+  onDeleteClick?: () => void;
 };
 
 const PopupMore: FC<popupMoreInterface> = ({ className, onEditClick, onDeleteClick }) => {

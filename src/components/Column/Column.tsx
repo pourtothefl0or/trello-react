@@ -2,11 +2,12 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 import { ColumnHeader, ColumnsList } from '../';
-import { cardsInterface, commentsInterface, usersInterface } from '../../types/interfaces';
+import { cardsInterface, columnsInterface, commentsInterface, usersInterface } from '../../types/interfaces';
 
 interface columnInterface {
   idColumn: any;
   title: string;
+  onEditColumn: (values: columnsInterface) => void;
   cards: cardsInterface[];
   onAddCard: (values: cardsInterface) => void;
   onEditCard: (values: cardsInterface) => void;
@@ -21,6 +22,7 @@ interface columnInterface {
 const Column: FC<columnInterface> = ({
   idColumn,
   title,
+  onEditColumn,
   cards,
   onAddCard,
   onEditCard,
@@ -36,10 +38,8 @@ const Column: FC<columnInterface> = ({
       <StyledColumn>
         <ColumnHeader
           title={title}
-          cardsSum={
-            cards.length
-            || 0
-          }
+          cardsSum={cards.length || 0}
+          onEditColumn={onEditColumn}
         />
         <ColumnsList
           idColumn={idColumn}

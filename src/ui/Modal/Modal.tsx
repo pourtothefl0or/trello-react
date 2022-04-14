@@ -21,7 +21,7 @@ const Modal: FC<modalInterface> = ({ className, title, modalVisibility, onCloseC
       <StyledModal onClick={e => e.stopPropagation()}>
         <ModalContainer className={className}>
           <ModalButtons>
-            <ButtonClose onClick={onCloseClick}/>
+            <ButtonClose onClick={onCloseClick} />
           </ModalButtons>
           <ModalTitle>{title}</ModalTitle>
           {children}

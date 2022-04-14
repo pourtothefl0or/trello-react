@@ -3,13 +3,17 @@ import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
 
 interface buttonInterface {
+  type?: 'submit' | 'reset' | 'button';
   className?: string;
   children: React.ReactChild | React.ReactNode;
 };
 
-const Button: FC<buttonInterface> = ({ className, children }) => {
+const Button: FC<buttonInterface> = ({ type, className, children }) => {
   return (
-    <StyledButton className={`${className} button-reset`}>{children}</StyledButton>
+    <StyledButton
+      type={type}
+      className={`${className} button-reset`}
+    >{children}</StyledButton>
   );
 };
 

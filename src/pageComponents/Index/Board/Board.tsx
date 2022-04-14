@@ -9,27 +9,33 @@ interface boardInterface {
 };
 
 const Board: FC<boardInterface> = ({ users }) => {
-  // columns
-  const [columns, setColumns] = useState([
-    {
-      id: 1,
-      title: 'To Do'
-    },
-    {
-      id: 2,
-      title: 'In progress'
-    },
-    {
-      id: 3,
-      title: 'Testing'
-    },
-    {
-      id: 4,
-      title: 'Done'
-    },
-  ]);
+  // arrays
+  const defaultColumnsArr = [
+    { id: 1, title: 'To Do' },
+    { id: 2, title: 'In progress' },
+    { id: 3, title: 'Testing' },
+    { id: 4, title: 'Done' },
+  ];
+
+  const [columns, setColumns] = useState(JSON.parse(localStorage.getItem('columns')!) || defaultColumnsArr);
+
   const [cards, setCards] = useState(JSON.parse(localStorage.getItem('cards')!) || []);
+
   const [comments, setComments] = useState(JSON.parse(localStorage.getItem('comments')!) || [])
+
+  // columns
+  const onEditColumn = (values: columnsInterface) => {
+    const columsnDuplicate = [...columns];
+    const findColumn = columsnDuplicate.find((column: columnsInterface) => column.id === values.id);
+    console.log('findColumn',findColumn);
+
+    findColumn!.title = values.title;
+    console.log('columsnDuplicate',columsnDuplicate);
+
+
+    setColumns(columsnDuplicate);
+    localStorage.setItem('columns', JSON.stringify(columsnDuplicate));
+  };
 
   // cards
   const onAddCard = (values: cardsInterface) => {
@@ -79,6 +85,7 @@ const Board: FC<boardInterface> = ({ users }) => {
     localStorage.setItem('comments', JSON.stringify(newArr));
   };
 
+
   return (
     <>
       <StyledBoard>
@@ -89,6 +96,7 @@ const Board: FC<boardInterface> = ({ users }) => {
                 key={column.id}
                 idColumn={column.id}
                 title={column.title}
+                onEditColumn={onEditColumn}
                 cards={cards.filter((card: cardsInterface) => card.idColumn === column.id)}
                 onAddCard={onAddCard}
                 onEditCard={onEditCard}

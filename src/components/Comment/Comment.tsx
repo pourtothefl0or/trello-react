@@ -21,13 +21,13 @@ const Comment: FC<commentInterface> = ({
 
   const [input, setInput] = useState('');
 
-  const editComment = (item: any) => {
-    item.preventDefault();
+  const editComment = (event: any) => {
+    event.preventDefault();
 
     onSubmitClick(input);
 
     toggleEditMode(!editMode);
-    item.target.reset();
+    event.target.reset();
   };
 
   return (
@@ -50,7 +50,7 @@ const Comment: FC<commentInterface> = ({
                 defaultValue={comment}
                 onChange={item => setInput(item)}
               />
-              <Button>Edit</Button>
+              <Button type="submit">Edit</Button>
             </CommentForm>
       }
 

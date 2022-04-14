@@ -3,13 +3,15 @@ import styled from 'styled-components';
 import iconClose from '../../assets/images/icons/close.svg';
 
 interface buttonCloseInterface {
+  type?: 'submit' | 'reset' | 'button';
   className?: string;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
-const ButtonClose: FC<buttonCloseInterface> = ({ className, onClick }) => {
+const ButtonClose: FC<buttonCloseInterface> = ({ type, className, onClick }) => {
   return (
     <StyledButton
+      type={type}
       className={`${className} button-reset`}
       onClick={onClick}
     >
