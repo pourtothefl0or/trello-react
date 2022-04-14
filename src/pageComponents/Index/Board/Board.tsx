@@ -27,11 +27,7 @@ const Board: FC<boardInterface> = ({ users }) => {
   const onEditColumn = (values: columnsInterface) => {
     const columsnDuplicate = [...columns];
     const findColumn = columsnDuplicate.find((column: columnsInterface) => column.id === values.id);
-    console.log('findColumn',findColumn);
-
-    findColumn!.title = values.title;
-    console.log('columsnDuplicate',columsnDuplicate);
-
+    findColumn.title = values.title;
 
     setColumns(columsnDuplicate);
     localStorage.setItem('columns', JSON.stringify(columsnDuplicate));
@@ -72,7 +68,7 @@ const Board: FC<boardInterface> = ({ users }) => {
   const onEditComment = (values: commentsInterface) => {
     const commentsDuplicate = [...comments];
     const findComment = commentsDuplicate.find((comment: commentsInterface) => comment.id === values.id);
-    [findComment.comment] = [values.comment];
+    findComment.comment = values.comment;
 
     setComments(commentsDuplicate);
     localStorage.setItem('comments', JSON.stringify(commentsDuplicate));
