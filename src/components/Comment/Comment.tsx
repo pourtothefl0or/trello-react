@@ -1,8 +1,8 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useRef } from 'react';
 import styled from 'styled-components';
-import { commentsInterface } from '../../types/interfaces';
 import { COLORS, PRIMARY } from '../../constants';
 import { Button, Input, PopupMore } from '../../ui';
+import { useOnClickOutside } from '../../customHooks';
 
 interface commentInterface {
   name: string | undefined;
@@ -17,7 +17,12 @@ const Comment: FC<commentInterface> = ({
   onSubmitClick,
   onDeleteClick
 }) => {
+  const rootRef = useRef(null);
+
   const [editMode, toggleEditMode] = useState(false);
+  useOnClickOutside(rootRef, () => toggleEditMode(false));
+
+  const [popup, togglePopup] = useState(false);
 
   const [input, setInput] = useState('');
 
@@ -31,7 +36,7 @@ const Comment: FC<commentInterface> = ({
   };
 
   return (
-    <StyledComment>
+    <StyledComment ref={rootRef}>
       <CommentHeader>
         <CommentUserLogo>{name?.split('')[0]}</CommentUserLogo>
         <CommentUserName>{name}</CommentUserName>

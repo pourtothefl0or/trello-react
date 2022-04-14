@@ -1,5 +1,6 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useRef } from 'react';
 import styled from 'styled-components';
+import { useOnClickOutside } from '../../customHooks';
 import { COLORS, PRIMARY } from '../../constants';
 import iconMore from '../../assets/images/icons/more.svg';
 import iconEdit from '../../assets/images/icons/edit.svg';
@@ -12,11 +13,15 @@ interface popupMoreInterface {
 };
 
 const PopupMore: FC<popupMoreInterface> = ({ className, onEditClick, onDeleteClick }) => {
+  const rootRef = useRef(null);
+
   const [popup, togglePopup] = useState(false);
+  useOnClickOutside(rootRef, () => togglePopup(false));
 
   return (
     <StyledPopumMore
       className={className}
+      ref={rootRef}
       onClick={e => e.stopPropagation()}
     >
       <PopupMoreInner>
