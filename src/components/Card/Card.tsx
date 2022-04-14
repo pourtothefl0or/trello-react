@@ -6,30 +6,27 @@ import iconComments from '../../assets/images/icons/comments.svg';
 
 interface cardInterface {
   title: string;
-  description: string;
   commentsSum: number;
   cardClick: () => void;
-  editClick: () => void;
-  deleteClick: () => void;
+  onEditClick: () => void;
+  onDeleteClick: () => void;
 };
 
 const Card: FC<cardInterface> = ({
   title,
-  description,
   commentsSum,
   cardClick,
-  editClick,
-  deleteClick
+  onEditClick,
+  onDeleteClick
 }) => {
   return (
     <StyledCard onClick={cardClick}>
       <CardPopupMore
-        editClick={editClick}
-        deleteClick={deleteClick}
+        onEditClick={onEditClick}
+        onDeleteClick={onDeleteClick}
       />
       <CardText>
         <CardTitle>{title}</CardTitle>
-        <CardDescr>{description}</CardDescr>
       </CardText>
       <CardComments>{commentsSum} comments</CardComments>
     </StyledCard>
@@ -41,7 +38,7 @@ const StyledCard = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: ${PRIMARY.border};
-  padding: 35px 15px 25px;
+  padding: 40px 20px 20px;
   background-color: ${COLORS.alabaster};
   cursor: pointer;
 `;
@@ -49,7 +46,7 @@ const StyledCard = styled.div`
 const CardPopupMore = styled(PopupMore)`
   position: absolute;
   top: 15px;
-  right: 15px;
+  right: 20px;
 `;
 
 const CardText = styled.div`
@@ -57,15 +54,14 @@ const CardText = styled.div`
 `;
 
 const CardTitle = styled.h2`
-  margin: 0 0 10px;
+  overflow: hidden;
+  display: -webkit-box;
+  margin: 0;
+  width: 100%;
   font-size: 16px;
   color: ${COLORS.black};
-`;
-
-const CardDescr = styled.p`
-  margin: 0;
-  font-size: 14px;
-  color: ${COLORS.topaz};
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 `;
 
 const CardComments = styled.div`

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import { COLORS, PRIMARY } from '../../constants';
+import { COLORS } from '../../constants';
 
 interface columnHeader {
   title: string;
@@ -21,7 +21,7 @@ const StyledColumnHeader = styled.div`
   display: flex;
   align-items: center;
   column-gap: 10px;
-  margin-bottom: ${PRIMARY.indent};
+  margin-bottom: 20px;
   padding: 20px 0;
   border-bottom: 2px solid ${COLORS.amethyst};
 `;

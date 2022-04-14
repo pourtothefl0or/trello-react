@@ -7,11 +7,11 @@ import iconDelete from '../../assets/images/icons/delete.svg';
 
 interface popupMoreInterface {
   className?: string;
-  editClick: () => void;
-  deleteClick: () => void;
+  onEditClick: () => void;
+  onDeleteClick: () => void;
 };
 
-const PopupMore: FC<popupMoreInterface> = ({ className, editClick, deleteClick }) => {
+const PopupMore: FC<popupMoreInterface> = ({ className, onEditClick, onDeleteClick }) => {
   const [popup, togglePopup] = useState(false);
 
   return (
@@ -30,24 +30,24 @@ const PopupMore: FC<popupMoreInterface> = ({ className, editClick, deleteClick }
         </CardMore>
         <Settings className={popup ? "is-open" : ""}>
             {
-              editClick &&
+              onEditClick &&
                 <SettingsItem>
                   <SettingsText
                     className="button-reset settings--edit"
                     onClick={() => {
-                      editClick();
+                      onEditClick();
                       togglePopup(!popup);
                     }}
                   >Edit</SettingsText>
                 </SettingsItem>
             }
             {
-              deleteClick &&
+              onDeleteClick &&
                 <SettingsItem>
                   <SettingsText
                     className="button-reset settings--delete"
                     onClick={() => {
-                      deleteClick();
+                      onDeleteClick();
                       togglePopup(!popup);
                     }}
                   >Delete</SettingsText>

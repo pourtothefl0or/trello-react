@@ -17,7 +17,7 @@ const Index: FC = () => {
       {
         localStorage.users === undefined
           ? <Login onAddUser={onAddUser} />
-          : <Board />
+          : <Board users={users} />
       }
 
     </>

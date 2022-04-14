@@ -8,20 +8,20 @@ interface modalInterface {
   className?: string;
   title: string;
   modalVisibility: boolean;
-  closeClick: () => void;
+  onCloseClick: () => void;
   children: React.ReactChild | React.ReactNode;
 };
 
-const Modal: FC<modalInterface> = ({ className, title, modalVisibility, closeClick, children, }) => {
+const Modal: FC<modalInterface> = ({ className, title, modalVisibility, onCloseClick, children, }) => {
   return (
     <ModalInner
       className={modalVisibility ? 'is-open' : ''}
-      onClick={closeClick}
+      onClick={onCloseClick}
     >
       <StyledModal onClick={e => e.stopPropagation()}>
         <ModalContainer className={className}>
           <ModalButtons>
-            <ButtonClose onClick={closeClick}/>
+            <ButtonClose onClick={onCloseClick}/>
           </ModalButtons>
           <ModalTitle>{title}</ModalTitle>
           {children}

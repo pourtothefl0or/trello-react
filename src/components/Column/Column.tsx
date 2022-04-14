@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
 import { COLORS, PRIMARY } from '../../constants';
-import { ColumnHeader, ColumnList } from '../';
-import { cardsInterface } from '../../types/interfaces';
+import { ColumnHeader, ColumnsList } from '../';
+import { cardsInterface, commentsInterface, usersInterface } from '../../types/interfaces';
 
 interface columnInterface {
   idColumn: any;
@@ -11,6 +11,11 @@ interface columnInterface {
   onAddCard: (values: cardsInterface) => void;
   onEditCard: (values: cardsInterface) => void;
   onDeleteCard: (id: number) => void;
+  users: usersInterface[];
+  comments: commentsInterface[];
+  onAddComment: (values: commentsInterface) => void;
+  onEditComment: (values: commentsInterface) => void;
+  onDeleteComment: (id: number) => void;
 };
 
 const Column: FC<columnInterface> = ({
@@ -19,7 +24,12 @@ const Column: FC<columnInterface> = ({
   cards,
   onAddCard,
   onEditCard,
-  onDeleteCard
+  onDeleteCard,
+  users,
+  comments,
+  onAddComment,
+  onEditComment,
+  onDeleteComment
 }) => {
   return (
     <>
@@ -31,12 +41,17 @@ const Column: FC<columnInterface> = ({
             || 0
           }
         />
-        <ColumnList
+        <ColumnsList
           idColumn={idColumn}
           cards={cards}
           onAddCard={onAddCard}
           onEditCard={onEditCard}
           onDeleteCard={onDeleteCard}
+          users={users}
+          comments={comments}
+          onAddComment={onAddComment}
+          onEditComment={onEditComment}
+          onDeleteComment={onDeleteComment}
         />
       </StyledColumn>
     </>

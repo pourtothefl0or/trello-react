@@ -1,24 +1,34 @@
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
-import { cardsInterface } from '../../types/interfaces';
-import { PRIMARY } from '../../constants';
-import { Card } from '../';
+import { cardsInterface, commentsInterface, usersInterface } from '../../types/interfaces';
+import { COLORS } from '../../constants';
+import { Card, CommentsList } from '../';
 import { CardAdd, Modal, Input, Textarea, Button } from '../../ui';
 
-interface columnListInterface {
+interface ColumnsListInterface {
   idColumn: any;
   cards: cardsInterface[];
   onAddCard: (values: cardsInterface) => void;
   onEditCard: (values: cardsInterface) => void;
   onDeleteCard: (id: number) => void;
+  users: usersInterface[];
+  comments: commentsInterface[];
+  onAddComment: (values: commentsInterface) => void;
+  onEditComment: (values: commentsInterface) => void;
+  onDeleteComment: (id: number) => void;
 };
 
-const ColumnList: FC<columnListInterface> = ({
+const ColumnsList: FC<ColumnsListInterface> = ({
   idColumn,
   cards,
   onAddCard,
   onEditCard,
-  onDeleteCard
+  onDeleteCard,
+  users,
+  comments,
+  onAddComment,
+  onEditComment,
+  onDeleteComment,
 }) => {
   const [input, setInput] = useState('');
   const [textarea, setTextarea] = useState('');
@@ -29,6 +39,7 @@ const ColumnList: FC<columnListInterface> = ({
     description: ''
   });
 
+  // cards
   const [modalAddCard, toggleModalAddCard] = useState(false);
   const addCard = (item: any) => {
     item.preventDefault();
@@ -59,18 +70,31 @@ const ColumnList: FC<columnListInterface> = ({
     item.target.reset();
   };
 
+  const [modalInfoCard, toggleModalInfoCard] = useState(false);
+
   return (
     <>
-      <StyledColumnList>
+      <StyledColumnsList>
         {
           cards.map((card: cardsInterface) =>
             <ColumnItem key={card.id}>
               <Card
                 title={card.title}
-                description={card.description}
-                commentsSum={0}
-                cardClick={() => {}}
-                editClick={() => {
+                commentsSum={
+                  comments
+                    .filter((comment: commentsInterface) => comment.idCard === card.id)
+                    .length
+                }
+                cardClick={() => {
+                  setCurrentCardValues({
+                    id: card.id,
+                    idColumn: card.idColumn,
+                    title: card.title,
+                    description: card.description
+                  });
+                  toggleModalInfoCard(!modalInfoCard);
+                }}
+                onEditClick={() => {
                   setCurrentCardValues({
                     id: card.id,
                     idColumn: card.idColumn,
@@ -79,7 +103,7 @@ const ColumnList: FC<columnListInterface> = ({
                   });
                   toggleModalEditCard(!modalEditCard);
                 }}
-                deleteClick={() => onDeleteCard(card.id)}
+                onDeleteClick={() => onDeleteCard(card.id)}
               />
             </ColumnItem>
           )
@@ -87,14 +111,14 @@ const ColumnList: FC<columnListInterface> = ({
         <ColumnItem>
           <CardAdd onClick={() => toggleModalAddCard(!modalAddCard)} />
         </ColumnItem>
-      </StyledColumnList>
+      </StyledColumnsList>
 
       {
         modalAddCard &&
           <Modal
             title="Add card"
             modalVisibility={modalAddCard}
-            closeClick={() => toggleModalAddCard(!modalAddCard)}
+            onCloseClick={() => toggleModalAddCard(!modalAddCard)}
           >
             <CardForm onSubmit={addCard}>
               <Input
@@ -118,7 +142,7 @@ const ColumnList: FC<columnListInterface> = ({
           <Modal
             title="Edit card"
             modalVisibility={modalEditCard}
-            closeClick={() => toggleModalEditCard(!modalEditCard)}
+            onCloseClick={() => toggleModalEditCard(!modalEditCard)}
           >
             <CardForm onSubmit={editCard}>
               <Input
@@ -138,15 +162,37 @@ const ColumnList: FC<columnListInterface> = ({
             </CardForm>
           </Modal>
       }
+
+      {
+        modalInfoCard &&
+          <Modal
+            title="Card info"
+            modalVisibility={modalInfoCard}
+            onCloseClick={() => toggleModalInfoCard(!modalInfoCard)}
+          >
+            <ModalCardInfo>
+              <CardInfoTitle>{currentCardValues.title}</CardInfoTitle>
+              <CardInfoDescription>{currentCardValues.description}</CardInfoDescription>
+            </ModalCardInfo>
+            <CommentsList
+              users={users}
+              comments={comments.filter((comment: commentsInterface) => comment.idCard === currentCardValues.id)}
+              currentIdCard={currentCardValues.id}
+              onAddComment={onAddComment}
+              onEditComment={onEditComment}
+              onDeleteComment={onDeleteComment}
+            />
+          </Modal>
+      }
     </>
   );
 };
 
-const StyledColumnList = styled.ul``;
+const StyledColumnsList = styled.ul``;
 
 const ColumnItem = styled.li`
   &:not(:last-child) {
-    margin-bottom: ${PRIMARY.indent};
+    margin-bottom: 20px;
   }
 `;
 
@@ -160,4 +206,18 @@ const CardFormButton = styled(Button)`
   align-self: center;
 `;
 
-export default ColumnList;
+const ModalCardInfo = styled.div`
+  margin-bottom: 40px;
+`;
+
+const CardInfoTitle = styled.h3`
+  margin: 0 0 20px;
+  color: ${COLORS.black};
+`;
+
+const CardInfoDescription = styled.p`
+  margin: 0;
+  color: ${COLORS.black};
+`;
+
+export default ColumnsList;

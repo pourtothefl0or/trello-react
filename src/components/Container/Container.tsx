@@ -15,8 +15,8 @@ const Container: FC<ContainerProps> = ({ className, children }) => {
 
 const StyledContainer = styled.div`
   margin: 0 auto;
-  padding: 0 ${PRIMARY.indent};
-  max-width: calc(${PRIMARY.maxWidth} + ${PRIMARY.indent} * 2);
+  padding: 0 20px;
+  max-width: calc(${PRIMARY.maxWidth} + 20px * 2);
 `;
 
 export default Container;

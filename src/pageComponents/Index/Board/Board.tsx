@@ -1,10 +1,14 @@
 import React, { FC, useState } from 'react';
 import styled from 'styled-components';
-import { cardsInterface, columnsInterface } from '../../../types/interfaces';
+import { cardsInterface, columnsInterface, commentsInterface, usersInterface } from '../../../types/interfaces';
 import { PRIMARY } from '../../../constants';
 import { Container, Column } from '../../../components';
 
-const Board: FC = () => {
+interface boardInterface {
+  users: usersInterface[];
+};
+
+const Board: FC<boardInterface> = ({ users }) => {
   // columns
   const [columns, setColumns] = useState([
     {
@@ -24,29 +28,55 @@ const Board: FC = () => {
       title: 'Done'
     },
   ]);
+  const [cards, setCards] = useState(JSON.parse(localStorage.getItem('cards')!) || []);
+  const [comments, setComments] = useState(JSON.parse(localStorage.getItem('comments')!) || [])
 
   // cards
-  const [cards, setCards] = useState(JSON.parse(localStorage.getItem('cards')!) || []);
   const onAddCard = (values: cardsInterface) => {
-    const newArr = [...cards, values];
-
-    setCards(newArr);
-    localStorage.setItem('cards', JSON.stringify(newArr));
+    setCards([...cards, values]);
+    localStorage.setItem('cards', JSON.stringify([...cards, values]));
   };
 
   const onEditCard = (values: cardsInterface) => {
-    const card = cards.find((card: cardsInterface) => card.id === values.id);
-    [card.title, card.description] = [values.title, values.description];
+    const cardsDuplicate = [...cards];
+    const findCard = cardsDuplicate.find((card: cardsInterface) => card.id === values.id);
+    [findCard.title, findCard.description] = [values.title, values.description];
 
-    setCards(cards);
-    localStorage.setItem('cards', JSON.stringify(cards));
+    setCards(cardsDuplicate);
+    localStorage.setItem('cards', JSON.stringify(cardsDuplicate));
   };
 
   const onDeleteCard = (id: number) => {
-    const newArr = cards.filter((card: cardsInterface) => card.id !== id);
+    const newCards = cards.filter((card: cardsInterface) => card.id !== id);
+    const newComments = comments.filter((comment: commentsInterface) => comment.idCard !== id);
 
-    setCards(newArr);
-    localStorage.setItem('cards', JSON.stringify(newArr));
+    setCards(newCards);
+    setComments(newComments);
+
+    localStorage.setItem('cards', JSON.stringify(newCards));
+    localStorage.setItem('comments', JSON.stringify(newComments));
+  };
+
+  // comments
+  const onAddComment = (values: commentsInterface) => {
+    setComments([...comments, values]);
+    localStorage.setItem('comments', JSON.stringify([...comments, values]));
+  };
+
+  const onEditComment = (values: commentsInterface) => {
+    const commentsDuplicate = [...comments];
+    const findComment = commentsDuplicate.find((comment: commentsInterface) => comment.id === values.id);
+    [findComment.comment] = [values.comment];
+
+    setComments(commentsDuplicate);
+    localStorage.setItem('comments', JSON.stringify(commentsDuplicate));
+  };
+
+  const onDeleteComment = (id: number) => {
+    const newArr = comments.filter((comment: commentsInterface) => comment.id !== id);
+
+    setComments(newArr);
+    localStorage.setItem('comments', JSON.stringify(newArr));
   };
 
   return (
@@ -63,6 +93,11 @@ const Board: FC = () => {
                 onAddCard={onAddCard}
                 onEditCard={onEditCard}
                 onDeleteCard={onDeleteCard}
+                users={users}
+                comments={comments}
+                onAddComment={onAddComment}
+                onEditComment={onEditComment}
+                onDeleteComment={onDeleteComment}
               />
             )
           }
@@ -80,7 +115,7 @@ const StyledBoard = styled.section`
 
 const BoardContainer = styled(Container)`
   display: flex;
-  column-gap: ${PRIMARY.indent};
+  column-gap: 20px;
   padding-top: ${PRIMARY.containerIndent};
   padding-bottom: ${PRIMARY.containerIndent};
   height: 100%;
