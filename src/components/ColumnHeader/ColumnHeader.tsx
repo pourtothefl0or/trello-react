@@ -5,12 +5,13 @@ import { columnsInterface } from '../../types/interfaces';
 import { ButtonClose, PopupMore } from '../../ui';
 
 interface columnHeader {
+  idColumn: number;
   title: string;
   cardsSum: number;
   onEditColumn: (values: columnsInterface) => void;
 };
 
-const ColumnHeader: FC<columnHeader> = ({ title, cardsSum, onEditColumn }) => {
+const ColumnHeader: FC<columnHeader> = ({ idColumn, title, cardsSum, onEditColumn }) => {
   const [editMode, toggleEditMode] = useState(false);
 
   const [input, setInput] = useState('');
@@ -19,7 +20,7 @@ const ColumnHeader: FC<columnHeader> = ({ title, cardsSum, onEditColumn }) => {
     event.preventDefault();
 
     onEditColumn({
-      id: 1,
+      id: idColumn,
       title: input
     });
 

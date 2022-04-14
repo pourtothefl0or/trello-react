@@ -37,6 +37,7 @@ const Column: FC<columnInterface> = ({
     <>
       <StyledColumn>
         <ColumnHeader
+          idColumn={idColumn}
           title={title}
           cardsSum={cards.length || 0}
           onEditColumn={onEditColumn}
