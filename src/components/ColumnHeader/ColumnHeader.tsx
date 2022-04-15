@@ -19,11 +19,10 @@ const ColumnHeader: FC<columnHeader> = ({ ...props }) => {
 
     props.onEditColumn({
       id: props.column.id,
-      column: input
+      column: input || props.column.column
     });
 
     toggleEditMode(!editMode);
-    event.target.reset();
   };
 
   return (

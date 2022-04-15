@@ -1,11 +1,11 @@
 import React, { FC, useState } from 'react';
-import { cardsInterface, commentsInterface, usersInterface } from '../../types/interfaces';
+import { cardsInterface, columnsInterface, commentsInterface, usersInterface } from '../../types/interfaces';
 import { Card, CommentsList } from '../';
 import { CardAdd, Modal, Input, Textarea } from '../../ui';
 import { StyledCardsList, CardsItem, CardForm, CardFormButton, CardInfo, CardInfoTitle, CardInfoDescription } from './styles';
 
 interface ColumnsListInterface {
-  idColumn: any;
+  idColumn: number;
   cards: cardsInterface[];
   onAddCard: (values: cardsInterface) => void;
   onEditCard: (values: cardsInterface) => void;
@@ -50,8 +50,8 @@ const ColumnsList: FC<ColumnsListInterface> = ({ ...props }) => {
     props.onEditCard({
       id: currentCardValues.id,
       idColumn: currentCardValues.idColumn,
-      title: input,
-      description: textarea
+      title: input || currentCardValues.title,
+      description: textarea || currentCardValues.description
     });
 
     toggleModalEditCard(!modalEditCard);

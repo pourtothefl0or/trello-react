@@ -46,7 +46,7 @@ const CommentsList: FC<commentsListInterface> = ({ ...props }) => {
                   id: comment.id,
                   idCard: comment.idCard,
                   idUser: comment.idUser,
-                  comment: value
+                  comment: value || comment.comment
                 })
               }
               onDeleteClick={() => props.onDeleteComment(comment.id)}
