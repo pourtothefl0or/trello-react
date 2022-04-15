@@ -47,12 +47,13 @@ const ColumnsList: FC<ColumnsListInterface> = ({ ...props }) => {
   const editCard = (event: any) => {
     event.preventDefault();
 
-    props.onEditCard({
-      id: currentCardValues.id,
-      idColumn: currentCardValues.idColumn,
-      title: input || currentCardValues.title,
-      description: textarea || currentCardValues.description
-    });
+    input !== '' && textarea !== '' &&
+      props.onEditCard({
+        id: currentCardValues.id,
+        idColumn: currentCardValues.idColumn,
+        title: currentCardValues.title,
+        description: currentCardValues.description
+      });
 
     toggleModalEditCard(!modalEditCard);
     event.target.reset();

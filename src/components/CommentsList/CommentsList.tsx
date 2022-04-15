@@ -42,12 +42,13 @@ const CommentsList: FC<commentsListInterface> = ({ ...props }) => {
               }
               comment={comment.comment}
               onSubmitClick={(value: string) =>
-                props.onEditComment({
-                  id: comment.id,
-                  idCard: comment.idCard,
-                  idUser: comment.idUser,
-                  comment: value || comment.comment
-                })
+                value !== '' &&
+                  props.onEditComment({
+                    id: comment.id,
+                    idCard: comment.idCard,
+                    idUser: comment.idUser,
+                    comment: value
+                  })
               }
               onDeleteClick={() => props.onDeleteComment(comment.id)}
             />
