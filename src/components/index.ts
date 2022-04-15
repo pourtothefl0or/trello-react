@@ -3,5 +3,5 @@ export { Column } from './Column';
 export { ColumnHeader } from './ColumnHeader';
 export { CardsList } from './CardsList';
 export { Card } from './Card';
-export { default as CommentsList } from './CommentsList/CommentsList';
+export { CommentsList } from './CommentsList';
 export { Comment } from './Comment';

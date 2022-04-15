@@ -51,8 +51,8 @@ const ColumnsList: FC<ColumnsListInterface> = ({ ...props }) => {
       props.onEditCard({
         id: currentCardValues.id,
         idColumn: currentCardValues.idColumn,
-        title: currentCardValues.title,
-        description: currentCardValues.description
+        title: input,
+        description: textarea
       });
 
     toggleModalEditCard(!modalEditCard);
