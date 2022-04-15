@@ -1,21 +1,21 @@
 import React, { FC, useState } from 'react';
-import { usersInterface } from '../../../types/interfaces';
+import { userInterface } from '../../../types/interfaces';
 import { Button, Input } from '../../../ui';
 import { StyledLogin, LoginContainer, LoginTitle, LoginForm } from './styles';
 
-interface loginInterface {
-  onAddUser: (values: usersInterface) => void;
+interface LoginProps {
+  onAddUser: (values: userInterface) => void;
 };
 
-const Login: FC<loginInterface> = ({ onAddUser }) => {
-  const [input, setInput] = useState('');
+const Login: FC<LoginProps> = ({ onAddUser }) => {
+  const [inputValue, handleInputValue] = useState('');
 
   const addUser = (event: any) => {
     event.preventDefault();
 
     onAddUser({
       id: Date.now(),
-      name: input
+      name: inputValue
     });
   };
 
@@ -28,7 +28,7 @@ const Login: FC<loginInterface> = ({ onAddUser }) => {
             type="text"
             name="username"
             placeholder="Write your name..."
-            onChange={item => setInput(item)}
+            onChange={item => handleInputValue(item)}
           />
           <Button type="submit">Enter</Button>
         </LoginForm>

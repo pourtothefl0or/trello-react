@@ -1,23 +1,21 @@
 import React, { FC, useState } from 'react';
-import { usersInterface } from '../types/interfaces';
+import { userInterface } from '../types/interfaces';
 import { Board, Login } from '../pageComponents/Index';
 
 const Index: FC = () => {
-  const [users, setUsers] = useState(JSON.parse(localStorage.getItem('users')!) || []);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')!) || {});
 
-  const onAddUser = (values: usersInterface) => {
-    const newArr = [...users, values];
-
-    setUsers(newArr);
-    localStorage.setItem('users', JSON.stringify(newArr));
+  const onAddUser = (values: userInterface) => {
+    setUser(values);
+    localStorage.setItem('user', JSON.stringify(values));
   };
 
   return (
     <>
       {
-        localStorage.users === undefined
+        localStorage.user === undefined
           ? <Login onAddUser={onAddUser} />
-          : <Board users={users} />
+          : <Board user={user} />
       }
 
     </>

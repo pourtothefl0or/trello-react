@@ -1,55 +1,37 @@
 import React, { FC, useState } from 'react';
-import { commentsInterface, usersInterface } from '../../types/interfaces';
+import { commentInterface, userInterface } from '../../types/interfaces';
 import { Comment } from '../';
 import { Textarea, Button } from '../../ui';
 import { StyledCommentsList, CommentItem, CommentForm } from './styles';
 
-interface commentsListInterface {
-  users: usersInterface[];
-  comments: commentsInterface[];
-  currentIdCard: number;
-  onAddComment: (values: commentsInterface) => void;
-  onEditComment: (values: commentsInterface) => void;
+interface CommentsListProps {
+  comments: commentInterface[];
+  user: userInterface;
+  cardId: number;
+  onAddComment: (id: number, comment: string) => void;
+  onEditComment: (id: number, comment: string) => void;
   onDeleteComment: (id: number) => void;
 };
 
-const CommentsList: FC<commentsListInterface> = ({ ...props }) => {
-  const [textarea, setTextarea] = useState('');
+const CommentsList: FC<CommentsListProps> = (props) => {
+  const [textareaValue, hundleTextereaValue] = useState('');
 
   const addComment = (event: any) => {
     event.preventDefault();
-
-    props.onAddComment({
-      id: Date.now(),
-      idCard: props.currentIdCard,
-      idUser: props.users[0].id,
-      comment: textarea
-    });
-
+    props.onAddComment(props.cardId, textareaValue)
     event.target.reset();
-  };
+  }
 
   return (
     <StyledCommentsList>
       {
-        props.comments.map((comment: commentsInterface) =>
+        props.comments.map((comment: commentInterface) =>
           <CommentItem key={comment.id}>
             <Comment
-              name={
-                props.users
-                  .find((user: usersInterface) => user.id === comment.idUser)
-                  ?.name
-              }
+              name={props.user.name}
+              commentId={comment.id}
               comment={comment.comment}
-              onSubmitClick={(value: string) =>
-                value !== '' &&
-                  props.onEditComment({
-                    id: comment.id,
-                    idCard: comment.idCard,
-                    idUser: comment.idUser,
-                    comment: value
-                  })
-              }
+              onEditComment={props.onEditComment}
               onDeleteClick={() => props.onDeleteComment(comment.id)}
             />
         </CommentItem>
@@ -60,7 +42,7 @@ const CommentsList: FC<commentsListInterface> = ({ ...props }) => {
           <Textarea
             name="cardDescription"
             placeholder="Add a comment..."
-            onChange={value => setTextarea(value)}
+            onChange={value => hundleTextereaValue(value)}
           />
           <Button>Add</Button>
         </CommentForm>

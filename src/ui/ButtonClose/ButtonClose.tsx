@@ -8,7 +8,7 @@ interface buttonCloseInterface {
   onClick?: () => void;
 };
 
-const ButtonClose: FC<buttonCloseInterface> = ({ ...props }) => {
+const ButtonClose: FC<buttonCloseInterface> = (props) => {
   return (
     <StyledButton
       type={props.type}

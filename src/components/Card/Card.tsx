@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { StyledCard, CardPopupMore, CardTitle, CardComments } from './styles';
 
-interface cardInterface {
+interface CardProps {
   title: string;
   commentsSum: number;
   cardClick: () => void;
@@ -9,7 +9,7 @@ interface cardInterface {
   onDeleteClick: () => void;
 };
 
-const Card: FC<cardInterface> = ({ ...props }) => {
+const Card: FC<CardProps> = (props) => {
   return (
     <StyledCard onClick={props.cardClick}>
       <CardPopupMore

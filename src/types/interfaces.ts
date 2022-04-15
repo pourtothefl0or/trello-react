@@ -1,24 +1,24 @@
-export interface usersInterface {
+export interface userInterface {
   id: number;
   name: string;
 };
 
-export interface columnsInterface {
+export interface columnInterface {
   id: number;
   column: string;
 };
 
-export interface cardsInterface {
+export interface cardInterface {
   id: number;
-  idColumn: number;
+  columnId: number;
   title: string;
   description: string;
 };
 
-export interface commentsInterface {
+export interface commentInterface {
   id: number;
-  idCard: number;
-  idUser: number;
+  cardId: number;
+  userId: number;
   comment: string;
 };
 

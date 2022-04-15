@@ -1,170 +1,45 @@
-import React, { FC, useState } from 'react';
-import { cardsInterface, columnsInterface, commentsInterface, usersInterface } from '../../types/interfaces';
-import { Card, CommentsList } from '../';
-import { CardAdd, Modal, Input, Textarea } from '../../ui';
-import { StyledCardsList, CardsItem, CardForm, CardFormButton, CardInfo, CardInfoTitle, CardInfoDescription } from './styles';
+import React, { FC } from 'react';
+import { cardInterface, commentInterface } from '../../types/interfaces';
+import { Card } from '../';
+import { CardAdd } from '../../ui';
+import { StyledCardsList, CardsItem } from './styles';
 
-interface ColumnsListInterface {
-  idColumn: number;
-  cards: cardsInterface[];
-  onAddCard: (values: cardsInterface) => void;
-  onEditCard: (values: cardsInterface) => void;
+interface ColumnListProps {
+  columnId: number;
+  comments: commentInterface[];
+  cards: cardInterface[];
+  onCardClick: (id: number) => void;
+  onAddCard: () => void;
+  onEditCard: (id: number) => void;
   onDeleteCard: (id: number) => void;
-  users: usersInterface[];
-  comments: commentsInterface[];
-  onAddComment: (values: commentsInterface) => void;
-  onEditComment: (values: commentsInterface) => void;
-  onDeleteComment: (id: number) => void;
 };
 
-const ColumnsList: FC<ColumnsListInterface> = ({ ...props }) => {
-  const [input, setInput] = useState('');
-  const [textarea, setTextarea] = useState('');
-  const [currentCardValues, setCurrentCardValues] = useState({
-    id: 0,
-    idColumn: 0,
-    title: '',
-    description: ''
-  });
-
-  // cards
-  const [modalAddCard, toggleModalAddCard] = useState(false);
-  const addCard = (event: any) => {
-    event.preventDefault();
-
-    props.onAddCard({
-      id: Date.now(),
-      idColumn: props.idColumn,
-      title: input,
-      description: textarea
-    });
-
-    toggleModalAddCard(!modalAddCard);
-    event.target.reset();
-  };
-
-  const [modalEditCard, toggleModalEditCard] = useState(false);
-  const editCard = (event: any) => {
-    event.preventDefault();
-
-    input !== '' && textarea !== '' &&
-      props.onEditCard({
-        id: currentCardValues.id,
-        idColumn: currentCardValues.idColumn,
-        title: input,
-        description: textarea
-      });
-
-    toggleModalEditCard(!modalEditCard);
-    event.target.reset();
-  };
-
-  const [modalInfoCard, toggleModalInfoCard] = useState(false);
-
+const ColumnsList: FC<ColumnListProps> = (props) => {
   return (
     <>
       <StyledCardsList>
         {
-          props.cards.map((card: cardsInterface) =>
+          props.cards.map((card: cardInterface) =>
             <CardsItem key={card.id}>
               <Card
                 title={card.title}
                 commentsSum={
                   props.comments
-                    .filter((comment: commentsInterface) => comment.idCard === card.id)
+                    .filter((comment: commentInterface) => comment.cardId === card.id)
                     .length
+                  || 0
                 }
-                cardClick={() => {
-                  setCurrentCardValues({
-                    id: card.id,
-                    idColumn: card.idColumn,
-                    title: card.title,
-                    description: card.description
-                  });
-                  toggleModalInfoCard(!modalInfoCard);
-                }}
-                onEditClick={() => {
-                  setCurrentCardValues({
-                    id: card.id,
-                    idColumn: card.idColumn,
-                    title: card.title,
-                    description: card.description
-                  });
-                  toggleModalEditCard(!modalEditCard);
-                }}
+                cardClick={() => props.onCardClick(card.id)}
+                onEditClick={() => props.onEditCard(card.id)}
                 onDeleteClick={() => props.onDeleteCard(card.id)}
               />
             </CardsItem>
           )
         }
-
         <CardsItem>
-          <CardAdd onClick={() => toggleModalAddCard(!modalAddCard)} />
+          <CardAdd onClick={props.onAddCard} />
         </CardsItem>
       </StyledCardsList>
-
-      <Modal
-        title="Add card"
-        modalVisibility={modalAddCard}
-        onCloseClick={() => toggleModalAddCard(!modalAddCard)}
-      >
-        <CardForm onSubmit={addCard}>
-          <Input
-            title="Title"
-            type="text"
-            name="cardTitle"
-            onChange={value => setInput(value)}
-          />
-          <Textarea
-            title="Description"
-            name="cardDescription"
-            onChange={value => setTextarea(value)}
-          />
-          <CardFormButton type="submit">Add</CardFormButton>
-        </CardForm>
-      </Modal>
-
-      <Modal
-        title="Edit card"
-        modalVisibility={modalEditCard}
-        onCloseClick={() => toggleModalEditCard(!modalEditCard)}
-      >
-        <CardForm onSubmit={editCard}>
-          <Input
-            title="Title"
-            type="text"
-            name="cardTitle"
-            defaultValue={currentCardValues.title}
-            onChange={value => setInput(value)}
-          />
-          <Textarea
-            title="Description"
-            name="cardDescription"
-            defaultValue={currentCardValues.description}
-            onChange={value => setTextarea(value)}
-          />
-          <CardFormButton type="submit">Edit</CardFormButton>
-        </CardForm>
-      </Modal>
-
-      <Modal
-        title="Card info"
-        modalVisibility={modalInfoCard}
-        onCloseClick={() => toggleModalInfoCard(!modalInfoCard)}
-      >
-        <CardInfo>
-          <CardInfoTitle>{currentCardValues.title}</CardInfoTitle>
-          <CardInfoDescription>{currentCardValues.description}</CardInfoDescription>
-        </CardInfo>
-        <CommentsList
-          users={props.users}
-          comments={props.comments.filter((comment: commentsInterface) => comment.idCard === currentCardValues.id)}
-          currentIdCard={currentCardValues.id}
-          onAddComment={props.onAddComment}
-          onEditComment={props.onEditComment}
-          onDeleteComment={props.onDeleteComment}
-        />
-      </Modal>
     </>
   );
 };

@@ -8,7 +8,7 @@ interface buttonInterface {
   children: React.ReactChild | React.ReactNode;
 };
 
-const Button: FC<buttonInterface> = ({ ...props }) => {
+const Button: FC<buttonInterface> = (props) => {
   return (
     <StyledButton
       type={props.type}
