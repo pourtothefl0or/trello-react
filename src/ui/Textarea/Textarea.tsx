@@ -6,6 +6,7 @@ interface textareaInterface {
   title?: string;
   name: string;
   defaultValue?: string;
+  value?: string;
   placeholder?: string;
   onChange: (item: string) => void;
 };
@@ -14,6 +15,7 @@ const Textarea: FC<textareaInterface> = ({
   title,
   name,
   defaultValue,
+  value,
   placeholder,
   onChange
 }) => {
@@ -26,6 +28,7 @@ const Textarea: FC<textareaInterface> = ({
       <InputField
         name={name}
         defaultValue={defaultValue}
+        value={value}
         placeholder={placeholder}
         onChange={e => onChange(e.target.value)}
       />

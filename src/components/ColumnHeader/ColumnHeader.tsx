@@ -36,7 +36,7 @@ const ColumnHeader: FC<ColumnProps> = (props) => {
               <InputTitle
                 type="text"
                 name="columnTitle"
-                defaultValue={props.column.column}
+                value={props.column.column}
                 onChange={item => setInput(item.target.value)}
               />
             </InputTitleLabel>

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { cardInterface, commentInterface } from '../../types/interfaces';
 import { Card } from '../';
 import { CardAdd } from '../../ui';
-import { StyledCardsList, CardsItem } from './styles';
+import { CardsItem } from './styles';
 
 interface ColumnListProps {
   columnId: number;
@@ -17,7 +17,7 @@ interface ColumnListProps {
 const ColumnsList: FC<ColumnListProps> = (props) => {
   return (
     <>
-      <StyledCardsList>
+      <ul>
         {
           props.cards.map((card: cardInterface) =>
             <CardsItem key={card.id}>
@@ -39,7 +39,7 @@ const ColumnsList: FC<ColumnListProps> = (props) => {
         <CardsItem>
           <CardAdd onClick={props.onAddCard} />
         </CardsItem>
-      </StyledCardsList>
+      </ul>
     </>
   );
 };

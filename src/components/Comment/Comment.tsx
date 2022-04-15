@@ -16,7 +16,11 @@ const Comment: FC<CommentProps> = ({ ...props }) => {
 
   const editComment = (event: any) => {
     event.preventDefault();
-    if (inputValue !== '') props.onEditComment(props.commentId, inputValue);
+
+    if (inputValue !== '') {
+      props.onEditComment(props.commentId, inputValue);
+    }
+
     handleEditMode(!editMode);
     event.target.reset();
   };
@@ -38,7 +42,7 @@ const Comment: FC<CommentProps> = ({ ...props }) => {
             <Input
               type="text"
               name="commentText"
-              defaultValue={props.comment}
+              value={props.comment}
               onChange={value => handleInputValue(value)}
             />
             <Button type="submit">Edit</Button>

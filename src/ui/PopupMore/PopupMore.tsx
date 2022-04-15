@@ -19,7 +19,7 @@ const PopupMore: FC<popupMoreInterface> = ({ className, onEditClick, onDeleteCli
   useOnClickOutside(rootRef, () => togglePopup(false));
 
   return (
-    <StyledPopumMore
+    <div
       className={className}
       ref={rootRef}
       onClick={e => e.stopPropagation()}
@@ -36,7 +36,7 @@ const PopupMore: FC<popupMoreInterface> = ({ className, onEditClick, onDeleteCli
         <Settings className={popup ? "is-open" : ""}>
             {
               onEditClick &&
-                <SettingsItem>
+                <li>
                   <SettingsText
                     className="button-reset settings--edit"
                     onClick={() => {
@@ -44,11 +44,11 @@ const PopupMore: FC<popupMoreInterface> = ({ className, onEditClick, onDeleteCli
                       togglePopup(!popup);
                     }}
                   >Edit</SettingsText>
-                </SettingsItem>
+                </li>
             }
             {
               onDeleteClick &&
-                <SettingsItem>
+                <li>
                   <SettingsText
                     className="button-reset settings--delete"
                     onClick={() => {
@@ -56,15 +56,13 @@ const PopupMore: FC<popupMoreInterface> = ({ className, onEditClick, onDeleteCli
                       togglePopup(!popup);
                     }}
                   >Delete</SettingsText>
-                </SettingsItem>
+                </li>
             }
         </Settings>
       </PopupMoreInner>
-    </StyledPopumMore>
+    </div>
   );
 };
-
-const StyledPopumMore = styled.div``;
 
 const PopupMoreInner = styled.div`
   position: relative;
@@ -103,8 +101,6 @@ const Settings = styled.ul`
     visibility: visible;
   }
 `;
-
-const SettingsItem = styled.li``;
 
 const SettingsText = styled.button`
   position: relative;

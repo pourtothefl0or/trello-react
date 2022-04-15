@@ -2,8 +2,6 @@ import styled from 'styled-components';
 import { COLORS } from '../../../constants';
 import { Container } from '../../../components';
 
-export const StyledLogin = styled.section``;
-
 export const LoginContainer = styled(Container)`
   display: flex;
   flex-direction: column;

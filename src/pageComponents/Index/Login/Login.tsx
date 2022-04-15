@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { userInterface } from '../../../types/interfaces';
 import { Button, Input } from '../../../ui';
-import { StyledLogin, LoginContainer, LoginTitle, LoginForm } from './styles';
+import { LoginContainer, LoginTitle, LoginForm } from './styles';
 
 interface LoginProps {
   onAddUser: (values: userInterface) => void;
@@ -20,7 +20,7 @@ const Login: FC<LoginProps> = ({ onAddUser }) => {
   };
 
   return (
-    <StyledLogin>
+    <section>
       <LoginContainer>
         <LoginTitle>TRELLO</LoginTitle>
         <LoginForm onSubmit={addUser}>
@@ -33,7 +33,7 @@ const Login: FC<LoginProps> = ({ onAddUser }) => {
           <Button type="submit">Enter</Button>
         </LoginForm>
       </LoginContainer>
-    </StyledLogin>
+    </section>
   );
 };
 

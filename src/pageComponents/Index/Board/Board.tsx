@@ -72,8 +72,13 @@ const Board: FC<BoardProps> = (props) => {
     const cardsDuplicate = [...cards];
     const findCard = cardsDuplicate.find((card: cardInterface) => card.id === currentCardId);
 
-    if (inputValue !== '') findCard.title = inputValue;
-    if (textareaValue !== '') findCard.description = textareaValue;
+    if (inputValue !== '') {
+      findCard.title = inputValue;
+    }
+
+    if (textareaValue !== '') {
+      findCard.description = textareaValue;
+    }
 
     setCards(cardsDuplicate);
     localStorage.setItem('cards', JSON.stringify(cardsDuplicate));
@@ -199,13 +204,13 @@ const Board: FC<BoardProps> = (props) => {
                 title="Title"
                 type="text"
                 name="cardTitle"
-                defaultValue={card.title}
+                value={card.title}
                 onChange={value => handleInputValue(value)}
               />
               <Textarea
                 title="Description"
                 name="cardDescription"
-                defaultValue={card.description}
+                value={card.description}
                 onChange={value => handleTextareaValue(value)}
               />
               <CardFormButton type="submit">Edit</CardFormButton>

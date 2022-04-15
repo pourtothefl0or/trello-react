@@ -7,6 +7,7 @@ interface inputInterface {
   type: string;
   name: string;
   defaultValue?: string;
+  value?: string;
   placeholder?: string;
   onChange: (item: string) => void;
 };
@@ -16,6 +17,7 @@ const Input: FC<inputInterface> = ({
   type,
   name,
   defaultValue,
+  value,
   placeholder,
   onChange
 }) => {
@@ -29,6 +31,7 @@ const Input: FC<inputInterface> = ({
         type={type}
         name={name}
         defaultValue={defaultValue}
+        value={value}
         placeholder={placeholder}
         onChange={e => onChange(e.target.value)}
       />
