@@ -12,17 +12,17 @@ interface CommentProps {
 
 const Comment: FC<CommentProps> = ({ ...props }) => {
   const [editMode, handleEditMode] = useState(false);
-  const [inputValue, handleInputValue] = useState('');
+  const [inputValue, setInputValue] = useState('');
 
-  const editComment = (event: any) => {
-    event.preventDefault();
+  const editComment: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
 
-    if (inputValue !== '') {
+    if (inputValue) {
       props.onEditComment(props.commentId, inputValue);
     }
 
     handleEditMode(!editMode);
-    event.target.reset();
+    setInputValue('');
   };
 
   return (
@@ -42,8 +42,12 @@ const Comment: FC<CommentProps> = ({ ...props }) => {
             <Input
               type="text"
               name="commentText"
-              value={props.comment}
-              onChange={value => handleInputValue(value)}
+              value={
+                inputValue === ''
+                  ? props.comment
+                  : inputValue
+              }
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
             />
             <Button type="submit">Edit</Button>
           </CommentForm>

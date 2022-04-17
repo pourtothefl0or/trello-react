@@ -1,25 +1,25 @@
 import React, { FC, useState } from 'react';
-import { columnInterface } from '../../types/interfaces';
+import { IColumn } from '../../types/interfaces';
 import { ButtonClose, PopupMore } from '../../ui';
 import { StyledColumnHeader, TitleInner, Title, CardsSum, ColumnForm, InputTitleLabel, InputTitle } from './styles';
 
 interface ColumnProps {
-  column: columnInterface;
-  onEditColumn: (values: columnInterface) => void;
+  column: IColumn;
+  onEditColumn: (values: IColumn) => void;
   cardsSum: number;
 };
 
 const ColumnHeader: FC<ColumnProps> = (props) => {
-  const [input, setInput] = useState('');
+  const [inputValue, setInputValue] = useState('');
   const [editMode, handleEditMode] = useState(false);
 
-  const editColumn = (event: any) => {
-    event.preventDefault();
+  const editColumn: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
 
-    if (input !== '') {
+    if (inputValue) {
       props.onEditColumn({
         id: props.column.id,
-        column: input
+        column: inputValue
       });
     }
 
@@ -36,8 +36,9 @@ const ColumnHeader: FC<ColumnProps> = (props) => {
               <InputTitle
                 type="text"
                 name="columnTitle"
-                value={props.column.column}
-                onChange={item => setInput(item.target.value)}
+                defaultValue={props.column.column}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
+                required
               />
             </InputTitleLabel>
             <ButtonClose type="submit" />

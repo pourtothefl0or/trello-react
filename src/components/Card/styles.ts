@@ -37,7 +37,7 @@ export const CardComments = styled.div`
   font-size: 12px;
   color: ${COLORS.topaz};
   background-image: url(${iconComments});
-  background-size: 15px 15px;
+  background-size: 15px;
   background-position: left center;
   background-repeat: no-repeat;
 `;

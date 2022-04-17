@@ -1,32 +1,17 @@
-import React, { FC } from 'react';
-import styled from 'styled-components';
-import { COLORS, PRIMARY } from '../../constants';
+import React, { ButtonHTMLAttributes, FC } from 'react';
+import { StyledButton } from './styles';
 
-interface buttonInterface {
-  type?: 'submit' | 'reset' | 'button';
-  className?: string;
-  children: React.ReactChild | React.ReactNode;
-};
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
-const Button: FC<buttonInterface> = (props) => {
+const Button: FC<ButtonProps> = (props) => {
   return (
     <StyledButton
-      type={props.type}
-      className={`${props.className} button-reset`}
+      className={props.className}
+      {...props}
     >
       {props.children}
     </StyledButton>
   );
 };
-
-const StyledButton = styled.button`
-  border-radius: ${PRIMARY.border};
-  padding: 10px 20px;
-  min-width: 125px;
-  min-height: 50px;
-  font-size: 16px;
-  color: ${COLORS.white};
-  background-color: ${COLORS.cornflowerBlue};
-`;
 
 export default Button;

@@ -1,12 +1,12 @@
 import React, { FC, useState } from 'react';
-import { commentInterface, userInterface } from '../../types/interfaces';
+import { IComment, IUser } from '../../types/interfaces';
 import { Comment } from '../';
 import { Textarea, Button } from '../../ui';
 import { StyledCommentsList, CommentItem, CommentForm } from './styles';
 
 interface CommentsListProps {
-  comments: commentInterface[];
-  user: userInterface;
+  comments: IComment[];
+  user: IUser;
   cardId: number;
   onAddComment: (id: number, comment: string) => void;
   onEditComment: (id: number, comment: string) => void;
@@ -14,18 +14,18 @@ interface CommentsListProps {
 };
 
 const CommentsList: FC<CommentsListProps> = (props) => {
-  const [textareaValue, hundleTextereaValue] = useState('');
+  const [textareaValue, setTextareaValue] = useState('');
 
-  const addComment = (event: any) => {
-    event.preventDefault();
-    props.onAddComment(props.cardId, textareaValue)
-    event.target.reset();
+  const addComment: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    props.onAddComment(props.cardId, textareaValue);
+    setTextareaValue('');
   }
 
   return (
     <StyledCommentsList>
       {
-        props.comments.map((comment: commentInterface) =>
+        props.comments.map((comment: IComment) =>
           <CommentItem key={comment.id}>
             <Comment
               name={props.user.name}
@@ -42,7 +42,8 @@ const CommentsList: FC<CommentsListProps> = (props) => {
           <Textarea
             name="cardDescription"
             placeholder="Add a comment..."
-            onChange={value => hundleTextereaValue(value)}
+            value={textareaValue}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTextareaValue(e.target.value)}
           />
           <Button>Add</Button>
         </CommentForm>

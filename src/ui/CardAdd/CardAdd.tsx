@@ -1,27 +1,19 @@
-import React, { FC } from 'react';
-import styled from 'styled-components';
-import { COLORS, PRIMARY } from '../../constants';
+import React, { ButtonHTMLAttributes, FC } from 'react';
+import { StyledCardAdd } from './styles';
 
-interface cardAddInterface {
-  onClick: () => void;
+interface CardAddProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  // className?: string;
 };
 
-const CardAdd: FC<cardAddInterface> = ({ onClick }) => {
+const CardAdd: FC<CardAddProps> = (props) => {
   return (
-    <StyledCardAdd onClick={onClick}>+ Add new card</StyledCardAdd>
+    <StyledCardAdd
+      className={props.className}
+      {...props}
+    >
+      + Add new card
+    </StyledCardAdd>
   );
 };
-
-const StyledCardAdd = styled.button.attrs({
-  className: 'button-reset'
-})`
-  margin: 0;
-  border: 1px dashed ${COLORS.topaz};
-  border-radius: ${PRIMARY.border};
-  padding: 10px;
-  width: 100%;
-  font-size: 14px;
-  color: ${COLORS.topaz};
-`;
 
 export default CardAdd;

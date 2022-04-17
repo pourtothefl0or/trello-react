@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
-import { cardInterface, commentInterface } from '../../types/interfaces';
+import { ICard, IComment } from '../../types/interfaces';
 import { Card } from '../';
 import { CardAdd } from '../../ui';
 import { CardsItem } from './styles';
 
 interface ColumnListProps {
   columnId: number;
-  comments: commentInterface[];
-  cards: cardInterface[];
+  comments: IComment[];
+  cards: ICard[];
   onCardClick: (id: number) => void;
   onAddCard: () => void;
   onEditCard: (id: number) => void;
@@ -19,13 +19,13 @@ const ColumnsList: FC<ColumnListProps> = (props) => {
     <>
       <ul>
         {
-          props.cards.map((card: cardInterface) =>
+          props.cards.map((card: ICard) =>
             <CardsItem key={card.id}>
               <Card
                 title={card.title}
                 commentsSum={
                   props.comments
-                    .filter((comment: commentInterface) => comment.cardId === card.id)
+                    .filter((comment: IComment) => comment.cardId === card.id)
                     .length
                   || 0
                 }
