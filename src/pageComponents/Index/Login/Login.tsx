@@ -12,9 +12,7 @@ const Login: FC<LoginProps> = ({ onAddUser }) => {
   const addUser: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    if (inputValue) {
-      onAddUser(inputValue);
-    }
+    if (inputValue) onAddUser(inputValue);
   }
 
   return (
