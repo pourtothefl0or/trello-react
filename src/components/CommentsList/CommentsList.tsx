@@ -16,8 +16,11 @@ const CommentsList: FC<CommentsListProps> = (props) => {
 
   const addComment: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    props.onAddComment(props.cardId, textareaValue);
-    setTextareaValue('');
+
+    if (textareaValue) {
+      props.onAddComment(props.cardId, textareaValue);
+      setTextareaValue('');
+    }
   }
 
   return (
