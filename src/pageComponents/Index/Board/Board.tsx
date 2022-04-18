@@ -105,17 +105,15 @@ const Board: FC<BoardProps> = (props) => {
 
   // comments
   const onAddComment = (id: number, comment: string) => {
-    if (id && comment) {
-      const newComment = {
-        id: Date.now(),
-        cardId: id,
-        userId: props.user.id,
-        comment: comment
-      };
+    const newComment = {
+      id: Date.now(),
+      cardId: id,
+      userId: props.user.id,
+      comment: comment
+    };
 
-      setComments([...comments, newComment]);
-      localStorage.setItem('comments', JSON.stringify([...comments, newComment]));
-    }
+    setComments([...comments, newComment]);
+    localStorage.setItem('comments', JSON.stringify([...comments, newComment]));
   };
 
   const onEditComment = (id: number, comment: string) => {
