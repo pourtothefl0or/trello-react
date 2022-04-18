@@ -106,7 +106,7 @@ const Board: React.FC<BoardProps> = (props) => {
     }
   };
 
-  const onDeleteCard = (id: number) => {
+  const deleteCard = (id: number) => {
     const newCards = cards.filter((card: ICard) => card.id !== id);
     const newComments = comments.filter((comment: IComment) => comment.cardId !== id);
 
@@ -120,7 +120,7 @@ const Board: React.FC<BoardProps> = (props) => {
   };
 
   // comments
-  const onAddComment = (id: number, comment: string) => {
+  const addComment = (id: number, comment: string) => {
     const newComment = {
       id: Date.now(),
       cardId: id,
@@ -132,7 +132,7 @@ const Board: React.FC<BoardProps> = (props) => {
     localStorage.setItem('comments', JSON.stringify([...comments, newComment]));
   };
 
-  const onEditComment = (id: number, comment: string) => {
+  const editComment = (id: number, comment: string) => {
     const commentsDuplicate = [...comments];
     const findComment = commentsDuplicate.find((comment: IComment) => comment.id === id);
 
@@ -144,7 +144,7 @@ const Board: React.FC<BoardProps> = (props) => {
     }
   };
 
-  const onDeleteComment = (id: number) => {
+  const deleteComment = (id: number) => {
     const newComments = comments.filter((comment: IComment) => comment.id !== id);
 
     if (newComments) {
@@ -168,7 +168,7 @@ const Board: React.FC<BoardProps> = (props) => {
                 onCardClick={onCardClick}
                 onAddCardClick={() => onAddCardClick(column.id)}
                 onEditCardClick={onEditCardClick}
-                onDeleteCardClick={onDeleteCard}
+                onDeleteCardClick={deleteCard}
               />
             )
           }
@@ -207,9 +207,9 @@ const Board: React.FC<BoardProps> = (props) => {
                   comments={comments.filter((comment: IComment) => comment.cardId === card.id)}
                   user={props.user}
                   cardId={card.id}
-                  onAddComment={onAddComment}
-                  onEditComment={onEditComment}
-                  onDeleteComment={onDeleteComment}
+                  addComment={addComment}
+                  editComment={editComment}
+                  deleteComment={deleteComment}
                 />
               </div>
             )

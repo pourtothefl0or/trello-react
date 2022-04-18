@@ -12,7 +12,7 @@ export interface CardFunctions {
 }
 
 export interface CommentFunction {
-  onAddComment: (id: number, comment: string) => void;
-  onEditComment: (id: number, comment: string) => void;
-  onDeleteComment: (id: number) => void;
+  addComment: (id: number, comment: string) => void;
+  editComment: (id: number, comment: string) => void;
+  deleteComment: (id: number) => void;
 }

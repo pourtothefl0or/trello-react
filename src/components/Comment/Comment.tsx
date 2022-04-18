@@ -6,8 +6,8 @@ import { StyledComment, CommentHeader, CommentUserLogo, CommentUserName, Comment
 interface CommentProps {
   name: string | undefined;
   comment: IComment;
-  onEditComment: (id: number, comment: string) => void;
-  onDeleteComment: () => void;
+  editComment: (id: number, comment: string) => void;
+  deleteComment: () => void;
 }
 
 const Comment: React.FC<CommentProps> = ({ name, comment, ...props}) => {
@@ -17,7 +17,7 @@ const Comment: React.FC<CommentProps> = ({ name, comment, ...props}) => {
   const handleEditComment: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    if (inputValue) props.onEditComment(comment.id, inputValue);
+    if (inputValue) props.editComment(comment.id, inputValue);
 
     setIsEditMode(!isEditMode);
     setInputValue('');
@@ -38,7 +38,7 @@ const Comment: React.FC<CommentProps> = ({ name, comment, ...props}) => {
           >Edit</PopupMoreItem>
           <PopupMoreItem
             className="delete"
-            onClick={props.onDeleteComment}
+            onClick={props.deleteComment}
           >Delete</PopupMoreItem>
         </CommentPopupMore>
       </CommentHeader>

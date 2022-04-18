@@ -18,7 +18,7 @@ const CommentsList: React.FC<CommentsListProps> = ({ comments, user, ...props })
     e.preventDefault();
 
     if (textareaValue) {
-      props.onAddComment(props.cardId, textareaValue);
+      props.addComment(props.cardId, textareaValue);
       setTextareaValue('');
     }
   }
@@ -31,8 +31,8 @@ const CommentsList: React.FC<CommentsListProps> = ({ comments, user, ...props })
             <Comment
               name={user.name}
               comment={comment}
-              onEditComment={props.onEditComment}
-              onDeleteComment={() => props.onDeleteComment(comment.id)}
+              editComment={props.editComment}
+              deleteComment={() => props.deleteComment(comment.id)}
             />
         </CommentItem>
         )
