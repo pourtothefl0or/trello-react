@@ -1,17 +1,15 @@
 import React, { FC, useState } from 'react';
 import { IComment, IUser } from '../../types/interfaces';
+import { CommentFunction } from '../../types/functions';
 import { Comment } from '../';
 import { Textarea, Button } from '../../ui';
 import { StyledCommentsList, CommentItem, CommentForm } from './styles';
 
-interface CommentsListProps {
+interface CommentsListProps extends CommentFunction {
   comments: IComment[];
   user: IUser;
   cardId: number;
-  onAddComment: (id: number, comment: string) => void;
-  onEditComment: (id: number, comment: string) => void;
-  onDeleteComment: (id: number) => void;
-};
+}
 
 const CommentsList: FC<CommentsListProps> = (props) => {
   const [textareaValue, setTextareaValue] = useState('');
@@ -32,7 +30,7 @@ const CommentsList: FC<CommentsListProps> = (props) => {
               commentId={comment.id}
               comment={comment.comment}
               onEditComment={props.onEditComment}
-              onDeleteClick={() => props.onDeleteComment(comment.id)}
+              onDeleteComment={() => props.onDeleteComment(comment.id)}
             />
         </CommentItem>
         )
@@ -49,7 +47,7 @@ const CommentsList: FC<CommentsListProps> = (props) => {
         </CommentForm>
       </CommentItem>
     </StyledCommentsList>
-  );
-};
+  )
+}
 
 export default CommentsList;

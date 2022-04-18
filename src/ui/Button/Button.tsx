@@ -11,7 +11,7 @@ const Button: FC<ButtonProps> = (props) => {
     >
       {props.children}
     </StyledButton>
-  );
-};
+  )
+}
 
 export default Button;

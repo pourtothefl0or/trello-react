@@ -1,13 +1,13 @@
 import React, { FC, useState } from 'react';
+import { ColumnFunctions } from '../../types/functions';
 import { IColumn } from '../../types/interfaces';
-import { ButtonClose, PopupMore } from '../../ui';
+import { ButtonClose, PopupMore, PopupMoreItem } from '../../ui';
 import { StyledColumnHeader, TitleInner, Title, CardsSum, ColumnForm, InputTitleLabel, InputTitle } from './styles';
 
-interface ColumnProps {
+interface ColumnProps extends ColumnFunctions {
   column: IColumn;
-  onEditColumn: (values: IColumn) => void;
   cardsSum: number;
-};
+}
 
 const ColumnHeader: FC<ColumnProps> = (props) => {
   const [inputValue, setInputValue] = useState('');
@@ -15,14 +15,7 @@ const ColumnHeader: FC<ColumnProps> = (props) => {
 
   const editColumn: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-
-    if (inputValue) {
-      props.onEditColumn({
-        id: props.column.id,
-        column: inputValue
-      });
-    }
-
+    if (inputValue) props.onEditColumn({ id: props.column.id, column: inputValue });
     handleEditMode(!editMode);
   };
 
@@ -36,7 +29,7 @@ const ColumnHeader: FC<ColumnProps> = (props) => {
               <InputTitle
                 type="text"
                 name="columnTitle"
-                defaultValue={props.column.column}
+                value={inputValue}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
                 required
               />
@@ -49,11 +42,19 @@ const ColumnHeader: FC<ColumnProps> = (props) => {
               <Title>{props.column.column}</Title>
             </TitleInner>
             <CardsSum>{props.cardsSum}</CardsSum>
-            <PopupMore onEditClick={() => handleEditMode(!editMode)} />
+            <PopupMore>
+              <PopupMoreItem
+                className="edit"
+                onClick={() => {
+                  setInputValue(props.column.column);
+                  handleEditMode(!editMode)}
+                }
+              >Edit</PopupMoreItem>
+            </PopupMore>
           </>
       }
     </StyledColumnHeader>
-  );
-};
+  )
+}
 
 export default ColumnHeader;

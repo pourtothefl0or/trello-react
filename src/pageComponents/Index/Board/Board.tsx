@@ -6,7 +6,7 @@ import { Input, Modal, Textarea } from '../../../ui';
 
 interface BoardProps {
   user: IUser;
-};
+}
 
 const Board: FC<BoardProps> = (props) => {
   // arrays
@@ -19,16 +19,16 @@ const Board: FC<BoardProps> = (props) => {
 
   const [columns, setColumns] = useState<IColumn[]>(JSON.parse(localStorage.getItem('columns')!) || defaultColumnsArr);
   const [cards, setCards] = useState<ICard[]>(JSON.parse(localStorage.getItem('cards')!) || []);
-  const [comments, setComments] = useState<IComment[]>(JSON.parse(localStorage.getItem('comments')!) || [])
+  const [comments, setComments] = useState<IComment[]>(JSON.parse(localStorage.getItem('comments')!) || []);
 
   // modals
+  const [modalInfoCard, toggleModalInfoCard] = useState(false);
   const [modalAddCard, toggleModalAddCard] = useState(false);
   const [modalEditCard, toggleModalEditCard] = useState(false);
-  const [modalInfoCard, toggleModalInfoCard] = useState(false);
 
   // values
-  const [currentCardId, getCurrentCardId] = useState(0);
-  const [currentColumnId, getCurrentColumnId] = useState(0);
+  const [currentCardId, setCurrentCardId] = useState(0);
+  const [currentColumnId, setCurrentColumnId] = useState(0);
   const [inputValue, setInputValue] = useState('');
   const [textareaValue, setTextareaValue] = useState('');
 
@@ -39,38 +39,38 @@ const Board: FC<BoardProps> = (props) => {
 
   // columns
   const onEditColumn = (values: IColumn) => {
-    const columsnDuplicate = [...columns];
-    const findColumn = columsnDuplicate.find((column: IColumn) => column.id === values.id);
+    const columnDuplicate = [...columns];
+    const findColumnItem = columnDuplicate.find((column: IColumn) => column.id === values.id);
 
-    if (findColumn) {
-      findColumn.column = values.column;
-
-      setColumns(columsnDuplicate);
-      localStorage.setItem('columns', JSON.stringify(columsnDuplicate));
+    if (findColumnItem) {
+      findColumnItem.column = values.column;
+      setColumns(columnDuplicate);
+      localStorage.setItem('columns', JSON.stringify(columnDuplicate));
     }
   };
 
   // cards
-  const onAddCard: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const AddCard: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    if (inputValue || textareaValue) {
-      const newCard = {
+    if (inputValue) {
+      const card: ICard = {
         id: Date.now(),
         columnId: currentColumnId,
         title: inputValue,
         description: textareaValue
-      };
+      }
 
-      setCards([...cards, newCard]);
-      localStorage.setItem('cards', JSON.stringify([...cards, newCard]));
+      const newCards = [...cards, card];
 
+      setCards(newCards);
+      localStorage.setItem('cards', JSON.stringify(newCards));
       toggleModalAddCard(!modalAddCard);
       clearFormFields();
     }
   };
 
-  const onEditCard: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const EditCard: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
     const cardsDuplicate = [...cards];
@@ -92,16 +92,18 @@ const Board: FC<BoardProps> = (props) => {
     const newCards = cards.filter((card: ICard) => card.id !== id);
     const newComments = comments.filter((comment: IComment) => comment.cardId !== id);
 
-    setCards(newCards);
-    setComments(newComments);
+    if (newCards && newComments) {
+      setCards(newCards);
+      setComments(newComments);
 
-    localStorage.setItem('cards', JSON.stringify(newCards));
-    localStorage.setItem('comments', JSON.stringify(newComments));
+      localStorage.setItem('cards', JSON.stringify(newCards));
+      localStorage.setItem('comments', JSON.stringify(newComments));
+    }
   };
 
   // comments
   const onAddComment = (id: number, comment: string) => {
-    if (comment) {
+    if (id && comment) {
       const newComment = {
         id: Date.now(),
         cardId: id,
@@ -127,10 +129,12 @@ const Board: FC<BoardProps> = (props) => {
   };
 
   const onDeleteComment = (id: number) => {
-    const newArr = comments.filter((comment: IComment) => comment.id !== id);
+    const newComments = comments.filter((comment: IComment) => comment.id !== id);
 
-    setComments(newArr);
-    localStorage.setItem('comments', JSON.stringify(newArr));
+    if (newComments) {
+      setComments(newComments);
+      localStorage.setItem('comments', JSON.stringify(newComments));
+    }
   };
 
   return (
@@ -145,25 +149,53 @@ const Board: FC<BoardProps> = (props) => {
                 onEditColumn={onEditColumn}
                 comments={comments}
                 cards={cards.filter((card: ICard) => card.columnId === column.id)}
+                onCardClick={(id: number) => {
+                  setCurrentCardId(id);
+                  toggleModalInfoCard(!modalInfoCard);
+                }}
                 onAddCard={() => {
-                  getCurrentColumnId(column.id);
+                  setCurrentColumnId(column.id);
                   toggleModalAddCard(!modalAddCard);
                 }}
                 onEditCard={(id: number) => {
-                  getCurrentCardId(id);
-                  getCurrentColumnId(column.id);
+                  setInputValue(cards.find((card: ICard) => card.id === id)?.title || '');
+                  setTextareaValue(cards.find((card: ICard) => card.id === id)?.description || '');
                   toggleModalEditCard(!modalEditCard);
                 }}
                 onDeleteCard={(id: number) => onDeleteCard(id)}
-                onCardClick={(id: number) => {
-                  getCurrentCardId(id);
-                  toggleModalInfoCard(!modalInfoCard);
-                }}
               />
             )
           }
         </BoardContainer>
       </StyledBoard>
+
+      <Modal
+        title="Card info"
+        modalVisibility={modalInfoCard}
+        onCloseClick={() => toggleModalInfoCard(!modalInfoCard)}
+      >
+        {
+          cards
+            .filter((item: ICard) => item.id === currentCardId)
+            .map((card: ICard) =>
+              <div key={card.id}>
+                <CardInfo>
+                  <CardInfoColumn>{columns.find((column: IColumn) => column.id === card.columnId)?.column}</CardInfoColumn>
+                  <CardInfoTitle>{card.title}</CardInfoTitle>
+                  <CardInfoDescription>{card.description}</CardInfoDescription>
+                </CardInfo>
+                <CommentsList
+                  comments={comments.filter((comment: IComment) => comment.cardId === card.id)}
+                  user={props.user}
+                  cardId={card.id}
+                  onAddComment={onAddComment}
+                  onEditComment={onEditComment}
+                  onDeleteComment={onDeleteComment}
+                />
+              </div>
+            )
+          }
+      </Modal>
 
       <Modal
         title="Add card"
@@ -173,7 +205,7 @@ const Board: FC<BoardProps> = (props) => {
           clearFormFields();
         }}
       >
-        <CardForm onSubmit={onAddCard}>
+        <CardForm onSubmit={AddCard}>
           <Input
             title="Title"
             type="text"
@@ -200,77 +232,25 @@ const Board: FC<BoardProps> = (props) => {
           clearFormFields();
         }}
       >
-        {
-          cards
-            .filter((item: ICard) => item.id === currentCardId)
-            .map((card: ICard) =>
-            <CardForm
-              key={card.id}
-              onSubmit={onEditCard}
-            >
-              <Input
-                title="Title"
-                type="text"
-                name="cardTitle"
-                value={
-                  inputValue === ''
-                    ? card.title
-                    : inputValue
-                }
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
-              />
-              <Textarea
-                title="Description"
-                name="cardDescription"
-                value={
-                  textareaValue === ''
-                    ? card.description
-                    : textareaValue
-                }
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTextareaValue(e.target.value)}
-              />
-              <CardFormButton type="submit">Edit</CardFormButton>
-            </CardForm>
-            )
-        }
-
-      </Modal>
-
-      <Modal
-        title="Card info"
-        modalVisibility={modalInfoCard}
-        onCloseClick={() => toggleModalInfoCard(!modalInfoCard)}
-      >
-        {
-          cards
-            .filter((item: ICard) => item.id === currentCardId)
-            .map((card: ICard) =>
-              <div key={card.id}>
-                <CardInfo>
-                  <CardInfoColumn>
-                    {
-                      columns
-                        .find((column: IColumn) => column.id === card.columnId)
-                        ?.column
-                    }
-                  </CardInfoColumn>
-                  <CardInfoTitle>{card.title}</CardInfoTitle>
-                  <CardInfoDescription>{card.description}</CardInfoDescription>
-                </CardInfo>
-                <CommentsList
-                  comments={comments.filter((comment: IComment) => comment.cardId === card.id)}
-                  user={props.user}
-                  cardId={card.id}
-                  onAddComment={onAddComment}
-                  onEditComment={onEditComment}
-                  onDeleteComment={onDeleteComment}
-                />
-              </div>
-            )
-          }
+        <CardForm onSubmit={EditCard}>
+          <Input
+            title="Title"
+            type="text"
+            name="cardTitle"
+            value={inputValue}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
+          />
+          <Textarea
+            title="Description"
+            name="cardDescription"
+            value={textareaValue}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTextareaValue(e.target.value)}
+          />
+          <CardFormButton type="submit">Edit</CardFormButton>
+        </CardForm>
       </Modal>
     </>
-  );
-};
+  )
+}
 
 export default Board;

@@ -1,9 +1,7 @@
 import React, { ButtonHTMLAttributes, FC } from 'react';
 import { StyledCardAdd } from './styles';
 
-interface CardAddProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  // className?: string;
-};
+interface CardAddProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
 const CardAdd: FC<CardAddProps> = (props) => {
   return (
@@ -13,7 +11,7 @@ const CardAdd: FC<CardAddProps> = (props) => {
     >
       + Add new card
     </StyledCardAdd>
-  );
-};
+  )
+}
 
 export default CardAdd;

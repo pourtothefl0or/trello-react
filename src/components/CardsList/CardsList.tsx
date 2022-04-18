@@ -1,18 +1,14 @@
 import React, { FC } from 'react';
 import { ICard, IComment } from '../../types/interfaces';
+import { CardFunctions } from '../../types/functions';
 import { Card } from '../';
 import { CardAdd } from '../../ui';
 import { CardsItem } from './styles';
 
-interface ColumnListProps {
-  columnId: number;
+interface ColumnListProps extends CardFunctions {
   comments: IComment[];
   cards: ICard[];
-  onCardClick: (id: number) => void;
-  onAddCard: () => void;
-  onEditCard: (id: number) => void;
-  onDeleteCard: (id: number) => void;
-};
+}
 
 const ColumnsList: FC<ColumnListProps> = (props) => {
   return (
@@ -29,9 +25,9 @@ const ColumnsList: FC<ColumnListProps> = (props) => {
                     .length
                   || 0
                 }
-                cardClick={() => props.onCardClick(card.id)}
+                onCardClick={() => props.onCardClick(card.id)}
                 onEditClick={() => props.onEditCard(card.id)}
-                onDeleteClick={() => props.onDeleteCard(card.id)}
+                onDeleteComment={() => props.onDeleteCard(card.id)}
               />
             </CardsItem>
           )
@@ -41,7 +37,7 @@ const ColumnsList: FC<ColumnListProps> = (props) => {
         </CardsItem>
       </ul>
     </>
-  );
-};
+  )
+}
 
 export default ColumnsList;

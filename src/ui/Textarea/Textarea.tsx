@@ -18,7 +18,7 @@ const Textarea: FC<TextareaProps> = ({ title, ...props }) => {
         {...props}
       />
     </StyledTextarea>
-  );
-};
+  )
+}
 
 export default Textarea;

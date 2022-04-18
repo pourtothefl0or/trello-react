@@ -8,7 +8,7 @@ interface ModalProps {
   modalVisibility: boolean;
   onCloseClick: () => void;
   children: React.ReactChild | React.ReactNode;
-};
+}
 
 const Modal: FC<ModalProps> = (props) => {
   return (
@@ -26,7 +26,7 @@ const Modal: FC<ModalProps> = (props) => {
         </ModalContainer>
       </StyledModal>
     </ModalInner>
-  );
-};
+  )
+}
 
 export default Modal;

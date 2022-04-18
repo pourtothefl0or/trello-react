@@ -1,25 +1,32 @@
 import React, { FC } from 'react';
+import { PopupMoreItem } from '../../ui';
 import { StyledCard, CardPopupMore, CardTitle, CardComments } from './styles';
 
 interface CardProps {
   title: string;
   commentsSum: number;
-  cardClick: () => void;
+  onCardClick: () => void;
   onEditClick: () => void;
-  onDeleteClick: () => void;
-};
+  onDeleteComment: () => void;
+}
 
 const Card: FC<CardProps> = (props) => {
   return (
-    <StyledCard onClick={props.cardClick}>
-      <CardPopupMore
-        onEditClick={props.onEditClick}
-        onDeleteClick={props.onDeleteClick}
-      />
+    <StyledCard onClick={props.onCardClick}>
+      <CardPopupMore>
+        <PopupMoreItem
+          className="edit"
+          onClick={props.onEditClick}
+        >Edit</PopupMoreItem>
+        <PopupMoreItem
+          className="delete"
+          onClick={props.onDeleteComment}
+        >Delete</PopupMoreItem>
+      </CardPopupMore>
       <CardTitle>{props.title}</CardTitle>
       <CardComments>{props.commentsSum} comments</CardComments>
     </StyledCard>
-  );
-};
+  )
+}
 
 export default Card;

@@ -3,12 +3,14 @@ import { IUser } from '../types/interfaces';
 import { Board, Login } from '../pageComponents/Index';
 
 const Index: FC = () => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')!) || {});
+  const [user, setUser] = useState<IUser>(JSON.parse(localStorage.getItem('user')!) || {});
 
-  const onAddUser = (values: IUser) => {
-    setUser(values);
-    localStorage.setItem('user', JSON.stringify(values));
-  };
+  const onAddUser = (name: string) => {
+    const newUser: IUser = { id: 1, name: name };
+
+    setUser(newUser);
+    localStorage.setItem('user', JSON.stringify(newUser));
+  }
 
   return (
     <>
@@ -19,7 +21,7 @@ const Index: FC = () => {
       }
 
     </>
-  );
-};
+  )
+}
 
 export default Index;

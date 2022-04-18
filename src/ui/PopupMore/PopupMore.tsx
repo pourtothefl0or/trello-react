@@ -1,15 +1,16 @@
 import React, { FC, useState, useRef } from 'react';
 import { useOnClickOutside } from '../../customHooks';
+import { PopupMoreInner, CardMore, Settings } from './styles';
 import iconMore from '../../assets/images/icons/more.svg';
-import { PopupMoreInner, CardMore, Settings, SettingsText } from './styles';
 
 interface popupMoreInterface {
   className?: string;
   onEditClick?: () => void;
-  onDeleteClick?: () => void;
-};
+  onDeleteComment?: () => void;
+  children: React.ReactChild | React.ReactNode;
+}
 
-const PopupMore: FC<popupMoreInterface> = ({ className, onEditClick, onDeleteClick }) => {
+const PopupMore: FC<popupMoreInterface> = (props) => {
   const rootRef = useRef(null);
 
   const [popup, togglePopup] = useState(false);
@@ -17,7 +18,7 @@ const PopupMore: FC<popupMoreInterface> = ({ className, onEditClick, onDeleteCli
 
   return (
     <div
-      className={className}
+      className={props.className}
       ref={rootRef}
       onClick={e => e.stopPropagation()}
     >
@@ -30,35 +31,15 @@ const PopupMore: FC<popupMoreInterface> = ({ className, onEditClick, onDeleteCli
         >
           <img src={iconMore} alt="Button more" />
         </CardMore>
-        <Settings className={popup ? "is-open" : ""}>
-            {
-              onEditClick &&
-                <li>
-                  <SettingsText
-                    className="button-reset settings--edit"
-                    onClick={() => {
-                      onEditClick();
-                      togglePopup(!popup);
-                    }}
-                  >Edit</SettingsText>
-                </li>
-            }
-            {
-              onDeleteClick &&
-                <li>
-                  <SettingsText
-                    className="button-reset settings--delete"
-                    onClick={() => {
-                      onDeleteClick();
-                      togglePopup(!popup);
-                    }}
-                  >Delete</SettingsText>
-                </li>
-            }
+        <Settings
+          className={popup ? "is-open" : ""}
+          onClick={() => togglePopup(!popup)}
+        >
+          {props.children}
         </Settings>
       </PopupMoreInner>
     </div>
-  );
-};
+  )
+}
 
 export default PopupMore;

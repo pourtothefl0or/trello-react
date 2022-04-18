@@ -1,23 +1,21 @@
 import React, { FC, useState } from 'react';
-import { IUser } from '../../../types/interfaces';
 import { Button, Input } from '../../../ui';
 import { LoginContainer, LoginTitle, LoginForm } from './styles';
 
 interface LoginProps {
-  onAddUser: (values: IUser) => void;
-};
+  onAddUser: (name: string) => void;
+}
 
 const Login: FC<LoginProps> = ({ onAddUser }) => {
   const [inputValue, setInputValue] = useState('');
 
-  const addUser = (event: any) => {
-    event.preventDefault();
+  const addUser: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
 
-    onAddUser({
-      id: Date.now(),
-      name: inputValue
-    });
-  };
+    if (inputValue) {
+      onAddUser(inputValue);
+    }
+  }
 
   return (
     <section>
@@ -36,7 +34,7 @@ const Login: FC<LoginProps> = ({ onAddUser }) => {
         </LoginForm>
       </LoginContainer>
     </section>
-  );
-};
+  )
+}
 
 export default Login;

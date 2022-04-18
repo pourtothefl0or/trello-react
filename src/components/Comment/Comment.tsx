@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Button, Input } from '../../ui';
+import { PopupMoreItem, Button, Input } from '../../ui';
 import { StyledComment, CommentHeader, CommentUserLogo, CommentUserName, CommentPopupMore, CommentsText, CommentForm } from './styles';
 
 interface CommentProps {
@@ -7,8 +7,8 @@ interface CommentProps {
   commentId: number;
   comment: string;
   onEditComment: (id: number, comment: string) => void;
-  onDeleteClick: () => void;
-};
+  onDeleteComment: () => void;
+}
 
 const Comment: FC<CommentProps> = ({ ...props }) => {
   const [editMode, handleEditMode] = useState(false);
@@ -16,11 +16,7 @@ const Comment: FC<CommentProps> = ({ ...props }) => {
 
   const editComment: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-
-    if (inputValue) {
-      props.onEditComment(props.commentId, inputValue);
-    }
-
+    if (inputValue) props.onEditComment(props.commentId, inputValue);
     handleEditMode(!editMode);
     setInputValue('');
   };
@@ -30,10 +26,19 @@ const Comment: FC<CommentProps> = ({ ...props }) => {
       <CommentHeader>
         <CommentUserLogo>{props.name?.split('')[0]}</CommentUserLogo>
         <CommentUserName>{props.name}</CommentUserName>
-        <CommentPopupMore
-          onEditClick={() => handleEditMode(!editMode)}
-          onDeleteClick={props.onDeleteClick}
-        />
+        <CommentPopupMore>
+          <PopupMoreItem
+          className="edit"
+            onClick={() => {
+              setInputValue(props.comment);
+              handleEditMode(!editMode);
+            }}
+          >Edit</PopupMoreItem>
+          <PopupMoreItem
+            className="delete"
+            onClick={props.onDeleteComment}
+          >Delete</PopupMoreItem>
+        </CommentPopupMore>
       </CommentHeader>
       {
         editMode
@@ -42,11 +47,7 @@ const Comment: FC<CommentProps> = ({ ...props }) => {
             <Input
               type="text"
               name="commentText"
-              value={
-                inputValue === ''
-                  ? props.comment
-                  : inputValue
-              }
+              value={inputValue}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
             />
             <Button type="submit">Edit</Button>
@@ -56,7 +57,7 @@ const Comment: FC<CommentProps> = ({ ...props }) => {
 
       }
     </StyledComment>
-  );
-};
+  )
+}
 
 export default Comment;
