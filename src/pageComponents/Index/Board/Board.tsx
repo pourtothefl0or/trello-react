@@ -44,6 +44,7 @@ const Board: FC<BoardProps> = (props) => {
 
     if (findColumnItem) {
       findColumnItem.column = values.column;
+
       setColumns(columnDuplicate);
       localStorage.setItem('columns', JSON.stringify(columnDuplicate));
     }
@@ -65,6 +66,7 @@ const Board: FC<BoardProps> = (props) => {
 
       setCards(newCards);
       localStorage.setItem('cards', JSON.stringify(newCards));
+
       toggleModalAddCard(!modalAddCard);
       clearFormFields();
     }

@@ -16,7 +16,9 @@ const Comment: FC<CommentProps> = ({ ...props }) => {
 
   const editComment: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+
     if (inputValue) props.onEditComment(props.commentId, inputValue);
+
     handleEditMode(!editMode);
     setInputValue('');
   };

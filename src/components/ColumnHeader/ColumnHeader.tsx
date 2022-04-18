@@ -15,7 +15,9 @@ const ColumnHeader: FC<ColumnProps> = (props) => {
 
   const editColumn: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+
     if (inputValue) props.onEditColumn({ id: props.column.id, column: inputValue });
+
     handleEditMode(!editMode);
   };
 
