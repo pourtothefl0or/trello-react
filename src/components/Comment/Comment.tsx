@@ -51,6 +51,7 @@ const Comment: FC<CommentProps> = ({ ...props }) => {
               name="commentText"
               value={inputValue}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
+              required
             />
             <Button type="submit">Edit</Button>
           </CommentForm>

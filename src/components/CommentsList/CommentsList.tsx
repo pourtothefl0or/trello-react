@@ -42,6 +42,7 @@ const CommentsList: FC<CommentsListProps> = (props) => {
             placeholder="Add a comment..."
             value={textareaValue}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setTextareaValue(e.target.value)}
+            required
           />
           <Button>Add</Button>
         </CommentForm>
