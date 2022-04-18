@@ -38,7 +38,7 @@ const Board: React.FC<BoardProps> = (props) => {
   };
 
   // columns
-  const onEditColumn = (values: IColumn) => {
+  const editColumn = (values: IColumn) => {
     const columnDuplicate = [...columns];
     const findColumnItem = columnDuplicate.find((column: IColumn) => column.id === values.id);
 
@@ -162,7 +162,7 @@ const Board: React.FC<BoardProps> = (props) => {
               <Column
                 key={column.id}
                 column={column}
-                onEditColumn={onEditColumn}
+                editColumn={editColumn}
                 comments={comments}
                 cards={cards.filter((card: ICard) => card.columnId === column.id)}
                 onCardClick={onCardClick}

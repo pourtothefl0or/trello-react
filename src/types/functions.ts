@@ -1,7 +1,7 @@
 import { IColumn } from "./interfaces";
 
 export interface ColumnFunctions {
-  onEditColumn: (values: IColumn) => void;
+  editColumn: (values: IColumn) => void;
 }
 
 export interface CardFunctions {

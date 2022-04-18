@@ -16,7 +16,7 @@ const ColumnHeader: React.FC<ColumnProps> = ({ column, cardsSum, ...props }) => 
   const handleEditColumn: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    if (inputValue) props.onEditColumn({ id: column.id, column: inputValue });
+    if (inputValue) props.editColumn({ id: column.id, column: inputValue });
 
     setIsEditMode(!isEditMode);
   };

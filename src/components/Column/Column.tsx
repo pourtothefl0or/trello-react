@@ -16,7 +16,7 @@ const Column: React.FC<ColumnProps> = ({ column, cards, comments, ...props}) => 
       <ColumnHeader
         column={column}
         cardsSum={cards.length || 0}
-        onEditColumn={props.onEditColumn}
+        editColumn={props.editColumn}
       />
       <CardsList
         comments={comments}
