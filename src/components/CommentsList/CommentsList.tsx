@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { IComment, IUser } from '../../types/interfaces';
 import { CommentFunction } from '../../types/functions';
 import { Comment } from '../';
@@ -11,10 +11,10 @@ interface CommentsListProps extends CommentFunction {
   cardId: number;
 }
 
-const CommentsList: FC<CommentsListProps> = (props) => {
+const CommentsList: React.FC<CommentsListProps> = ({ comments, user, ...props }) => {
   const [textareaValue, setTextareaValue] = useState('');
 
-  const addComment: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleAddComment: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
     if (textareaValue) {
@@ -26,12 +26,11 @@ const CommentsList: FC<CommentsListProps> = (props) => {
   return (
     <StyledCommentsList>
       {
-        props.comments.map((comment: IComment) =>
+        comments.map((comment: IComment) =>
           <CommentItem key={comment.id}>
             <Comment
-              name={props.user.name}
-              commentId={comment.id}
-              comment={comment.comment}
+              name={user.name}
+              comment={comment}
               onEditComment={props.onEditComment}
               onDeleteComment={() => props.onDeleteComment(comment.id)}
             />
@@ -39,7 +38,7 @@ const CommentsList: FC<CommentsListProps> = (props) => {
         )
       }
       <CommentItem>
-        <CommentForm onSubmit={addComment}>
+        <CommentForm onSubmit={handleAddComment}>
           <Textarea
             name="cardDescription"
             placeholder="Add a comment..."

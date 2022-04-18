@@ -1,16 +1,14 @@
-import React, { FC, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useOnClickOutside } from '../../customHooks';
 import { PopupMoreInner, CardMore, Settings } from './styles';
 import iconMore from '../../assets/images/icons/more.svg';
 
 interface popupMoreInterface {
   className?: string;
-  onEditClick?: () => void;
-  onDeleteComment?: () => void;
   children: React.ReactChild | React.ReactNode;
 }
 
-const PopupMore: FC<popupMoreInterface> = (props) => {
+const PopupMore: React.FC<popupMoreInterface> = ({ children, ...props }) => {
   const rootRef = useRef(null);
 
   const [popup, togglePopup] = useState(false);
@@ -35,7 +33,7 @@ const PopupMore: FC<popupMoreInterface> = (props) => {
           className={popup ? "is-open" : ""}
           onClick={() => togglePopup(!popup)}
         >
-          {props.children}
+          {children}
         </Settings>
       </PopupMoreInner>
     </div>

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { PopupMoreItem } from '../../ui';
 import { StyledCard, CardPopupMore, CardTitle, CardComments } from './styles';
 
@@ -6,25 +6,25 @@ interface CardProps {
   title: string;
   commentsSum: number;
   onCardClick: () => void;
-  onEditClick: () => void;
-  onDeleteComment: () => void;
+  onEditCardClick: () => void;
+  onDeleteCardClick: () => void;
 }
 
-const Card: FC<CardProps> = (props) => {
+const Card: React.FC<CardProps> = ({ title, commentsSum, ...props }) => {
   return (
     <StyledCard onClick={props.onCardClick}>
       <CardPopupMore>
         <PopupMoreItem
           className="edit"
-          onClick={props.onEditClick}
+          onClick={props.onEditCardClick}
         >Edit</PopupMoreItem>
         <PopupMoreItem
           className="delete"
-          onClick={props.onDeleteComment}
+          onClick={props.onDeleteCardClick}
         >Delete</PopupMoreItem>
       </CardPopupMore>
-      <CardTitle>{props.title}</CardTitle>
-      <CardComments>{props.commentsSum} comments</CardComments>
+      <CardTitle>{title}</CardTitle>
+      <CardComments>{commentsSum} comments</CardComments>
     </StyledCard>
   )
 }

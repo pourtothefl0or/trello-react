@@ -1,8 +1,8 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { IUser } from '../types/interfaces';
 import { Board, Login } from '../pageComponents/Index';
 
-const Index: FC = () => {
+const Index: React.FC = () => {
   const [user, setUser] = useState<IUser>(JSON.parse(localStorage.getItem('user')!) || {});
 
   const onAddUser = (name: string) => {
@@ -19,7 +19,6 @@ const Index: FC = () => {
           ? <Login onAddUser={onAddUser} />
           : <Board user={user} />
       }
-
     </>
   )
 }

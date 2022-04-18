@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Input } from '../../../ui';
 import { LoginContainer, LoginTitle, LoginForm } from './styles';
 
@@ -6,10 +6,10 @@ interface LoginProps {
   onAddUser: (name: string) => void;
 }
 
-const Login: FC<LoginProps> = ({ onAddUser }) => {
+const Login: React.FC<LoginProps> = ({ onAddUser }) => {
   const [inputValue, setInputValue] = useState('');
 
-  const addUser: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleAddUser: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
     if (inputValue) onAddUser(inputValue);
@@ -19,7 +19,7 @@ const Login: FC<LoginProps> = ({ onAddUser }) => {
     <section>
       <LoginContainer>
         <LoginTitle>TRELLO</LoginTitle>
-        <LoginForm onSubmit={addUser}>
+        <LoginForm onSubmit={handleAddUser}>
           <Input
             type="text"
             name="username"

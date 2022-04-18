@@ -1,9 +1,9 @@
-import React, { ButtonHTMLAttributes, FC } from 'react';
+import React from 'react';
 import { StyledCardAdd } from './styles';
 
-interface CardAddProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
+interface CardAddProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-const CardAdd: FC<CardAddProps> = (props) => {
+const CardAdd: React.FC<CardAddProps> = (props) => {
   return (
     <StyledCardAdd
       className={props.className}

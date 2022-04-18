@@ -1,12 +1,12 @@
-import React, { ButtonHTMLAttributes, FC } from 'react';
+import React from 'react';
 import { StyledPopupMoreItem } from './styles';
 
-interface PopupMoreItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
+interface PopupMoreItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-const PopupMoreItem: FC<PopupMoreItemProps> = (props) => {
+const PopupMoreItem: React.FC<PopupMoreItemProps> = ({ children, ...props }) => {
   return (
     <li>
-      <StyledPopupMoreItem {...props}>{props.children}</StyledPopupMoreItem>
+      <StyledPopupMoreItem {...props}>{children}</StyledPopupMoreItem>
     </li>
   )
 }

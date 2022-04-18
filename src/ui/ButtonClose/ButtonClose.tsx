@@ -1,10 +1,10 @@
-import React, { ButtonHTMLAttributes, FC } from 'react';
+import React from 'react';
 import iconClose from '../../assets/images/icons/close.svg';
 import { StyledButton } from './styles';
 
-interface ButtonCloseProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
+interface ButtonCloseProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-const ButtonClose: FC<ButtonCloseProps> = (props) => {
+const ButtonClose: React.FC<ButtonCloseProps> = (props) => {
   return (
     <StyledButton
       className={props.className}

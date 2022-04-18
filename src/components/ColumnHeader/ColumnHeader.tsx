@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { ColumnFunctions } from '../../types/functions';
 import { IColumn } from '../../types/interfaces';
 import { ButtonClose, PopupMore, PopupMoreItem } from '../../ui';
@@ -9,24 +9,24 @@ interface ColumnProps extends ColumnFunctions {
   cardsSum: number;
 }
 
-const ColumnHeader: FC<ColumnProps> = (props) => {
+const ColumnHeader: React.FC<ColumnProps> = ({ column, cardsSum, ...props }) => {
   const [inputValue, setInputValue] = useState('');
-  const [editMode, handleEditMode] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
 
-  const editColumn: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleEditColumn: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    if (inputValue) props.onEditColumn({ id: props.column.id, column: inputValue });
+    if (inputValue) props.onEditColumn({ id: column.id, column: inputValue });
 
-    handleEditMode(!editMode);
+    setIsEditMode(!isEditMode);
   };
 
   return (
     <StyledColumnHeader>
       {
-        editMode
+        isEditMode
           ?
-          <ColumnForm onSubmit={editColumn}>
+          <ColumnForm onSubmit={handleEditColumn}>
             <InputTitleLabel>
               <InputTitle
                 type="text"
@@ -41,15 +41,15 @@ const ColumnHeader: FC<ColumnProps> = (props) => {
           :
           <>
             <TitleInner>
-              <Title>{props.column.column}</Title>
+              <Title>{column.column}</Title>
             </TitleInner>
-            <CardsSum>{props.cardsSum}</CardsSum>
+            <CardsSum>{cardsSum}</CardsSum>
             <PopupMore>
               <PopupMoreItem
                 className="edit"
                 onClick={() => {
-                  setInputValue(props.column.column);
-                  handleEditMode(!editMode)}
+                  setInputValue(column.column);
+                  setIsEditMode(!isEditMode)}
                 }
               >Edit</PopupMoreItem>
             </PopupMore>

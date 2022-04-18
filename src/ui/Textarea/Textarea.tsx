@@ -1,16 +1,16 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { StyledTextarea, Title, Field } from './styles';
 
 interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   title?: string;
 }
 
-const Textarea: FC<TextareaProps> = ({ title, ...props }) => {
+const Textarea: React.FC<TextareaProps> = (props) => {
   return (
     <StyledTextarea>
       {
-        title &&
-          <Title>{title}</Title>
+        props.title &&
+          <Title>{props.title}</Title>
       }
       <Field
         name={props.name}

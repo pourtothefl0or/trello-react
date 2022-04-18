@@ -1,16 +1,16 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { StyledInput, Title, Field } from './styles';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   title?: string;
 }
 
-const Input: FC<InputProps> = ({ title, ...props }) => {
+const Input: React.FC<InputProps> = (props) => {
   return (
     <StyledInput>
       {
-        title &&
-          <Title>{title}</Title>
+        props.title &&
+          <Title>{props.title}</Title>
       }
       <Field
         type={props.type}

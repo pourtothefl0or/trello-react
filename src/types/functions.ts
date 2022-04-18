@@ -6,9 +6,9 @@ export interface ColumnFunctions {
 
 export interface CardFunctions {
   onCardClick: (id: number) => void;
-  onAddCard: () => void;
-  onEditCard: (id: number) => void;
-  onDeleteCard: (id: number) => void;
+  onAddCardClick: () => void;
+  onEditCardClick: (id: number) => void;
+  onDeleteCardClick: (id: number) => void;
 }
 
 export interface CommentFunction {

@@ -1,39 +1,39 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
+import { IComment } from '../../types/interfaces';
 import { PopupMoreItem, Button, Input } from '../../ui';
 import { StyledComment, CommentHeader, CommentUserLogo, CommentUserName, CommentPopupMore, CommentsText, CommentForm } from './styles';
 
 interface CommentProps {
   name: string | undefined;
-  commentId: number;
-  comment: string;
+  comment: IComment;
   onEditComment: (id: number, comment: string) => void;
   onDeleteComment: () => void;
 }
 
-const Comment: FC<CommentProps> = ({ ...props }) => {
-  const [editMode, handleEditMode] = useState(false);
+const Comment: React.FC<CommentProps> = ({ name, comment, ...props}) => {
+  const [isEditMode, setIsEditMode] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
-  const editComment: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleEditComment: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    if (inputValue) props.onEditComment(props.commentId, inputValue);
+    if (inputValue) props.onEditComment(comment.id, inputValue);
 
-    handleEditMode(!editMode);
+    setIsEditMode(!isEditMode);
     setInputValue('');
   };
 
   return (
     <StyledComment>
       <CommentHeader>
-        <CommentUserLogo>{props.name?.split('')[0]}</CommentUserLogo>
-        <CommentUserName>{props.name}</CommentUserName>
+        <CommentUserLogo>{name?.split('')[0]}</CommentUserLogo>
+        <CommentUserName>{name}</CommentUserName>
         <CommentPopupMore>
           <PopupMoreItem
           className="edit"
             onClick={() => {
-              setInputValue(props.comment);
-              handleEditMode(!editMode);
+              setInputValue(comment.comment);
+              setIsEditMode(!isEditMode);
             }}
           >Edit</PopupMoreItem>
           <PopupMoreItem
@@ -43,9 +43,9 @@ const Comment: FC<CommentProps> = ({ ...props }) => {
         </CommentPopupMore>
       </CommentHeader>
       {
-        editMode
+        isEditMode
           ?
-            <CommentForm onSubmit={editComment}>
+            <CommentForm onSubmit={handleEditComment}>
             <Input
               type="text"
               name="commentText"
@@ -56,7 +56,7 @@ const Comment: FC<CommentProps> = ({ ...props }) => {
             <Button type="submit">Edit</Button>
           </CommentForm>
           :
-          <CommentsText>{props.comment}</CommentsText>
+          <CommentsText>{comment.comment}</CommentsText>
 
       }
     </StyledComment>

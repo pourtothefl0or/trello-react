@@ -1,14 +1,14 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { ICard, IColumn, IComment, IUser } from '../../../types/interfaces';
 import { Column, CommentsList } from '../../../components';
-import { StyledBoard, BoardContainer, CardInfo, CardInfoColumn, CardInfoTitle, CardInfoDescription, CardForm, CardFormButton } from './styles';
+import { StyledBoard, BoardContainer, CardInfo, CardInfoTitle, CardForm, CardFormButton, CardInfoItem } from './styles';
 import { Input, Modal, Textarea } from '../../../ui';
 
 interface BoardProps {
   user: IUser;
 }
 
-const Board: FC<BoardProps> = (props) => {
+const Board: React.FC<BoardProps> = (props) => {
   // arrays
   const defaultColumnsArr: IColumn[] = [
     { id: 1, column: 'To Do' },
@@ -22,9 +22,9 @@ const Board: FC<BoardProps> = (props) => {
   const [comments, setComments] = useState<IComment[]>(JSON.parse(localStorage.getItem('comments')!) || []);
 
   // modals
-  const [modalInfoCard, toggleModalInfoCard] = useState(false);
-  const [modalAddCard, toggleModalAddCard] = useState(false);
-  const [modalEditCard, toggleModalEditCard] = useState(false);
+  const [isModalInfoCard, setIsModalInfoCard] = useState(false);
+  const [isModalAddCard, setIsModalAddCard] = useState(false);
+  const [isModalEditCard, setIsModalEditCard] = useState(false);
 
   // values
   const [currentCardId, setCurrentCardId] = useState(0);
@@ -51,7 +51,7 @@ const Board: FC<BoardProps> = (props) => {
   };
 
   // cards
-  const AddCard: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleAddCard: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
     if (inputValue) {
@@ -67,12 +67,12 @@ const Board: FC<BoardProps> = (props) => {
       setCards(newCards);
       localStorage.setItem('cards', JSON.stringify(newCards));
 
-      toggleModalAddCard(!modalAddCard);
+      setIsModalAddCard(!isModalAddCard);
       clearFormFields();
     }
   };
 
-  const EditCard: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleEditCard: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
     const cardsDuplicate = [...cards];
@@ -85,7 +85,7 @@ const Board: FC<BoardProps> = (props) => {
       setCards(cardsDuplicate);
       localStorage.setItem('cards', JSON.stringify(cardsDuplicate));
 
-      toggleModalEditCard(!modalEditCard);
+      setIsModalEditCard(!isModalEditCard);
       clearFormFields();
     }
   };
@@ -151,18 +151,18 @@ const Board: FC<BoardProps> = (props) => {
                 cards={cards.filter((card: ICard) => card.columnId === column.id)}
                 onCardClick={(id: number) => {
                   setCurrentCardId(id);
-                  toggleModalInfoCard(!modalInfoCard);
+                  setIsModalInfoCard(!isModalInfoCard);
                 }}
-                onAddCard={() => {
+                onAddCardClick={() => {
                   setCurrentColumnId(column.id);
-                  toggleModalAddCard(!modalAddCard);
+                  setIsModalAddCard(!isModalAddCard);
                 }}
-                onEditCard={(id: number) => {
+                onEditCardClick={(id: number) => {
                   setInputValue(cards.find((card: ICard) => card.id === id)?.title || '');
                   setTextareaValue(cards.find((card: ICard) => card.id === id)?.description || '');
-                  toggleModalEditCard(!modalEditCard);
+                  setIsModalEditCard(!isModalEditCard);
                 }}
-                onDeleteCard={(id: number) => onDeleteCard(id)}
+                onDeleteCardClick={(id: number) => onDeleteCard(id)}
               />
             )
           }
@@ -171,8 +171,8 @@ const Board: FC<BoardProps> = (props) => {
 
       <Modal
         title="Card info"
-        modalVisibility={modalInfoCard}
-        onCloseClick={() => toggleModalInfoCard(!modalInfoCard)}
+        modalVisibility={isModalInfoCard}
+        onCloseClick={() => setIsModalInfoCard(!isModalInfoCard)}
       >
         {
           cards
@@ -180,9 +180,22 @@ const Board: FC<BoardProps> = (props) => {
             .map((card: ICard) =>
               <div key={card.id}>
                 <CardInfo>
-                  <CardInfoColumn>{columns.find((column: IColumn) => column.id === card.columnId)?.column}</CardInfoColumn>
-                  <CardInfoTitle>{card.title}</CardInfoTitle>
-                  <CardInfoDescription>{card.description}</CardInfoDescription>
+                  <CardInfoItem>
+                    <CardInfoTitle>Column:</CardInfoTitle>
+                    <h3>{columns.find((column: IColumn) => column.id === card.columnId)?.column}</h3>
+                  </CardInfoItem>
+                  <CardInfoItem>
+                    <CardInfoTitle>Title:</CardInfoTitle>
+                    <h4>{card.title}</h4>
+                  </CardInfoItem>
+                  <CardInfoItem>
+                    <CardInfoTitle>Description:</CardInfoTitle>
+                    <p>{card.description}</p>
+                  </CardInfoItem>
+                  <CardInfoItem>
+                    <CardInfoTitle>Author:</CardInfoTitle>
+                    <p>{props.user.name}</p>
+                  </CardInfoItem>
                 </CardInfo>
                 <CommentsList
                   comments={comments.filter((comment: IComment) => comment.cardId === card.id)}
@@ -199,13 +212,13 @@ const Board: FC<BoardProps> = (props) => {
 
       <Modal
         title="Add card"
-        modalVisibility={modalAddCard}
+        modalVisibility={isModalAddCard}
         onCloseClick={() => {
-          toggleModalAddCard(!modalAddCard);
+          setIsModalAddCard(!isModalAddCard);
           clearFormFields();
         }}
       >
-        <CardForm onSubmit={AddCard}>
+        <CardForm onSubmit={handleAddCard}>
           <Input
             title="Title"
             type="text"
@@ -226,13 +239,13 @@ const Board: FC<BoardProps> = (props) => {
 
       <Modal
         title="Edit card"
-        modalVisibility={modalEditCard}
+        modalVisibility={isModalEditCard}
         onCloseClick={() => {
-          toggleModalEditCard(!modalEditCard)
+          setIsModalEditCard(!isModalEditCard)
           clearFormFields();
         }}
       >
-        <CardForm onSubmit={EditCard}>
+        <CardForm onSubmit={handleEditCard}>
           <Input
             title="Title"
             type="text"
