@@ -22,7 +22,6 @@ export const Settings = styled.ul`
   left: 50%;
   z-index: 5;
   border-radius: ${PRIMARY.border};
-  padding: 10px 15px;
   background-color: ${COLORS.alabaster};
   box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.25);
   transform: translateX(-50%);
