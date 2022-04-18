@@ -51,6 +51,16 @@ const Board: React.FC<BoardProps> = (props) => {
   };
 
   // cards
+  const onCardClick = (id: number) => {
+    setCurrentCardId(id);
+    setIsModalInfoCard(!isModalInfoCard);
+  }
+
+  const onAddCardClick = (id: number) => {
+    setCurrentColumnId(id);
+    setIsModalAddCard(!isModalAddCard);
+  }
+
   const handleAddCard: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
@@ -71,6 +81,12 @@ const Board: React.FC<BoardProps> = (props) => {
       clearFormFields();
     }
   };
+
+  const onEditCardClick = (id: number) => {
+    setInputValue(cards.find((card: ICard) => card.id === id)?.title || '');
+    setTextareaValue(cards.find((card: ICard) => card.id === id)?.description || '');
+    setIsModalEditCard(!isModalEditCard);
+  }
 
   const handleEditCard: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -149,20 +165,10 @@ const Board: React.FC<BoardProps> = (props) => {
                 onEditColumn={onEditColumn}
                 comments={comments}
                 cards={cards.filter((card: ICard) => card.columnId === column.id)}
-                onCardClick={(id: number) => {
-                  setCurrentCardId(id);
-                  setIsModalInfoCard(!isModalInfoCard);
-                }}
-                onAddCardClick={() => {
-                  setCurrentColumnId(column.id);
-                  setIsModalAddCard(!isModalAddCard);
-                }}
-                onEditCardClick={(id: number) => {
-                  setInputValue(cards.find((card: ICard) => card.id === id)?.title || '');
-                  setTextareaValue(cards.find((card: ICard) => card.id === id)?.description || '');
-                  setIsModalEditCard(!isModalEditCard);
-                }}
-                onDeleteCardClick={(id: number) => onDeleteCard(id)}
+                onCardClick={onCardClick}
+                onAddCardClick={() => onAddCardClick(column.id)}
+                onEditCardClick={onEditCardClick}
+                onDeleteCardClick={onDeleteCard}
               />
             )
           }
