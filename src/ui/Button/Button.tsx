@@ -3,7 +3,7 @@ import { StyledButton } from './styles';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
+export const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
   return (
     <StyledButton
       className={props.className}
@@ -13,5 +13,3 @@ const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
     </StyledButton>
   )
 }
-
-export default Button;

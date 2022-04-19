@@ -5,7 +5,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   title?: string;
 }
 
-const Input: React.FC<InputProps> = (props) => {
+export const Input: React.FC<InputProps> = (props) => {
   return (
     <StyledInput>
       {
@@ -21,5 +21,3 @@ const Input: React.FC<InputProps> = (props) => {
     </StyledInput>
   )
 }
-
-export default Input;

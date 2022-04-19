@@ -4,7 +4,7 @@ import { StyledButton } from './styles';
 
 interface ButtonCloseProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-const ButtonClose: React.FC<ButtonCloseProps> = (props) => {
+export const ButtonClose: React.FC<ButtonCloseProps> = (props) => {
   return (
     <StyledButton
       className={props.className}
@@ -14,5 +14,3 @@ const ButtonClose: React.FC<ButtonCloseProps> = (props) => {
     </StyledButton>
   )
 }
-
-export default ButtonClose;

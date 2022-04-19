@@ -10,7 +10,7 @@ interface ModalProps {
   children: React.ReactChild | React.ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ title, modalVisibility, children, onCloseClick, ...props }) => {
+export const Modal: React.FC<ModalProps> = ({ title, modalVisibility, children, onCloseClick, ...props }) => {
   return (
     <ModalInner
       className={modalVisibility ? 'is-open' : ''}
@@ -28,5 +28,3 @@ const Modal: React.FC<ModalProps> = ({ title, modalVisibility, children, onClose
     </ModalInner>
   )
 }
-
-export default Modal;

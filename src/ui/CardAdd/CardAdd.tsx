@@ -3,7 +3,7 @@ import { StyledCardAdd } from './styles';
 
 interface CardAddProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-const CardAdd: React.FC<CardAddProps> = (props) => {
+export const CardAdd: React.FC<CardAddProps> = (props) => {
   return (
     <StyledCardAdd
       className={props.className}
@@ -13,5 +13,3 @@ const CardAdd: React.FC<CardAddProps> = (props) => {
     </StyledCardAdd>
   )
 }
-
-export default CardAdd;

@@ -6,7 +6,7 @@ interface LoginProps {
   onAddUser: (name: string) => void;
 }
 
-const Login: React.FC<LoginProps> = ({ onAddUser }) => {
+export const Login: React.FC<LoginProps> = ({ onAddUser }) => {
   const [inputValue, setInputValue] = useState('');
 
   const handleAddUser: React.FormEventHandler<HTMLFormElement> = (e) => {
@@ -34,5 +34,3 @@ const Login: React.FC<LoginProps> = ({ onAddUser }) => {
     </section>
   )
 }
-
-export default Login;

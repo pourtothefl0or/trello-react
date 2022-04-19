@@ -10,7 +10,7 @@ interface ColumnProps extends ColumnFunctions, CardFunctions {
   cards: ICard[];
 }
 
-const Column: React.FC<ColumnProps> = ({ column, cards, comments, ...props}) => {
+export const Column: React.FC<ColumnProps> = ({ column, cards, comments, ...props}) => {
   return (
     <StyledColumn>
       <ColumnHeader
@@ -29,5 +29,3 @@ const Column: React.FC<ColumnProps> = ({ column, cards, comments, ...props}) => 
     </StyledColumn>
   )
 }
-
-export default Column;

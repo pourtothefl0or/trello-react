@@ -5,7 +5,7 @@ interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement
   title?: string;
 }
 
-const Textarea: React.FC<TextareaProps> = (props) => {
+export const Textarea: React.FC<TextareaProps> = (props) => {
   return (
     <StyledTextarea>
       {
@@ -20,5 +20,3 @@ const Textarea: React.FC<TextareaProps> = (props) => {
     </StyledTextarea>
   )
 }
-
-export default Textarea;

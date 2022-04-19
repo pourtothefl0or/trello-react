@@ -5,12 +5,12 @@ import { Card } from '../';
 import { CardAdd } from '../../ui';
 import { CardsItem } from './styles';
 
-interface ColumnListProps extends CardFunctions {
+interface CardsListProps extends CardFunctions {
   cards: ICard[];
   comments: IComment[];
 }
 
-const ColumnsList: React.FC<ColumnListProps> = ({ cards, comments, ...props }) => {
+export const CardsList: React.FC<CardsListProps> = ({ cards, comments, ...props }) => {
   return (
     <ul>
       {
@@ -37,5 +37,3 @@ const ColumnsList: React.FC<ColumnListProps> = ({ cards, comments, ...props }) =
     </ul>
   )
 }
-
-export default ColumnsList;

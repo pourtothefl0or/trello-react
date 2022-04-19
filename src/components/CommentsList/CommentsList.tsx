@@ -11,7 +11,7 @@ interface CommentsListProps extends CommentFunction {
   cardId: number;
 }
 
-const CommentsList: React.FC<CommentsListProps> = ({ comments, user, ...props }) => {
+export const CommentsList: React.FC<CommentsListProps> = ({ comments, user, ...props }) => {
   const [textareaValue, setTextareaValue] = useState('');
 
   const handleAddComment: React.FormEventHandler<HTMLFormElement> = (e) => {
@@ -52,5 +52,3 @@ const CommentsList: React.FC<CommentsListProps> = ({ comments, user, ...props })
     </StyledCommentsList>
   )
 }
-
-export default CommentsList;

@@ -1,1 +1,1 @@
-export { default as PopupMoreItem } from './PopupMoreItem';
+export { PopupMoreItem } from './PopupMoreItem';

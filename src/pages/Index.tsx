@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IUser } from '../types/interfaces';
 import { Board, Login } from '../pageComponents/Index';
 
-const Index: React.FC = () => {
+export const Index: React.FC = () => {
   const [user, setUser] = useState<IUser>(JSON.parse(localStorage.getItem('user')!) || {});
 
   const onAddUser = (name: string) => {
@@ -22,5 +22,3 @@ const Index: React.FC = () => {
     </>
   )
 }
-
-export default Index;

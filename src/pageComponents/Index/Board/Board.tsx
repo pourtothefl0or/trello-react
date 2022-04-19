@@ -8,7 +8,7 @@ interface BoardProps {
   user: IUser;
 }
 
-const Board: React.FC<BoardProps> = (props) => {
+export const Board: React.FC<BoardProps> = (props) => {
   // arrays
   const defaultColumnsArr: IColumn[] = [
     { id: 1, column: 'To Do' },
@@ -271,5 +271,3 @@ const Board: React.FC<BoardProps> = (props) => {
     </>
   )
 }
-
-export default Board;

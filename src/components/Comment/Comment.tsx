@@ -10,7 +10,7 @@ interface CommentProps {
   deleteComment: () => void;
 }
 
-const Comment: React.FC<CommentProps> = ({ name, comment, ...props}) => {
+export const Comment: React.FC<CommentProps> = ({ name, comment, ...props}) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
@@ -62,5 +62,3 @@ const Comment: React.FC<CommentProps> = ({ name, comment, ...props}) => {
     </StyledComment>
   )
 }
-
-export default Comment;

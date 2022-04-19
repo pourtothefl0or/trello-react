@@ -6,10 +6,8 @@ interface ContainerProps {
   children: React.ReactChild | React.ReactNode;
 }
 
-const Container: React.FC<ContainerProps> = (props) => {
+export const Container: React.FC<ContainerProps> = (props) => {
   return (
     <StyledContainer className={props.className}>{props.children}</StyledContainer>
   )
 }
-
-export default Container;

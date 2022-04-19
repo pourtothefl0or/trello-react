@@ -10,7 +10,7 @@ interface CardProps {
   onDeleteCardClick: () => void;
 }
 
-const Card: React.FC<CardProps> = ({ title, commentsSum, ...props }) => {
+export const Card: React.FC<CardProps> = ({ title, commentsSum, ...props }) => {
   return (
     <StyledCard onClick={props.onCardClick}>
       <CardPopupMore>
@@ -28,5 +28,3 @@ const Card: React.FC<CardProps> = ({ title, commentsSum, ...props }) => {
     </StyledCard>
   )
 }
-
-export default Card;

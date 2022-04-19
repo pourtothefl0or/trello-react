@@ -8,7 +8,7 @@ interface popupMoreInterface {
   children: React.ReactChild | React.ReactNode;
 }
 
-const PopupMore: React.FC<popupMoreInterface> = ({ children, ...props }) => {
+export const PopupMore: React.FC<popupMoreInterface> = ({ children, ...props }) => {
   const rootRef = useRef(null);
 
   const [popup, togglePopup] = useState(false);
@@ -39,5 +39,3 @@ const PopupMore: React.FC<popupMoreInterface> = ({ children, ...props }) => {
     </div>
   )
 }
-
-export default PopupMore;

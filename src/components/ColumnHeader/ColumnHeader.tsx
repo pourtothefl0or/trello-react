@@ -9,7 +9,7 @@ interface ColumnProps extends ColumnFunctions {
   cardsSum: number;
 }
 
-const ColumnHeader: React.FC<ColumnProps> = ({ column, cardsSum, ...props }) => {
+export const ColumnHeader: React.FC<ColumnProps> = ({ column, cardsSum, ...props }) => {
   const [inputValue, setInputValue] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -58,5 +58,3 @@ const ColumnHeader: React.FC<ColumnProps> = ({ column, cardsSum, ...props }) => 
     </StyledColumnHeader>
   )
 }
-
-export default ColumnHeader;
